@@ -1,13 +1,13 @@
 ﻿Imports System.IO
 '================================================================================'
-'-------------------------------- Population class ------------------------------'
+'---------------------- Population class for the Game list ---------------------'
 '================================================================================'
-' organizer for subjects 
-Public Class Population    
-    Private subList As String = "allSubjects.txt"
+
+Public Class GamePop
+    Private gameList As String = "gameList.txt"
     Public popSize As Integer
-    Public subjects() As Subject
-    Public subIds() As String
+    Public games() As game
+    Public gameIds() As String
 
     '--------------------------------------------------------------------------------'
     '------------------------- constructor for population ---------------------------'
@@ -15,8 +15,8 @@ Public Class Population
     Public Sub New()
         Dim fileReader As StreamReader
         Dim idstring As String
-        'need to find out how many subjects we have
-        fileReader = My.Computer.FileSystem.OpenTextFileReader(GAMEPATH & "Subjects\" & subList)
+        'need to find out how many games we have
+        fileReader = My.Computer.FileSystem.OpenTextFileReader(GAMEPATH & "Games\" & gameList)
         popSize = 0
         While (Not fileReader.EndOfStream)
             idstring = fileReader.ReadLine()
@@ -25,17 +25,17 @@ Public Class Population
 
         'now we can actually read in the subject's data
         ReDim subjects(popSize - 1)
-        ReDim subIds(popSize - 1)
+        ReDim gameIds(popSize - 1)
         If popSize > 0 Then
             fileReader.Close()
-            fileReader = My.Computer.FileSystem.OpenTextFileReader(GAMEPATH & "Subjects\" & subList)
+            fileReader = My.Computer.FileSystem.OpenTextFileReader(GAMEPATH & "Games\" & gameList)
 
             For i As Integer = 0 To (popSize - 1) Step 1
-                subIds(i) = ""
-                While subIds(i) = "" Or subIds(i) = " "
-                    subIds(i) = fileReader.ReadLine()
+                gameIds(i) = ""
+                While gameIds(i) = "" Or gameIds(i) = " "
+                    gameIds(i) = fileReader.ReadLine()
                 End While
-                subjects(i) = New Subject(subIds(i))
+                subjects(i) = New Subject(gameIds(i))
             Next i
 
             fileReader.Close()
@@ -50,22 +50,22 @@ Public Class Population
         Dim idLine = vbNewLine & subject.ID
         Dim oldSubjects() As Subject
         Dim oldSubIds() As String
-        My.Computer.FileSystem.WriteAllText(GAMEPATH & "Subjects\" & subList, idLine, True)
+        My.Computer.FileSystem.WriteAllText(GAMEPATH & "Subjects\" & gameList, idLine, True)
 
         oldSubjects = subjects
-        oldSubIds = subIds
+        oldSubIds = gameIds
         ReDim subjects(popSize)
-        ReDim subIds(popSize)
+        ReDim gameIds(popSize)
 
         For i = 0 To (popSize - 1) Step 1
             subjects(i) = oldSubjects(i)
-            subIds(i) = oldSubIds(i)
+            gameIds(i) = oldSubIds(i)
         Next i
 
         popSize += 1
 
         subjects(popSize - 1) = subject
-        subIds(popSize - 1) = subject.ID        
+        gameIds(popSize - 1) = subject.ID
         subject.update()
     End Sub
 
