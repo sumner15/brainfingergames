@@ -6,7 +6,7 @@
 Public Class GamePop
     Private gameList As String = "gameList.txt"
     Public popSize As Integer
-    Public games() As game
+    Public games() As Game
     Public gameIds() As String
 
     '--------------------------------------------------------------------------------'
@@ -23,8 +23,8 @@ Public Class GamePop
             If (Not (idstring = "") And Not (idstring = " ")) Then popSize += 1
         End While
 
-        'now we can actually read in the subject's data
-        ReDim subjects(popSize - 1)
+        'now we can actually read in the game's data
+        ReDim games(popSize - 1)
         ReDim gameIds(popSize - 1)
         If popSize > 0 Then
             fileReader.Close()
@@ -35,7 +35,7 @@ Public Class GamePop
                 While gameIds(i) = "" Or gameIds(i) = " "
                     gameIds(i) = fileReader.ReadLine()
                 End While
-                subjects(i) = New Subject(gameIds(i))
+                games(i) = New Game(gameIds(i))
             Next i
 
             fileReader.Close()
@@ -43,30 +43,5 @@ Public Class GamePop
 
     End Sub
 
-    '--------------------------------------------------------------------------------'
-    '------------------------- add subject to the population ------------------------'
-    '--------------------------------------------------------------------------------'
-    Public Sub addSubject(ByRef subject As Subject)
-        Dim idLine = vbNewLine & subject.ID
-        Dim oldSubjects() As Subject
-        Dim oldSubIds() As String
-        My.Computer.FileSystem.WriteAllText(GAMEPATH & "Subjects\" & gameList, idLine, True)
-
-        oldSubjects = subjects
-        oldSubIds = gameIds
-        ReDim subjects(popSize)
-        ReDim gameIds(popSize)
-
-        For i = 0 To (popSize - 1) Step 1
-            subjects(i) = oldSubjects(i)
-            gameIds(i) = oldSubIds(i)
-        Next i
-
-        popSize += 1
-
-        subjects(popSize - 1) = subject
-        gameIds(popSize - 1) = subject.ID
-        subject.update()
-    End Sub
 
 End Class
