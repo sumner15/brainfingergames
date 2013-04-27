@@ -5,8 +5,7 @@
 
 Public Class GamePop
     Private gameList As String = "gameList.txt"
-    Public popSize As Integer
-    Public games() As Game
+    Public popSize As Integer    
     Public gameIds() As String
 
     '--------------------------------------------------------------------------------'
@@ -23,8 +22,7 @@ Public Class GamePop
             If (Not (idstring = "") And Not (idstring = " ")) Then popSize += 1
         End While
 
-        'now we can actually read in the game's data
-        ReDim games(popSize - 1)
+        'now we can actually read in the game's data        
         ReDim gameIds(popSize - 1)
         If popSize > 0 Then
             fileReader.Close()
@@ -34,8 +32,7 @@ Public Class GamePop
                 gameIds(i) = ""
                 While gameIds(i) = "" Or gameIds(i) = " "
                     gameIds(i) = fileReader.ReadLine()
-                End While
-                games(i) = New Game(gameIds(i))
+                End While                
             Next i
 
             fileReader.Close()

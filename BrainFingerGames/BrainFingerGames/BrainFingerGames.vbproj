@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileDict.vb" />
+    <Compile Include="GamePop.vb" />
     <Compile Include="Menu.Designer.vb">
       <DependentUpon>Menu.vb</DependentUpon>
     </Compile>
@@ -94,8 +95,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Population.vb" />
+    <Compile Include="Study.vb" />
+    <Compile Include="StudyPop.vb" />
     <Compile Include="Subject.vb" />
+    <Compile Include="SubPop.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Menu.resx">

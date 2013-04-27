@@ -1,6 +1,6 @@
 ﻿Public Class Menu
 
-    Private pop As Population
+    Private subPopulation As SubPop
     'Private library As Library
     Private gameRunning As Boolean    
 
@@ -11,12 +11,12 @@
         ' This call is required by the designer.
         InitializeComponent()
         ' Add any initialization after the InitializeComponent() call.
-        pop = New Population()
+        subPopulation = New SubPop()
         'library = New Library()
-        subjectList.DataSource = pop.subIds
+        subjectList.DataSource = subPopulation.subIds
         'gameList.DataSource = library.gameNames
         gameRunning = 0
-        currentSub = pop.subjects(0)
+        currentSub = subPopulation.subjects(0)
         'currentGame = library.games(0)
     End Sub
 
@@ -33,7 +33,7 @@
     Private Sub subjectList_SelectedValueChanged(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim selected As Integer
         selected = subjectList.SelectedIndex
-        currentSub = pop.subjects(selected)
+        currentSub = subPopulation.subjects(selected)
         updateSubjectInfoGUI()
     End Sub
 
@@ -72,6 +72,7 @@
     '--------------------------------------------------------------------------------'
     Private Sub gameSettingsBtn_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles gameSettingsBtn.Click
         ''opens a new settings form
+        'find out which settings form to open if we separate the settings forms
         'settingsMenu = New settingsForm
         'settingsMenu.Show()
     End Sub
