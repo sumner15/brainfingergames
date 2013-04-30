@@ -35,11 +35,11 @@
     '--------------------------------------------------------------------------------'
     '--------------------------- click subject list event ---------------------------'
     '--------------------------------------------------------------------------------'
-    Private Sub subjectList_SelectedValueChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+    Private Sub subjectList_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles subjectList.SelectedIndexChanged
         Dim selected As Integer
         selected = subjectList.SelectedIndex
         currentSub = subPopulation.subjects(selected)
-        updateSubjectInfoGUI()
+        updateSubjectInfoGUI()        
     End Sub
 
     Private Sub updateSubjectInfoGUI()
@@ -86,7 +86,10 @@
     '--------------------------------------------------------------------------------'
     Private Sub runBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles runBtn.Click
 
-        If currentSub.ID = "default" Then MsgBox("select a real subject name") : Return
+        If currentSub.ID = "default" Then
+            MsgBox("select a real subject name")
+            Return
+        End If
 
         currentSub.trial += 1
         currentSub.lastSessionDate = Now()
@@ -122,6 +125,13 @@
         End Select
     End Sub
 
-
-
+    '--------------------------------------------------------------------------------'
+    '-------------------------- robot selection btn press ---------------------------'
+    '--------------------------------------------------------------------------------'
+    Private Sub FingerBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FingerBtn.Click
+        currentDevice = "fingerbot"
+    End Sub
+    Private Sub MusicGloveBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MusicGloveBtn.Click
+        currentDevice = "musicglove"
+    End Sub
 End Class

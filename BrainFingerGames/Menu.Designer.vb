@@ -50,6 +50,7 @@ Partial Class Menu
         Me.RefreshBtn = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.RecentGamesLbl = New System.Windows.Forms.Label()
         Me.gamePnl.SuspendLayout()
         CType(Me.thumbnail, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
@@ -290,6 +291,16 @@ Partial Class Menu
         Me.Panel2.Size = New System.Drawing.Size(247, 94)
         Me.Panel2.TabIndex = 27
         '
+        'RecentGamesLbl
+        '
+        Me.RecentGamesLbl.AutoSize = True
+        Me.RecentGamesLbl.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RecentGamesLbl.Location = New System.Drawing.Point(38, 415)
+        Me.RecentGamesLbl.Name = "RecentGamesLbl"
+        Me.RecentGamesLbl.Size = New System.Drawing.Size(121, 15)
+        Me.RecentGamesLbl.TabIndex = 23
+        Me.RecentGamesLbl.Text = "recent games played"
+        '
         'Menu
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -297,6 +308,7 @@ Partial Class Menu
         Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.ClientSize = New System.Drawing.Size(847, 473)
+        Me.Controls.Add(Me.RecentGamesLbl)
         Me.Controls.Add(Me.RefreshBtn)
         Me.Controls.Add(Me.GameHistoryList)
         Me.Controls.Add(Me.runBtn)
@@ -350,4 +362,5 @@ Partial Class Menu
     Friend WithEvents RefreshBtn As System.Windows.Forms.Button
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
+    Friend WithEvents RecentGamesLbl As System.Windows.Forms.Label
 End Class

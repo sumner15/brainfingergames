@@ -101,6 +101,12 @@
     <Compile Include="NewSubjectForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="RehabHeroPrep.Designer.vb">
+      <DependentUpon>RehabHeroPrep.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RehabHeroPrep.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="RehabHeroSettings.Designer.vb">
       <DependentUpon>RehabHeroSettings.vb</DependentUpon>
     </Compile>
@@ -131,6 +137,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NewSubjectForm.resx">
       <DependentUpon>NewSubjectForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RehabHeroPrep.resx">
+      <DependentUpon>RehabHeroPrep.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RehabHeroSettings.resx">
       <DependentUpon>RehabHeroSettings.vb</DependentUpon>
