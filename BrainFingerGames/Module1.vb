@@ -8,7 +8,10 @@ Module Module1
 
     Public currentSub As Subject
     Public currentGame As String
-    'Public currentGame As Game
+
+    Public rehabHeroSets As GuitarSettings
+    Public riffHeroSets As GuitarSettings
+    Public useExplicitGains As Boolean = False
 
     Public menu As Menu
 

@@ -97,9 +97,9 @@ Partial Class Menu
         Me.titleBrainFingerGamesLbl.ForeColor = System.Drawing.Color.White
         Me.titleBrainFingerGamesLbl.Location = New System.Drawing.Point(12, 24)
         Me.titleBrainFingerGamesLbl.Name = "titleBrainFingerGamesLbl"
-        Me.titleBrainFingerGamesLbl.Size = New System.Drawing.Size(369, 33)
+        Me.titleBrainFingerGamesLbl.Size = New System.Drawing.Size(286, 33)
         Me.titleBrainFingerGamesLbl.TabIndex = 6
-        Me.titleBrainFingerGamesLbl.Text = "BRAINFINGER GAMES!!!"
+        Me.titleBrainFingerGamesLbl.Text = "BrainFinger Games"
         '
         'subjectList
         '
