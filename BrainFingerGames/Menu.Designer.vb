@@ -46,6 +46,7 @@ Partial Class Menu
         Me.CommunicationsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SetIPManuallyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RefreshBtn = New System.Windows.Forms.Button()
         Me.gamePnl.SuspendLayout()
         CType(Me.thumbnail, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
@@ -254,11 +255,21 @@ Partial Class Menu
         Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
         Me.HelpToolStripMenuItem.Text = "Help"
         '
+        'RefreshBtn
+        '
+        Me.RefreshBtn.Location = New System.Drawing.Point(26, 365)
+        Me.RefreshBtn.Name = "RefreshBtn"
+        Me.RefreshBtn.Size = New System.Drawing.Size(163, 37)
+        Me.RefreshBtn.TabIndex = 25
+        Me.RefreshBtn.Text = "Refresh List"
+        Me.RefreshBtn.UseVisualStyleBackColor = True
+        '
         'Menu
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(847, 548)
+        Me.Controls.Add(Me.RefreshBtn)
         Me.Controls.Add(Me.GameHistoryList)
         Me.Controls.Add(Me.LastMeasurementLbl)
         Me.Controls.Add(Me.lastSessionLabel)
@@ -309,4 +320,5 @@ Partial Class Menu
     Friend WithEvents CommunicationsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SetIPManuallyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents HelpToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RefreshBtn As System.Windows.Forms.Button
 End Class

@@ -43,7 +43,7 @@ Public Class SubPop
     '--------------------------------------------------------------------------------'
     '------------------------- add subject to the population ------------------------'
     '--------------------------------------------------------------------------------'
-    Public Sub addSubejct(ByRef subject As Subject)
+    Public Sub addSubject(ByRef subject As Subject)
         Dim idLine = vbNewLine & subject.ID
         Dim oldSubjects() As Subject
         Dim oldSubIds() As String
@@ -62,8 +62,7 @@ Public Class SubPop
         popSize += 1
 
         subjects(popSize - 1) = subject
-        subIds(popSize - 1) = subject.ID
-        'grpAssignment(subject, grp)
+        subIds(popSize - 1) = subject.ID        
         subject.update()
     End Sub
 End Class

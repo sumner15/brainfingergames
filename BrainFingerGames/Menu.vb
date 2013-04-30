@@ -5,6 +5,7 @@
     Private gameRunning As Boolean
     Public rehabSettingsMenu As RehabHeroSettings    
     Public riffSettingsMenu As RiffHeroSettings
+    Public newSubjMenu As NewSubjectForm
 
     '--------------------------------------------------------------------------------'
     '------------------------- constructor for the menu screen ----------------------'
@@ -26,7 +27,9 @@
     '-------------------------- add subject menu item event -------------------------'
     '--------------------------------------------------------------------------------'    
     Private Sub NewToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewToolStripMenuItem.Click
-        'open a new form that takes the subject ID and has an add button                                                                            FIXME
+        'open a new form that takes the subject ID and has an add button
+        newSubjMenu = New NewSubjectForm
+        newSubjMenu.Show()
     End Sub
 
     '--------------------------------------------------------------------------------'
@@ -42,6 +45,29 @@
     Private Sub updateSubjectInfoGUI()
         lastSessionLabel.Text = currentSub.getSessionString()
         sessionNumberTB.Text = currentSub.getExpectedSessionNumber()
+    End Sub
+
+    '--------------------------------------------------------------------------------'
+    '-------------- refresh the subject list after adding a new subject -------------'
+    '--------------------------------------------------------------------------------'
+    Private Sub RefreshBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshBtn.Click
+        If Not (addSubjID = "") Then
+            'refresh the subject list
+            Dim num As Integer      ' number corresponding to subject            
+            Dim subj As Subject     ' subject
+
+            num = subPopulation.popSize + 1            
+            subj = New Subject(num, addSubjID, 1)
+            subPopulation.addSubject(subj)
+
+            subjectList.DataSource = subPopulation.subIds
+            subjectList.Update()
+
+            addSubjID = ""
+        Else
+            subjectList.DataSource = subPopulation.subIds
+            subjectList.Update()
+        End If
     End Sub
 
     '--------------------------------------------------------------------------------'
@@ -95,5 +121,7 @@
                 MsgBox("Please select a valid game type")
         End Select
     End Sub
+
+
 
 End Class

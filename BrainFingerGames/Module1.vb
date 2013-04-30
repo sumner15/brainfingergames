@@ -7,6 +7,7 @@ Module Module1
     Public TARGETIP As String = "assigned inside setContextValues()"
 
     Public currentSub As Subject
+    Public addSubjID As String
     Public currentGame As String
 
     Public rehabHeroSets As GuitarSettings
