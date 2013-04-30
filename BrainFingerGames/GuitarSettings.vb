@@ -24,7 +24,7 @@ Public Class GuitarSettings
     Private gains As Single
     Private useBCI As Boolean
 
-    Public settingsFileName As String = "default"
+    Public settingsFileName As String = "Default"
     Public studyIds() As String
 
     Private gameSetDic As FileDict
@@ -42,7 +42,7 @@ Public Class GuitarSettings
     '--------------------------- write game settings file ---------------------------'
     '--------------------------------------------------------------------------------'
     Public Sub writeGameSetFile()
-        Dim fullFileName As String = GAMEPATH & "gameSettings\" & settingsFileName & ".txt"
+        Dim fullFileName As String = GAMEPATH & "Studies\" & settingsFileName & ".txt"
         Console.WriteLine(fullFileName)
         Dim gameSetFile As StreamWriter = New StreamWriter(fullFileName)
         gameSetFile.WriteLine("minMsecBetweenBursts: " & minMsecBetweenBursts)
@@ -62,7 +62,7 @@ Public Class GuitarSettings
     '---------------------------------- read file -----------------------------------'
     '--------------------------------------------------------------------------------'
     Public Sub readGameSetFile()
-        Dim gameSetDic As FileDict = New FileDict(GAMEPATH & "gameSettings\" & settingsFileName & ".txt")
+        Dim gameSetDic As FileDict = New FileDict(GAMEPATH & "Studies\" & settingsFileName & ".txt")
         minMsecBetweenBursts = gameSetDic.Lookup("minMsecBetweenBursts", "300")
         maxMsecBetweenBursts = gameSetDic.Lookup("maxMsecBetweenBursts", "1000")
         maxNumberNotesPerBurst = gameSetDic.Lookup("maxNumberNotesPerBurst", "1")

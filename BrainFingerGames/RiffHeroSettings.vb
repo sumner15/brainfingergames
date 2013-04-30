@@ -1,5 +1,4 @@
-﻿Public Class RehabHeroSettings
-
+﻿Public Class RiffHeroSettings
     Private studyPop As StudyPop
 
     '--------------------------------------------------------------------------------'
@@ -10,9 +9,9 @@
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.                  
-        studyPop = New StudyPop()
+        studyPop = New studyPop()
         studyList.DataSource = studyPop.studyIds
-        rehabHeroSets.readGameSetFile()
+        riffHeroSets.readGameSetFile()
         set_allLabels()
     End Sub
 
@@ -21,6 +20,17 @@
     '---------------------- reset the labels when a HSB is used ---------------------'
     '--------------------------------------------------------------------------------'
 #Region "HSB value labels"
+    Private Sub minMsecBetweenBurstsHSB_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles minMsecBetweenBurstsHSB.Scroll
+        minBurstValLbl.Text = CStr(CSng(minMsecBetweenBurstsHSB.Value))
+    End Sub
+
+    Private Sub maxMsecBetweenBurstsHSB_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles maxMsecBetweenBurstsHSB.Scroll
+        maxBurstValLbl.Text = CStr(CSng(maxMsecBetweenBurstsHSB.Value))
+    End Sub
+
+    Private Sub maxNotesPerRiffHSB_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles maxNotesPerRiffHSB.Scroll
+        maxNotesValLbl.Text = CStr(CSng(maxNotesPerRiffHSB.Value))
+    End Sub
 
     Private Sub reactionTimeHSB_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles reactionTimeHSB.Scroll
         reactionTimeValLbl.Text = CStr(CSng(reactionTimeHSB.Value))
@@ -41,12 +51,12 @@
     '--------------------------------------------------------------------------------'
     Private Sub saveSettingsBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles saveSettingsBtn.Click
         'make sure we have set real-life-possible values before we set anything
-        If CSng(hitWindowSizeHSB.Value) > CSng(reactionTimeHSB.Value) Then
+        If CSng(maxMsecBetweenBurstsHSB.Value) > CSng(minMsecBetweenBurstsHSB.Value) Then
             '---set all the settings from the scrollbars---'
             set_allSettings()
             Me.Close() 'close the setting window'
         Else
-            MsgBox("please set the hit window size larger than the reaction time ")
+            MsgBox("please set the maximum time between bursts larger than the minimum time between bursts")
         End If
 
     End Sub
@@ -59,11 +69,11 @@
         Dim selected As Integer
         selected = studyList.SelectedIndex
 
-        rehabHeroSets.settingsFileName = studyList.SelectedValue
-        rehabHeroSets.readGameSetFile()
+        riffHeroSets.settingsFileName = studyList.SelectedValue
+        riffHeroSets.readGameSetFile()
 
         'first, check if there is an existing settings file. Otherwise, the default values will be set
-        If My.Computer.FileSystem.FileExists(GAMEPATH & "gameSettings\" & rehabHeroSets.settingsFileName & ".txt") Then
+        If My.Computer.FileSystem.FileExists(GAMEPATH & "gameSettings\" & riffHeroSets.settingsFileName & ".txt") Then
             get_allSettings()
         End If
         set_allLabels()
@@ -74,14 +84,13 @@
     '--------------------------------------------------------------------------------'
     Private Sub updateLstBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles updateLstBtn.Click
         If Not (studyIdTb.Text = "") Then
-            rehabHeroSets.settingsFileName = studyIdTb.Text
-            'make sure we have set real-life-possible values before we set anything
-            If CSng(hitWindowSizeHSB.Value) > CSng(reactionTimeHSB.Value) Then
+            riffHeroSets.settingsFileName = studyIdTb.Text
+            ' make sure we have set real-life-possible values before we set anything
+            If CSng(maxMsecBetweenBurstsHSB.Value) > CSng(minMsecBetweenBurstsHSB.Value) Then
                 '---set all the settings from the scrollbars---'
                 set_allSettings()
-                Me.Close() 'close the setting window'
             Else
-                MsgBox("please set the hit window size larger than the reaction time ")
+                MsgBox("please set the maximum time between bursts larger than the minimum time between bursts")
             End If
 
             'update the studies list'
@@ -146,31 +155,40 @@
     '--------------------------------------------------------------------------------'
 #Region "get and set"
     Private Sub set_allSettings()
-        'this function's purpose is to set all values from the scroll bars to the rehabHeroSets object
-        rehabHeroSets.set_allowedReactionTime(CSng(reactionTimeHSB.Value))
-        rehabHeroSets.set_hitWindowSize(CSng(hitWindowSizeHSB.Value))
-        rehabHeroSets.set_useExplicitGains(CSng(useExplicitGainsBtn.Checked))
-        rehabHeroSets.set_sucRate(CSng(SucRateHSB.Value))
-        rehabHeroSets.set_fakeSucRate(CSng(FakeSucRateHSB.Value))
-        rehabHeroSets.set_gains(CSng(GainsHSB.Value))
-        rehabHeroSets.set_useBCI(CSng(useBCICbox.Checked))
-        rehabHeroSets.writeGameSetFile()
+        'this function's purpose is to set all values from the scroll bars to the riffHeroSets object
+        riffHeroSets.set_minMsecBetweenBursts(CSng(minMsecBetweenBurstsHSB.Value))
+        riffHeroSets.set_maxMsecBetweenBursts(CSng(maxMsecBetweenBurstsHSB.Value))
+        riffHeroSets.set_maxNumberNotesPerBurst(CSng(maxNotesPerRiffHSB.Value))
+        riffHeroSets.set_allowedReactionTime(CSng(reactionTimeHSB.Value))
+        riffHeroSets.set_hitWindowSize(CSng(hitWindowSizeHSB.Value))
+        riffHeroSets.set_useExplicitGains(CSng(useExplicitGainsBtn.Checked))
+        riffHeroSets.set_sucRate(CSng(SucRateHSB.Value))
+        riffHeroSets.set_fakeSucRate(CSng(FakeSucRateHSB.Value))
+        riffHeroSets.set_gains(CSng(GainsHSB.Value))
+        riffHeroSets.set_useBCI(CSng(useBCICbox.Checked))
+        riffHeroSets.writeGameSetFile()
     End Sub
 
     Private Sub get_allSettings()
-        'this function's purpose is to retrieve the settings from the rehabHeroSets object
+        'this function's purpose is to retrieve the settings from the riffHeroSets object
         'in order to set those values on the scroll bars
-        reactionTimeHSB.Value = rehabHeroSets.get_allowedReactionTime
-        hitWindowSizeHSB.Value = rehabHeroSets.get_hitWindowSize
-        useExplicitGainsBtn.Checked = rehabHeroSets.get_useExplicitGains
-        SucRateHSB.Value = rehabHeroSets.get_sucRate
-        FakeSucRateHSB.Value = rehabHeroSets.get_fakeSucRate
-        GainsHSB.Value = rehabHeroSets.get_gains
-        useBCICbox.Checked = rehabHeroSets.get_useBCI
+        minMsecBetweenBurstsHSB.Value = riffHeroSets.get_minMsecBetweenBursts
+        maxMsecBetweenBurstsHSB.Value = riffHeroSets.get_maxMsecBetweenBursts
+        maxNotesPerRiffHSB.Value = riffHeroSets.get_maxNumberNotesPerBurst
+        reactionTimeHSB.Value = riffHeroSets.get_allowedReactionTime
+        hitWindowSizeHSB.Value = riffHeroSets.get_hitWindowSize
+        useExplicitGainsBtn.Checked = riffHeroSets.get_useExplicitGains
+        SucRateHSB.Value = riffHeroSets.get_sucRate
+        FakeSucRateHSB.Value = riffHeroSets.get_fakeSucRate
+        GainsHSB.Value = riffHeroSets.get_gains
+        useBCICbox.Checked = riffHeroSets.get_useBCI
     End Sub
 
     Private Sub set_allLabels()
         'this function's purpose is to refresh the labels next to each scroll bar
+        minBurstValLbl.Text = CStr(CSng(minMsecBetweenBurstsHSB.Value))
+        maxBurstValLbl.Text = CStr(CSng(maxMsecBetweenBurstsHSB.Value))
+        maxNotesValLbl.Text = CStr(CSng(maxNotesPerRiffHSB.Value))
         reactionTimeValLbl.Text = CStr(CSng(reactionTimeHSB.Value))
         hitWindowValLbl.Text = CStr(CSng(hitWindowSizeHSB.Value))
         successRateLbl.Text = CStr(CSng(SucRateHSB.Value))
@@ -178,5 +196,4 @@
         explicitGainsLbl.Text = CStr(CSng(GainsHSB.Value))
     End Sub
 #End Region
-
 End Class

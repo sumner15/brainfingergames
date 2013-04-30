@@ -2,7 +2,9 @@
 
     Private subPopulation As SubPop
     Private gamePopulation As GamePop        
-    Private gameRunning As Boolean    
+    Private gameRunning As Boolean
+    Public rehabSettingsMenu As RehabHeroSettings    
+    Public riffSettingsMenu As RiffHeroSettings
 
     '--------------------------------------------------------------------------------'
     '------------------------- constructor for the menu screen ----------------------'
@@ -82,10 +84,16 @@
     '--------------------------- Game Settings Btn press ----------------------------'
     '--------------------------------------------------------------------------------'
     Private Sub gameSettingsBtn_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles gameSettingsBtn.Click
-        ''opens a new settings form
-        'find out which settings form to open if we separate the settings forms
-        'settingsMenu = New settingsForm
-        'settingsMenu.Show()
+        Select Case currentGame
+            Case "Rehab_Hero"
+                rehabSettingsMenu = New RehabHeroSettings
+                rehabSettingsMenu.Show()
+            Case "Riff_Hero"
+                riffSettingsMenu = New RiffHeroSettings
+                riffSettingsMenu.Show()
+            Case Else
+                MsgBox("Please select a valid game type")
+        End Select
     End Sub
 
 End Class

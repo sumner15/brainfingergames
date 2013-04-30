@@ -102,6 +102,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GuitarSettings.vb" />
+    <Compile Include="RiffHeroSettings.Designer.vb">
+      <DependentUpon>RiffHeroSettings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RiffHeroSettings.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Study.vb" />
     <Compile Include="StudyPop.vb" />
     <Compile Include="Subject.vb" />
@@ -119,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RehabHeroSettings.resx">
       <DependentUpon>RehabHeroSettings.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RiffHeroSettings.resx">
+      <DependentUpon>RiffHeroSettings.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

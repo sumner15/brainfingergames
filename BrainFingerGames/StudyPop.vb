@@ -4,7 +4,7 @@
 '================================================================================'
 ' organizer for studies
 Public Class StudyPop
-    Private studyList As String = "studyList.txt"
+    Private studyList As String = "allStudies.txt"
     Public studySize As Integer
     Public studyIds() As String
 
