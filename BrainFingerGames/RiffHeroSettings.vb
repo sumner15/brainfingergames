@@ -11,7 +11,7 @@
         ' Add any initialization after the InitializeComponent() call.                  
         studyPop = New studyPop()
         studyList.DataSource = studyPop.studyIds
-        riffHeroSets.readGameSetFile()
+        'riffHeroSets.readGameSetFile()
         set_allLabels()
     End Sub
 

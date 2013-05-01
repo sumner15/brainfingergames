@@ -1,8 +1,8 @@
-﻿Public Class RehabHeroPrep
+﻿Public Class SongPrep
     '--------------------------------------------------------------------------------'
     '------------------------- constructor for the prep screen ----------------------'
     '--------------------------------------------------------------------------------'
-    Public Sub New()    
+    Public Sub New()
         ' This call is required by the designer.
         InitializeComponent()
 

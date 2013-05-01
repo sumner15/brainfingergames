@@ -6,6 +6,8 @@
     Public rehabSettingsMenu As RehabHeroSettings    
     Public riffSettingsMenu As RiffHeroSettings
     Public newSubjMenu As NewSubjectForm
+    Public rehabHeroPrep As SongPrep
+    Public riffHeroPrep As SongPrep
 
     '--------------------------------------------------------------------------------'
     '------------------------- constructor for the menu screen ----------------------'
@@ -15,9 +17,9 @@
         InitializeComponent()
         ' Add any initialization after the InitializeComponent() call.
         subPopulation = New SubPop()
-        gamePopulation = New GamePop()        
+        gamePopulation = New GamePop()
         subjectList.DataSource = subPopulation.subIds
-        gameList.DataSource = gamePopulation.gameIds        
+        gameList.DataSource = gamePopulation.gameIds
         gameRunning = 0
         currentSub = subPopulation.subjects(0)
         currentGame = gamePopulation.gameIds(0)
@@ -39,7 +41,7 @@
         Dim selected As Integer
         selected = subjectList.SelectedIndex
         currentSub = subPopulation.subjects(selected)
-        updateSubjectInfoGUI()        
+        updateSubjectInfoGUI()
     End Sub
 
     Private Sub updateSubjectInfoGUI()
@@ -56,7 +58,7 @@
             Dim num As Integer      ' number corresponding to subject            
             Dim subj As Subject     ' subject
 
-            num = subPopulation.popSize + 1            
+            num = subPopulation.popSize + 1
             subj = New Subject(num, addSubjID, 1)
             subPopulation.addSubject(subj)
 
@@ -76,7 +78,7 @@
     Private Sub gameList_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles gameList.SelectedIndexChanged
         Dim selected As Integer
         selected = gameList.SelectedIndex
-        currentGame = gamePopulation.gameIds(selected)        
+        currentGame = gamePopulation.gameIds(selected)
         thumbnail.ImageLocation = (GAMEPATH & "Games\" & currentGame & "\thumbnail.jpg")
         gameNameLbl.Text = currentGame
     End Sub
@@ -86,8 +88,8 @@
     '--------------------------------------------------------------------------------'
     Private Sub runBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles runBtn.Click
 
-        If currentSub.ID = "default" Then
-            MsgBox("select a real subject name")
+        If currentSub.ID = "default" Or currentGame = "default" Then
+            MsgBox("Please select a subject and game")
             Return
         End If
 
@@ -100,9 +102,11 @@
 
         Select Case currentGame
             Case "Rehab_Hero"
-                'run this game                
+                rehabHeroPrep = New SongPrep
+                rehabHeroPrep.Show()
             Case "Riff_Hero"
-                'run this game                
+                riffHeroPrep = New SongPrep
+                riffHeroPrep.Show()
             Case Else
                 Return
         End Select

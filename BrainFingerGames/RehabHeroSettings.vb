@@ -12,7 +12,7 @@
         ' Add any initialization after the InitializeComponent() call.                  
         studyPop = New StudyPop()
         studyList.DataSource = studyPop.studyIds
-        rehabHeroSets.readGameSetFile()
+        'rehabHeroSets.readGameSetFile()
         set_allLabels()
     End Sub
 
