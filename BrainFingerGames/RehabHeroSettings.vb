@@ -12,7 +12,7 @@
         ' Add any initialization after the InitializeComponent() call.                  
         studyPop = New StudyPop()
         studyList.DataSource = studyPop.studyIds
-        'rehabHeroSets.readGameSetFile()
+        rehabHeroSets.readGameSetFile()
         set_allLabels()
     End Sub
 
@@ -40,14 +40,13 @@
     '--------------------------- click save set list event --------------------------'
     '--------------------------------------------------------------------------------'
     Private Sub saveSettingsBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles saveSettingsBtn.Click
+
         'make sure we have set real-life-possible values before we set anything
-        If CSng(hitWindowSizeHSB.Value) > CSng(reactionTimeHSB.Value) Then
+        If CSng(hitWindowSizeHSB.Value) > CSng(reactionTimeHSB.Value) Then : MsgBox("please set the reaction time larger than the hit window") : Return : End Ifs
+
             '---set all the settings from the scrollbars---'
             set_allSettings()
             Me.Close() 'close the setting window'
-        Else
-            MsgBox("please set the hit window size larger than the reaction time ")
-        End If
 
     End Sub
 
@@ -73,26 +72,20 @@
     '---------------------------- add study button event ----------------------------'
     '--------------------------------------------------------------------------------'
     Private Sub updateLstBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles updateLstBtn.Click
-        If Not (studyIdTb.Text = "") Then
-            rehabHeroSets.settingsFileName = studyIdTb.Text
-            'make sure we have set real-life-possible values before we set anything
-            If CSng(hitWindowSizeHSB.Value) > CSng(reactionTimeHSB.Value) Then
-                '---set all the settings from the scrollbars---'
-                set_allSettings()
-                Me.Close() 'close the setting window'
-            Else
-                MsgBox("please set the hit window size larger than the reaction time ")
-            End If
+        If (studyIdTb.Text = "") Then : MsgBox("Enter the subject's information before trying to save the subject.") : Return : End If
+        If CSng(hitWindowSizeHSB.Value) > CSng(reactionTimeHSB.Value) Then : MsgBox("please set the reaction time larger than the hit window") : Return : End If
 
-            'update the studies list'
-            studyPop.addStudy(studyIdTb.Text)
-            studyList.DataSource = studyPop.studyIds
-            studyList.Update()
+        rehabHeroSets.settingsFileName = studyIdTb.Text
+        '---set all the settings from the scrollbars---'
+        set_allSettings()        
 
-            Me.Close() 'close the setting window'
-        Else
-            MsgBox("Enter the subject's information before trying to save the subject.")
-        End If
+        'update the studies list'
+        studyPop.addStudy(studyIdTb.Text)
+        studyList.DataSource = studyPop.studyIds
+        studyList.Update()
+
+        Me.Close() 'close the setting window'
+
     End Sub
 
 

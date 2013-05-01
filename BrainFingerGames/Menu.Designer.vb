@@ -295,7 +295,7 @@ Partial Class Menu
         '
         Me.RecentGamesLbl.AutoSize = True
         Me.RecentGamesLbl.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RecentGamesLbl.Location = New System.Drawing.Point(38, 415)
+        Me.RecentGamesLbl.Location = New System.Drawing.Point(38, 413)
         Me.RecentGamesLbl.Name = "RecentGamesLbl"
         Me.RecentGamesLbl.Size = New System.Drawing.Size(121, 15)
         Me.RecentGamesLbl.TabIndex = 23

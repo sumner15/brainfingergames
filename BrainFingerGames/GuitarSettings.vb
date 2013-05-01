@@ -24,7 +24,7 @@ Public Class GuitarSettings
     Private gains As Single
     Private useBCI As Boolean
 
-    Public settingsFileName As String = "Default"
+    Public settingsFileName As String = "default"
     Public studyIds() As String
 
     Private gameSetDic As FileDict

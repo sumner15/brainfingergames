@@ -24,6 +24,9 @@ Module Module1
         setContextValues()
         makeAbsentDirectories()
 
+        rehabHeroSets = New GuitarSettings("default")
+        riffHeroSets = New GuitarSettings("default")
+
         Application.EnableVisualStyles()
         menu = New Menu
         Application.Run(menu)

@@ -11,7 +11,7 @@
         ' Add any initialization after the InitializeComponent() call.                  
         studyPop = New studyPop()
         studyList.DataSource = studyPop.studyIds
-        'riffHeroSets.readGameSetFile()
+        riffHeroSets.readGameSetFile()
         set_allLabels()
     End Sub
 
@@ -51,13 +51,12 @@
     '--------------------------------------------------------------------------------'
     Private Sub saveSettingsBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles saveSettingsBtn.Click
         'make sure we have set real-life-possible values before we set anything
-        If CSng(maxMsecBetweenBurstsHSB.Value) > CSng(minMsecBetweenBurstsHSB.Value) Then
-            '---set all the settings from the scrollbars---'
-            set_allSettings()
-            Me.Close() 'close the setting window'
-        Else
-            MsgBox("please set the maximum time between bursts larger than the minimum time between bursts")
-        End If
+        If CSng(hitWindowSizeHSB.Value) > CSng(reactionTimeHSB.Value) Then : MsgBox("please set the reaction time larger than the hit window") : Return : End If
+        If CSng(maxMsecBetweenBurstsHSB.Value) < CSng(minMsecBetweenBurstsHSB.Value) Then : MsgBox("please set the maximum time between bursts larger than the minimum time between bursts") : Return : End If
+
+        '---set all the settings from the scrollbars---'
+        set_allSettings()
+        Me.Close() 'close the setting window'
 
     End Sub
 
@@ -83,25 +82,22 @@
     '---------------------------- add study button event ----------------------------'
     '--------------------------------------------------------------------------------'
     Private Sub updateLstBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles updateLstBtn.Click
-        If Not (studyIdTb.Text = "") Then
-            riffHeroSets.settingsFileName = studyIdTb.Text
-            ' make sure we have set real-life-possible values before we set anything
-            If CSng(maxMsecBetweenBurstsHSB.Value) > CSng(minMsecBetweenBurstsHSB.Value) Then
-                '---set all the settings from the scrollbars---'
-                set_allSettings()
-            Else
-                MsgBox("please set the maximum time between bursts larger than the minimum time between bursts")
-            End If
+        If (studyIdTb.Text = "") Then : MsgBox("Enter the subject's information before trying to save the subject.") : Return : End If
+        If CSng(hitWindowSizeHSB.Value) > CSng(reactionTimeHSB.Value) Then : MsgBox("please set the reaction time larger than the hit window") : Return : End If
+        If CSng(maxMsecBetweenBurstsHSB.Value) < CSng(minMsecBetweenBurstsHSB.Value) Then : MsgBox("please set the maximum time between bursts larger than the minimum time between bursts") : Return : End If
 
-            'update the studies list'
-            studyPop.addStudy(studyIdTb.Text)
-            studyList.DataSource = studyPop.studyIds
-            studyList.Update()
 
-            Me.Close() 'close the setting window'
-        Else
-            MsgBox("Enter the subject's information before trying to save the subject.")
-        End If
+        riffHeroSets.settingsFileName = studyIdTb.Text
+        '---set all the settings from the scrollbars---'
+        set_allSettings()
+
+        'update the studies list'
+        studyPop.addStudy(studyIdTb.Text)
+        studyList.DataSource = studyPop.studyIds
+        studyList.Update()
+
+        Me.Close() 'close the setting window'
+
     End Sub
 
 
