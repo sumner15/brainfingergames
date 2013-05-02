@@ -1,1 +1,3 @@
 default
+active_subject
+passive_subject

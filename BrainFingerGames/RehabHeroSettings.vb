@@ -42,11 +42,11 @@
     Private Sub saveSettingsBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles saveSettingsBtn.Click
 
         'make sure we have set real-life-possible values before we set anything
-        If CSng(hitWindowSizeHSB.Value) > CSng(reactionTimeHSB.Value) Then : MsgBox("please set the reaction time larger than the hit window") : Return : End Ifs
+        If CSng(hitWindowSizeHSB.Value) > CSng(reactionTimeHSB.Value) Then : MsgBox("please set the reaction time larger than the hit window") : Return : End If
 
-            '---set all the settings from the scrollbars---'
-            set_allSettings()
-            Me.Close() 'close the setting window'
+        '---set all the settings from the scrollbars---'
+        set_allSettings()
+        Me.Close() 'close the setting window'
 
     End Sub
 

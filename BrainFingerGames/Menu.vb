@@ -88,17 +88,7 @@
     '--------------------------------------------------------------------------------'
     Private Sub runBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles runBtn.Click
 
-        If currentSub.ID = "default" Or currentGame = "default" Then
-            MsgBox("Please select a subject and game")
-            Return
-        End If
-
-        currentSub.trial += 1
-        currentSub.lastSessionDate = Now()
-        currentSub.lastSessionNumber = sessionNumberTB.Text
-        currentSub.update()
-        updateSubjectInfoGUI()
-
+        If currentSub.ID = "default" Or currentGame = "default" Then : MsgBox("Please select a subject and game") : Return : End If                
 
         Select Case currentGame
             Case "Rehab_Hero"
@@ -110,6 +100,11 @@
             Case Else
                 Return
         End Select
+
+        currentSub.trial += 1
+        currentSub.lastSessionDate = Now()
+        currentSub.lastSessionNumber = sessionNumberTB.Text
+        currentSub.update()
 
     End Sub
 

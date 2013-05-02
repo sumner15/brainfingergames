@@ -7,7 +7,8 @@ Module Module1
     Public TARGETIP As String = "assigned inside setContextValues()"
 
     Public currentSub As Subject
-    'Public currentSong As Song FIXME
+    Public currentSong As Song
+    Public trialStr As String = ""
     Public addSubjID As String
     Public currentGame As String
     Public currentDevice As String = "fingerbot"

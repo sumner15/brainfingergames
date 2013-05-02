@@ -88,7 +88,7 @@ Partial Class SongPrep
         Me.difficultyList.Size = New System.Drawing.Size(160, 43)
         Me.difficultyList.TabIndex = 49
         '
-        'RehabHeroPrep
+        'SongPrep
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -97,7 +97,7 @@ Partial Class SongPrep
         Me.Controls.Add(Me.songPnl)
         Me.Controls.Add(Me.playSongBtn)
         Me.Controls.Add(Me.difficultyList)
-        Me.Name = "RehabHeroPrep"
+        Me.Name = "SongPrep"
         Me.Text = "RehabHeroPrep"
         CType(Me.thumbnail, System.ComponentModel.ISupportInitialize).EndInit()
         Me.songPnl.ResumeLayout(False)
