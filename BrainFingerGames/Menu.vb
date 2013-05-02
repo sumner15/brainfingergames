@@ -129,8 +129,12 @@
     '--------------------------------------------------------------------------------'
     Private Sub FingerBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FingerBtn.Click
         currentDevice = "fingerbot"
+        FingerPB.Value = 100
+        MusicGlovePB.Value = 0
     End Sub
     Private Sub MusicGloveBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MusicGloveBtn.Click
         currentDevice = "musicglove"
+        FingerPB.Value = 0
+        MusicGlovePB.Value = 100
     End Sub
 End Class

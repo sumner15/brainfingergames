@@ -68,14 +68,11 @@
         Dim selected As Integer
         selected = studyList.SelectedIndex
 
-        riffHeroSets.settingsFileName = studyList.SelectedValue
-        riffHeroSets.readGameSetFile()
-
-        'first, check if there is an existing settings file. Otherwise, the default values will be set
-        If My.Computer.FileSystem.FileExists(GAMEPATH & "gameSettings\" & riffHeroSets.settingsFileName & ".txt") Then
-            get_allSettings()
-        End If
+        rehabHeroSets.settingsFileName = studyList.SelectedValue        
+        rehabHeroSets.readGameSetFile()
+        get_allSettings()
         set_allLabels()
+
     End Sub
 
     '--------------------------------------------------------------------------------'

@@ -51,6 +51,8 @@ Partial Class Menu
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.RecentGamesLbl = New System.Windows.Forms.Label()
+        Me.FingerPB = New System.Windows.Forms.ProgressBar()
+        Me.MusicGlovePB = New System.Windows.Forms.ProgressBar()
         Me.gamePnl.SuspendLayout()
         CType(Me.thumbnail, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
@@ -62,7 +64,7 @@ Partial Class Menu
         '
         Me.gamePnl.Controls.Add(Me.gameNameLbl)
         Me.gamePnl.Controls.Add(Me.thumbnail)
-        Me.gamePnl.Location = New System.Drawing.Point(572, 71)
+        Me.gamePnl.Location = New System.Drawing.Point(610, 71)
         Me.gamePnl.Name = "gamePnl"
         Me.gamePnl.Size = New System.Drawing.Size(251, 281)
         Me.gamePnl.TabIndex = 8
@@ -91,7 +93,7 @@ Partial Class Menu
         Me.gameList.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gameList.FormattingEnabled = True
         Me.gameList.ItemHeight = 18
-        Me.gameList.Location = New System.Drawing.Point(197, 84)
+        Me.gameList.Location = New System.Drawing.Point(227, 81)
         Me.gameList.Name = "gameList"
         Me.gameList.Size = New System.Drawing.Size(180, 238)
         Me.gameList.TabIndex = 7
@@ -101,8 +103,8 @@ Partial Class Menu
         Me.titleBrainFingerGamesLbl.AutoSize = True
         Me.titleBrainFingerGamesLbl.BackColor = System.Drawing.Color.Transparent
         Me.titleBrainFingerGamesLbl.Font = New System.Drawing.Font("Microsoft Sans Serif", 21.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.titleBrainFingerGamesLbl.ForeColor = System.Drawing.Color.DarkRed
-        Me.titleBrainFingerGamesLbl.Location = New System.Drawing.Point(49, 35)
+        Me.titleBrainFingerGamesLbl.ForeColor = System.Drawing.Color.Red
+        Me.titleBrainFingerGamesLbl.Location = New System.Drawing.Point(68, 36)
         Me.titleBrainFingerGamesLbl.Name = "titleBrainFingerGamesLbl"
         Me.titleBrainFingerGamesLbl.Size = New System.Drawing.Size(286, 33)
         Me.titleBrainFingerGamesLbl.TabIndex = 6
@@ -113,7 +115,7 @@ Partial Class Menu
         Me.subjectList.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.subjectList.FormattingEnabled = True
         Me.subjectList.ItemHeight = 18
-        Me.subjectList.Location = New System.Drawing.Point(14, 84)
+        Me.subjectList.Location = New System.Drawing.Point(27, 81)
         Me.subjectList.Name = "subjectList"
         Me.subjectList.Size = New System.Drawing.Size(178, 238)
         Me.subjectList.TabIndex = 5
@@ -129,7 +131,8 @@ Partial Class Menu
         '
         'runBtn
         '
-        Me.runBtn.Location = New System.Drawing.Point(572, 358)
+        Me.runBtn.Font = New System.Drawing.Font("Engravers MT", 24.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.runBtn.Location = New System.Drawing.Point(607, 376)
         Me.runBtn.Name = "runBtn"
         Me.runBtn.Size = New System.Drawing.Size(251, 76)
         Me.runBtn.TabIndex = 16
@@ -138,18 +141,18 @@ Partial Class Menu
         '
         'FingerBtn
         '
-        Me.FingerBtn.Location = New System.Drawing.Point(13, 89)
+        Me.FingerBtn.Location = New System.Drawing.Point(51, 89)
         Me.FingerBtn.Name = "FingerBtn"
-        Me.FingerBtn.Size = New System.Drawing.Size(125, 61)
+        Me.FingerBtn.Size = New System.Drawing.Size(87, 61)
         Me.FingerBtn.TabIndex = 17
         Me.FingerBtn.Text = "FINGER"
         Me.FingerBtn.UseVisualStyleBackColor = True
         '
         'MusicGloveBtn
         '
-        Me.MusicGloveBtn.Location = New System.Drawing.Point(13, 18)
+        Me.MusicGloveBtn.Location = New System.Drawing.Point(51, 18)
         Me.MusicGloveBtn.Name = "MusicGloveBtn"
-        Me.MusicGloveBtn.Size = New System.Drawing.Size(125, 65)
+        Me.MusicGloveBtn.Size = New System.Drawing.Size(87, 65)
         Me.MusicGloveBtn.TabIndex = 18
         Me.MusicGloveBtn.Text = "Music Glove"
         Me.MusicGloveBtn.UseVisualStyleBackColor = True
@@ -158,7 +161,7 @@ Partial Class Menu
         '
         Me.LastMeasurementLbl.AutoSize = True
         Me.LastMeasurementLbl.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LastMeasurementLbl.Location = New System.Drawing.Point(33, 54)
+        Me.LastMeasurementLbl.Location = New System.Drawing.Point(62, 53)
         Me.LastMeasurementLbl.Name = "LastMeasurementLbl"
         Me.LastMeasurementLbl.Size = New System.Drawing.Size(134, 16)
         Me.LastMeasurementLbl.TabIndex = 22
@@ -168,7 +171,7 @@ Partial Class Menu
         '
         Me.lastSessionLabel.AutoSize = True
         Me.lastSessionLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lastSessionLabel.Location = New System.Drawing.Point(10, 70)
+        Me.lastSessionLabel.Location = New System.Drawing.Point(39, 69)
         Me.lastSessionLabel.Name = "lastSessionLabel"
         Me.lastSessionLabel.Size = New System.Drawing.Size(94, 15)
         Me.lastSessionLabel.TabIndex = 20
@@ -176,7 +179,7 @@ Partial Class Menu
         '
         'sessionNumberTB
         '
-        Me.sessionNumberTB.Location = New System.Drawing.Point(69, 27)
+        Me.sessionNumberTB.Location = New System.Drawing.Point(98, 26)
         Me.sessionNumberTB.Name = "sessionNumberTB"
         Me.sessionNumberTB.Size = New System.Drawing.Size(91, 20)
         Me.sessionNumberTB.TabIndex = 21
@@ -185,7 +188,7 @@ Partial Class Menu
         '
         Me.trialNumTextLbl.AutoSize = True
         Me.trialNumTextLbl.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.trialNumTextLbl.Location = New System.Drawing.Point(65, 4)
+        Me.trialNumTextLbl.Location = New System.Drawing.Point(94, 3)
         Me.trialNumTextLbl.Name = "trialNumTextLbl"
         Me.trialNumTextLbl.Size = New System.Drawing.Size(102, 20)
         Me.trialNumTextLbl.TabIndex = 19
@@ -196,9 +199,9 @@ Partial Class Menu
         Me.GameHistoryList.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GameHistoryList.FormattingEnabled = True
         Me.GameHistoryList.ItemHeight = 18
-        Me.GameHistoryList.Location = New System.Drawing.Point(14, 340)
+        Me.GameHistoryList.Location = New System.Drawing.Point(27, 358)
         Me.GameHistoryList.Name = "GameHistoryList"
-        Me.GameHistoryList.Size = New System.Drawing.Size(178, 94)
+        Me.GameHistoryList.Size = New System.Drawing.Size(240, 94)
         Me.GameHistoryList.TabIndex = 23
         '
         'MenuStrip1
@@ -206,7 +209,7 @@ Partial Class Menu
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SubjectToolStripMenuItem, Me.SettingsToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(847, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(907, 24)
         Me.MenuStrip1.TabIndex = 24
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -263,7 +266,7 @@ Partial Class Menu
         '
         'RefreshBtn
         '
-        Me.RefreshBtn.Location = New System.Drawing.Point(27, 291)
+        Me.RefreshBtn.Location = New System.Drawing.Point(38, 286)
         Me.RefreshBtn.Name = "RefreshBtn"
         Me.RefreshBtn.Size = New System.Drawing.Size(154, 24)
         Me.RefreshBtn.TabIndex = 25
@@ -272,10 +275,12 @@ Partial Class Menu
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.MusicGlovePB)
+        Me.Panel1.Controls.Add(Me.FingerPB)
         Me.Panel1.Controls.Add(Me.MusicGloveBtn)
         Me.Panel1.Controls.Add(Me.gameSettingsBtn)
         Me.Panel1.Controls.Add(Me.FingerBtn)
-        Me.Panel1.Location = New System.Drawing.Point(396, 84)
+        Me.Panel1.Location = New System.Drawing.Point(429, 81)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(150, 238)
         Me.Panel1.TabIndex = 26
@@ -286,20 +291,38 @@ Partial Class Menu
         Me.Panel2.Controls.Add(Me.trialNumTextLbl)
         Me.Panel2.Controls.Add(Me.lastSessionLabel)
         Me.Panel2.Controls.Add(Me.sessionNumberTB)
-        Me.Panel2.Location = New System.Drawing.Point(203, 340)
+        Me.Panel2.Location = New System.Drawing.Point(293, 358)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(247, 94)
+        Me.Panel2.Size = New System.Drawing.Size(286, 94)
         Me.Panel2.TabIndex = 27
         '
         'RecentGamesLbl
         '
         Me.RecentGamesLbl.AutoSize = True
         Me.RecentGamesLbl.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RecentGamesLbl.Location = New System.Drawing.Point(38, 413)
+        Me.RecentGamesLbl.Location = New System.Drawing.Point(71, 413)
         Me.RecentGamesLbl.Name = "RecentGamesLbl"
         Me.RecentGamesLbl.Size = New System.Drawing.Size(121, 15)
         Me.RecentGamesLbl.TabIndex = 23
         Me.RecentGamesLbl.Text = "recent games played"
+        '
+        'FingerPB
+        '
+        Me.FingerPB.BackColor = System.Drawing.Color.Red
+        Me.FingerPB.Location = New System.Drawing.Point(13, 89)
+        Me.FingerPB.MarqueeAnimationSpeed = 25
+        Me.FingerPB.Name = "FingerPB"
+        Me.FingerPB.Size = New System.Drawing.Size(32, 61)
+        Me.FingerPB.TabIndex = 19
+        Me.FingerPB.Value = 100
+        '
+        'MusicGlovePB
+        '
+        Me.MusicGlovePB.BackColor = System.Drawing.Color.Red
+        Me.MusicGlovePB.Location = New System.Drawing.Point(13, 18)
+        Me.MusicGlovePB.Name = "MusicGlovePB"
+        Me.MusicGlovePB.Size = New System.Drawing.Size(32, 61)
+        Me.MusicGlovePB.TabIndex = 20
         '
         'Menu
         '
@@ -307,7 +330,7 @@ Partial Class Menu
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(847, 473)
+        Me.ClientSize = New System.Drawing.Size(907, 499)
         Me.Controls.Add(Me.RecentGamesLbl)
         Me.Controls.Add(Me.RefreshBtn)
         Me.Controls.Add(Me.GameHistoryList)
@@ -363,4 +386,6 @@ Partial Class Menu
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents RecentGamesLbl As System.Windows.Forms.Label
+    Friend WithEvents MusicGlovePB As System.Windows.Forms.ProgressBar
+    Friend WithEvents FingerPB As System.Windows.Forms.ProgressBar
 End Class

@@ -1,0 +1,6 @@
+num: 2
+ID: default
+LoginDate: 2013-01-01 00:00:00
+trial: 1
+lastSessionDate: 2013-01-01 00:00:00
+lastSessionNumber: 0

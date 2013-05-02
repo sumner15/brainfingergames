@@ -13,6 +13,7 @@
         studyPop = New StudyPop()
         studyList.DataSource = studyPop.studyIds
         rehabHeroSets.readGameSetFile()
+        get_allSettings()
         set_allLabels()
     End Sub
 
@@ -58,14 +59,11 @@
         Dim selected As Integer
         selected = studyList.SelectedIndex
 
-        rehabHeroSets.settingsFileName = studyList.SelectedValue
+        rehabHeroSets.settingsFileName = studyList.SelectedValue        
         rehabHeroSets.readGameSetFile()
-
-        'first, check if there is an existing settings file. Otherwise, the default values will be set
-        If My.Computer.FileSystem.FileExists(GAMEPATH & "gameSettings\" & rehabHeroSets.settingsFileName & ".txt") Then
-            get_allSettings()
-        End If
+        get_allSettings()
         set_allLabels()
+
     End Sub
 
     '--------------------------------------------------------------------------------'

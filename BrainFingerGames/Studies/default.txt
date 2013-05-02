@@ -5,6 +5,6 @@ allowedReactionTime: 1000
 hitWindowSize: 500
 sucRate: 50
 fakeSucRate: 50
-useExplicitGains: True
+useExplicitGains: False
 gains: 0
-useBCI: True
+useBCI: False
