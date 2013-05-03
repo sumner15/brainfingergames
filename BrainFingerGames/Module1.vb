@@ -4,6 +4,7 @@ Imports System.Windows.Forms
 Module Module1
 
     Public GAMEPATH As String = Application.StartupPath
+    Public positions() As Double = {2.25, 1.15, 0.0, -1.15, -2.25}
     Public TARGETIP As String = "assigned inside setContextValues()"
 
     Public currentSub As Subject
