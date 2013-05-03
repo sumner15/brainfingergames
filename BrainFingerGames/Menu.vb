@@ -60,6 +60,7 @@
 
             num = subPopulation.popSize + 1
             subj = New Subject(num, addSubjID, 1)
+            subj.hand = addSubjHand
             subPopulation.addSubject(subj)
 
             subjectList.DataSource = subPopulation.subIds

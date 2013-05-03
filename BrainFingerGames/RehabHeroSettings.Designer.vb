@@ -294,7 +294,7 @@ Partial Class RehabHeroSettings
         'allowedReactionTimeLbl
         '
         Me.allowedReactionTimeLbl.AutoSize = True
-        Me.allowedReactionTimeLbl.Location = New System.Drawing.Point(11, 51)
+        Me.allowedReactionTimeLbl.Location = New System.Drawing.Point(11, 45)
         Me.allowedReactionTimeLbl.Name = "allowedReactionTimeLbl"
         Me.allowedReactionTimeLbl.Size = New System.Drawing.Size(197, 13)
         Me.allowedReactionTimeLbl.TabIndex = 61

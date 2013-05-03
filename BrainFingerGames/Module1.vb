@@ -10,6 +10,7 @@ Module Module1
     Public currentSong As Song
     Public trialStr As String = ""
     Public addSubjID As String
+    Public addSubjHand As String
     Public currentGame As String
     Public currentDevice As String = "fingerbot"
 
@@ -37,18 +38,25 @@ Module Module1
     '' HG will not track empty directories, and we don't want it to track folders full of
     '' data. As such, we need to make our data directories if they do not exist
     Sub makeAbsentDirectories()
+        'subjects
         If (Not System.IO.Directory.Exists(GAMEPATH & "Subjects")) Then
             System.IO.Directory.CreateDirectory(GAMEPATH & "Subjects")
             Console.WriteLine("made subjects dir")
         End If
-
-        If (Not System.IO.File.Exists(GAMEPATH & "Subjects\" & "default.txt")) Then
-        End If
-
         If (Not System.IO.File.Exists(GAMEPATH & "Subjects\" & "allSubjects.txt")) Then
-            Dim allSubjectFile As New System.IO.StreamWriter(GAMEPATH & "Subjects\" & "allSubjects.txt")
-            allSubjectFile.WriteLine("default")
-            allSubjectFile.Close()
+            Dim allSubjectsFile As New System.IO.StreamWriter(GAMEPATH & "Subjects\" & "allSubjects.txt")
+            allSubjectsFile.WriteLine("default")
+            allSubjectsFile.Close()
+        End If
+        'studies (saved settings)
+        If (Not System.IO.Directory.Exists(GAMEPATH & "Studies")) Then
+            System.IO.Directory.CreateDirectory(GAMEPATH & "Studies")
+            Console.WriteLine("made studies dir")
+        End If
+        If (Not System.IO.File.Exists(GAMEPATH & "Studies\" & "allStudies.txt")) Then
+            Dim allStudiesFile As New System.IO.StreamWriter(GAMEPATH & "Studies\" & "allStudies.txt")
+            allStudiesFile.WriteLine("default")
+            allStudiesFile.Close()
         End If
 
     End Sub

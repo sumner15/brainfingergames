@@ -8,7 +8,8 @@
     Private Sub updateLstBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles updateLstBtn.Click
 
         If Not (subIdTb.Text = "") Then
-            addSubjID = subIdTb.Text            
+            addSubjID = subIdTb.Text
+            If (subHandList.SelectedIndex = 1) Then addSubjHand = "L" Else addSubjHand = "R"
             Close()
             MsgBox("Please refresh the subject list now")
         Else
@@ -16,7 +17,5 @@
         End If
 
     End Sub
-
-
 
 End Class

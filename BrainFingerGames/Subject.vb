@@ -11,6 +11,7 @@ Public Class Subject
     Public trial As Single
     Public lastSessionDate As DateTime
     Public lastSessionNumber As Integer
+    Public hand As String
 
     Private epoch As DateTime = "1970-01-01 00:00:00"
     'Public dataFiles(10) As String  'array of file names for experimental dta files
@@ -25,6 +26,7 @@ Public Class Subject
         trial = subTrial
         lastSessionDate = epoch
         lastSessionNumber = 0
+        hand = "R"
         writeSubjectFile()
     End Sub
 
@@ -43,6 +45,7 @@ Public Class Subject
         subjectFile.WriteLine("trial: " & trial)
         subjectFile.WriteLine("lastSessionDate: " & lastSessionDate.ToString("s").Replace("T", " "))
         subjectFile.WriteLine("lastSessionNumber: " & lastSessionNumber)
+        subjectFile.WriteLine("hand: " & hand)
         subjectFile.Close()
     End Sub
 
@@ -57,6 +60,7 @@ Public Class Subject
         trial = fromFile.Lookup("trial", "0")
         lastSessionDate = fromFile.Lookup("lastSessionDate", epoch)
         lastSessionNumber = fromFile.Lookup("lastSessionNumber", 0)
+        hand = fromFile.Lookup("hand", "R")
     End Sub
     '--------------------------------------------------------------------------------'
     '------------------------------- update subject file ----------------------------'

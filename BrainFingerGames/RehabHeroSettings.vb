@@ -1,5 +1,4 @@
 ﻿Public Class RehabHeroSettings
-
     Private studyPop As StudyPop
 
     '--------------------------------------------------------------------------------'

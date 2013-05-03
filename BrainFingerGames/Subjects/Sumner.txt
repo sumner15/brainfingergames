@@ -1,6 +1,6 @@
 num: 2
 ID: Sumner
 LoginDate: 2013-05-01 15:59:50
-trial: 4
-lastSessionDate: 2013-05-01 16:38:58
-lastSessionNumber: 1
+trial: 5
+lastSessionDate: 2013-05-02 16:13:17
+lastSessionNumber: 2

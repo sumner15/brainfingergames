@@ -12,6 +12,7 @@
         studyPop = New studyPop()
         studyList.DataSource = studyPop.studyIds
         riffHeroSets.readGameSetFile()
+        get_allSettings()
         set_allLabels()
     End Sub
 
