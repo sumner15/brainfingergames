@@ -348,21 +348,16 @@ Public Class FingerBot
     ' as we have been doing in the past.
     Public Sub setGainsExplicitly(ByRef propGains As Single())
         Dim setVal(0) As Double
-        ' check
-        If (propGains(0) < Kpcap(1)) Then
-            Kp1 = propGains(0)
-        Else
-            Kp1 = Kpcap(1)
-        End If
 
-        If (propGains(1) < Kpcap(1)) Then
-            Kp2 = propGains(1)
-        Else
-            Kp2 = Kpcap(1)
-        End If
+        If (propGains(0) < Kpcap(1)) Then : Kp1 = propGains(0)
+        Else : Kp1 = Kpcap(1) : End If
+
+        If (propGains(1) < Kpcap(1)) Then : Kp2 = propGains(1)
+        Else : Kp2 = Kpcap(1) : End If
 
         Kv1 = Kp1 / 10
         Kv2 = Kp2 / 10
+
         If rightHandMode Then
             setVal(0) = Kp1
             stat = target_obj.SetParam(parameters_obj.Kp2, setVal) ' backwards in right hand mode (gold is Kp2 and Kd2)

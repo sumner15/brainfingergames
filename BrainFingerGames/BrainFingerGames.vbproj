@@ -86,7 +86,9 @@
     <Compile Include="BCI2000Exchange.vb" />
     <Compile Include="FileDict.vb" />
     <Compile Include="FingerBot.vb" />
+    <Compile Include="Fretboard.vb" />
     <Compile Include="GamePop.vb" />
+    <Compile Include="GuitarString.vb" />
     <Compile Include="Library.vb" />
     <Compile Include="Material.vb" />
     <Compile Include="Menu.Designer.vb">
@@ -145,6 +147,7 @@
     <Compile Include="StudyPop.vb" />
     <Compile Include="Subject.vb" />
     <Compile Include="SubPop.vb" />
+    <Compile Include="Target.vb" />
     <Compile Include="TextSign.vb" />
     <Compile Include="Vertex.vb" />
   </ItemGroup>
