@@ -12,6 +12,7 @@ Imports OpenTK.Platform
 Imports OpenTK.Graphics.OpenGL
 Imports OpenTK.Graphics
 Imports System.IO
+
 Public Class FingerBot
     Private protocol_obj As XPCAPICOMLib.xPCProtocol
 
@@ -385,107 +386,89 @@ Public Class FingerBot
 
 
     '--------------------------------------------------------------------------------'
-    '---------------------------- incrament gains finger 1 --------------------------'
+    '-------------------------- incrament gains for both fingers --------------------'
     '--------------------------------------------------------------------------------'
-    Public Sub incramentGainsF1(ByVal increaseStepKp As Single)
-        Dim setVal(0) As Double
-        If (Kp1 + increaseStepKp < Kpcap(1)) Then
-            Kp1 += increaseStepKp
-        Else
-            Kp1 = Kpcap(1)
-        End If
+    Public Sub incrementGains(ByVal increaseStepKp1 As Single, ByVal increaseStepKp2 As Single)
+        Dim setVal1(0) As Double
+        Dim setVal2(0) As Double
+
+        If (Kp1 + increaseStepKp1 < Kpcap(1)) Then : Kp1 += increaseStepKp1
+        Else : Kp1 = Kpcap(1) : End If
+
+        If (Kp2 + increaseStepKp2 < Kpcap(1)) Then : Kp2 += increaseStepKp2
+        Else : Kp2 = Kpcap(1) : End If
+
         Kv1 = Kp1 / 10
-
-        setVal(0) = Kp1
-
-        If rightHandMode Then
-            stat = target_obj.SetParam(parameters_obj.Kp2, setVal) ' backwards in right hand mode (gold is Kp2 and Kd2)
-            setVal(0) = Kv1
-            stat = target_obj.SetParam(parameters_obj.Kd2, setVal)
-            'Console.WriteLine("gain incramented to " & Kp1)
-        Else
-            stat = target_obj.SetParam(parameters_obj.Kp1, setVal)
-            setVal(0) = Kv1
-            stat = target_obj.SetParam(parameters_obj.Kd1, setVal)
-            'Console.WriteLine("gain incramented to " & Kp1)
-        End If
-
-    End Sub
-
-    '--------------------------------------------------------------------------------'
-    '---------------------------- incrament gains finger 2 --------------------------'
-    '--------------------------------------------------------------------------------'
-    Public Sub incramentGainsF2(ByVal increaseStepKp As Single)
-        Dim setVal(0) As Double
-        If (Kp2 + increaseStepKp < Kpcap(1)) Then
-            Kp2 += increaseStepKp
-        Else
-            Kp2 = Kpcap(1)
-        End If
         Kv2 = Kp2 / 10
 
+        setVal1(0) = Kp1
+        setVal2(0) = Kp2
+
         If rightHandMode Then
-            setVal(0) = Kp2
-            stat = target_obj.SetParam(parameters_obj.Kp1, setVal) ' kp1 and kd1 corespond to the blue finger this is the bottom finger in righthand mode
-            setVal(0) = Kv2
-            stat = target_obj.SetParam(parameters_obj.Kd1, setVal)
-            Console.WriteLine("gain 2 incramented to " & Kp2)
+            stat = target_obj.SetParam(parameters_obj.Kp2, setVal1) ' backwards in right hand mode (gold is Kp2 and Kd2)
+            setVal1(0) = Kv1
+            stat = target_obj.SetParam(parameters_obj.Kd2, setVal1)
+            'Console.WriteLine("gain incramented to " & Kp1)
+
+            setVal2(0) = Kp2
+            stat = target_obj.SetParam(parameters_obj.Kp1, setVal2) ' kp1 and kd1 corespond to the blue finger this is the bottom finger in righthand mode
+            setVal2(0) = Kv2
+            stat = target_obj.SetParam(parameters_obj.Kd1, setVal2)
+            'Console.WriteLine("gain 2 incramented to " & Kp2)
         Else
-            setVal(0) = Kp2
-            stat = target_obj.SetParam(parameters_obj.Kp2, setVal)
-            setVal(0) = Kv2
-            stat = target_obj.SetParam(parameters_obj.Kd2, setVal)
-            Console.WriteLine("gain 2 incramented to " & Kp2)
+            stat = target_obj.SetParam(parameters_obj.Kp1, setVal1)
+            setVal1(0) = Kv1
+            stat = target_obj.SetParam(parameters_obj.Kd1, setVal1)
+            'Console.WriteLine("gain incramented to " & Kp1)
+
+            setVal2(0) = Kp2
+            stat = target_obj.SetParam(parameters_obj.Kp2, setVal2)
+            setVal2(0) = Kv2
+            stat = target_obj.SetParam(parameters_obj.Kd2, setVal2)
+            'Console.WriteLine("gain 2 incramented to " & Kp2)
         End If
 
     End Sub
 
     '--------------------------------------------------------------------------------'
-    '---------------------------- decrament gains finger 1 --------------------------'
+    '----------------------- decrement gains for both fingers -----------------------'
     '--------------------------------------------------------------------------------'
-    Public Sub decramentGainsF1(ByVal decreaseStepKp As Single)
-        Dim setVal(0) As Double
-        If (Kp1 - decreaseStepKp > Kpcap(0)) Then Kp1 -= decreaseStepKp
+    Public Sub decrementGains(ByVal decreaseStepKp1 As Single, ByVal decreaseStepKp2 As Single)
+        Dim setVal1(0) As Double
+        Dim setVal2(0) As Double
+
+        If (Kp1 - decreaseStepKp1 > Kpcap(0)) Then Kp1 -= decreaseStepKp1
+        If (Kp2 - decreaseStepKp2 > Kpcap(0)) Then Kp2 -= decreaseStepKp2
+
         Kv1 = Kp1 / 10
-        setVal(0) = Kp1
-
-        If rightHandMode Then
-            stat = target_obj.SetParam(parameters_obj.Kp2, setVal) ' backwards in right hand mode (gold is Kp2 and Kd2)
-            setVal(0) = Kv1
-            stat = target_obj.SetParam(parameters_obj.Kd2, setVal)
-            'Console.WriteLine("gain incramented to " & Kp1)
-        Else
-            stat = target_obj.SetParam(parameters_obj.Kp1, setVal)
-            setVal(0) = Kv1
-            stat = target_obj.SetParam(parameters_obj.Kd1, setVal)
-            'Console.WriteLine("gain incramented to " & Kp1)
-        End If
-
-    End Sub
-
-    '--------------------------------------------------------------------------------'
-    '---------------------------- decrament gains finger 2 --------------------------'
-    '--------------------------------------------------------------------------------'
-    Public Sub decramentGainsF2(ByVal decreaseStepKp As Single)
-        Dim setVal(0) As Double
-        If (Kp2 - decreaseStepKp > Kpcap(0)) Then Kp2 -= decreaseStepKp
         Kv2 = Kp2 / 10
-        setVal(0) = Kp2
+
+        setVal1(0) = Kp1
+        setVal2(0) = Kp2
 
         If rightHandMode Then
-            stat = target_obj.SetParam(parameters_obj.Kp1, setVal) ' backwards in right hand mode (gold is Kp2 and Kd2)
-            setVal(0) = Kv2
-            stat = target_obj.SetParam(parameters_obj.Kd1, setVal)
+            stat = target_obj.SetParam(parameters_obj.Kp2, setVal1) ' backwards in right hand mode (gold is Kp2 and Kd2)
+            setVal1(0) = Kv1
+            stat = target_obj.SetParam(parameters_obj.Kd2, setVal1)
+            'Console.WriteLine("gain incramented to " & Kp1)
+
+            stat = target_obj.SetParam(parameters_obj.Kp1, setVal2) ' backwards in right hand mode (gold is Kp2 and Kd2)
+            setVal2(0) = Kv2
+            stat = target_obj.SetParam(parameters_obj.Kd1, setVal2)
             'Console.WriteLine("gain incramented to " & Kp2)
         Else
-            stat = target_obj.SetParam(parameters_obj.Kp2, setVal)
-            setVal(0) = Kv2
-            stat = target_obj.SetParam(parameters_obj.Kd2, setVal)
+            stat = target_obj.SetParam(parameters_obj.Kp1, setVal1)
+            setVal1(0) = Kv1
+            stat = target_obj.SetParam(parameters_obj.Kd1, setVal1)
+            'Console.WriteLine("gain incramented to " & Kp1)
+
+            stat = target_obj.SetParam(parameters_obj.Kp2, setVal2)
+            setVal2(0) = Kv2
+            stat = target_obj.SetParam(parameters_obj.Kd2, setVal2)
             'Console.WriteLine("gain incramented to " & Kp2)
         End If
 
     End Sub
-
 
     '--------------------------------------------------------------------------------'
     '------------------------------ turn on noteblock signal ------------------------'
@@ -525,7 +508,7 @@ Public Class FingerBot
     End Sub
 
     '--------------------------------------------------------------------------------'
-    '---------------- get the prop[ortional gains (they're private) -----------------'
+    '---------------- get the proportional gains (they're private) ------------------'
     '--------------------------------------------------------------------------------'
     Public Function getPropGains() As Single()
         Return {Kp1, Kp2}
@@ -632,17 +615,18 @@ Public Class FingerBot
         'Console.WriteLine("gravity direction value " & CStr(gDir))
 
         hand = currentSub.hand 'this looks like a valid call to the subjects file, but the files have no hand entry (yet)?
-        If currentSub.hand.ToUpper().StartsWith("L") Then MsgBox("This subject usually uses the left hand... Turn robot over?")
-        If StrComp(hand, "L") Then
-            rightHandMode = True
-            hand = "R"
-        Else
-            'If currentSub.hand.ToUpper().StartsWith("R") Then MsgBox("This subject usually uses the right hand... Turn robot over?")
+        If currentSub.hand.ToUpper().StartsWith("L") Then
+            MsgBox("This subject usually uses the left hand... Turn robot over?")
             rightHandMode = False
-            hand = "L"
+        ElseIf currentSub.hand.ToUpper().StartsWith("R") Then
+            MsgBox("This subject usually uses the right hand.")
+            rightHandMode = True
+        Else
+            MsgBox("Subject handedness not set. Assuming right handed.")
+            rightHandMode = True
         End If
-        Console.WriteLine("right hand mode is " & CStr(rightHandMode) & vbTab & CStr(gDir))
 
+        Console.WriteLine("right hand mode is " & CStr(rightHandMode) & vbTab & CStr(gDir))
     End Sub
 
 

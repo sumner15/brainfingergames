@@ -43,6 +43,14 @@ Public Class RehabHeroGame
     Private explicitGains() As Single = {0.0, 0.0} ' only used when in explicit gain mode
     Private useExplicitGains As Boolean = False
 
+    Private sigmaKp As Single = 0.625 '0.5
+    Private sigmaKd As Single = 0.05
+    Public alpha As Single = 4 '4
+    Private increaseStepKp As Single = alpha * sigmaKp
+    Private decreaseStepKp As Single = sigmaKp
+    Private increaseStepKd As Single = alpha * sigmaKd
+    Private decreaseStepKd As Single = sigmaKd
+    
     Private zeroPosComplete As Boolean = False
     Private startupTimer As New Stopwatch
     Private trueStartUpDelay As Single
@@ -95,7 +103,7 @@ Public Class RehabHeroGame
     '----------------------------------------------------------------------------------'    
     Public Sub New(ByRef currentSong As Song, ByVal successRate As Single, ByVal difficulty As Integer)
         secondHand = New FingerBot()
-        secondHand.updateGainStep(successRate)
+        updateGainStep(successRate)
 
         mySong = currentSong
         mySong.createAudioPlayer()
@@ -273,12 +281,7 @@ Public Class RehabHeroGame
     ' next note as the current note and calculates the movements times for tapper.
     Private Sub updateCurrentNote()
 
-        Dim success As Boolean
-        If secondHand.usingFakeSucessRates() Then
-            success = greatSuccessVis
-        Else
-            success = greatSuccess
-        End If
+        Dim success As Boolean = greatSuccess
 
         If (secondHand.targetTime > (fretboard.nextNoteTime + secondHand.fixedDur * 1000 + 75) And (Not fretboard.songOver)) Then
             Dim previousNote As Single
@@ -288,16 +291,15 @@ Public Class RehabHeroGame
                 If Not blockedTrial Then
                     Select Case previousNote
                         Case positions(0)
-                            If Not hitAttempted Then secondHand.incramentGainsF1()
+                            If Not hitAttempted Then secondHand.incrementGains(increaseStepKp, 0)
                             Exit Select
                         Case positions(1)
                             If Not hitAttempted Then
-                                secondHand.incramentGainsF1()
-                                secondHand.incramentGainsF2()
+                                secondHand.incrementGains(increaseStepKp, increaseStepKp)
                             End If
                             Exit Select
                         Case positions(2)
-                            If Not hitAttempted Then secondHand.incramentGainsF2()
+                            If Not hitAttempted Then secondHand.incrementGains(0, increaseStepKp)
                             Exit Select
                     End Select
                 Else
@@ -616,6 +618,19 @@ Public Class RehabHeroGame
     Private Sub setProgrssBar(ByVal successRate As Single)
         ' success rate should be between 0 and 1
         progressbar.scale(0) = successRate * Width / (50)
+    End Sub
+
+    '--------------------------------------------------------------------------------'
+    '----------------------------- update gain steps --------------------------------'
+    '--------------------------------------------------------------------------------'
+    Public Sub updateGainStep(ByVal successRate As Single)
+        alpha = successRate / (1 - successRate)
+
+        increaseStepKp = alpha * sigmaKp
+        decreaseStepKp = sigmaKp
+        increaseStepKd = alpha * sigmaKd
+        decreaseStepKd = sigmaKd
+        'MsgBox("increase step " & CStr(increaseStepKp))
     End Sub
 
 #End Region
