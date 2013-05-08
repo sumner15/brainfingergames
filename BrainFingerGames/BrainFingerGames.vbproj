@@ -124,6 +124,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="RehabHeroGame.vb" />
+    <Compile Include="RiffHeroGame.vb" />
     <Compile Include="Song.vb" />
     <Compile Include="SongPrep.Designer.vb">
       <DependentUpon>SongPrep.vb</DependentUpon>
