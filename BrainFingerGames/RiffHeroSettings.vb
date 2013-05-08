@@ -115,18 +115,6 @@
         successRateLbl.Text = CStr(CSng(SucRateHSB.Value) / 100)
     End Sub
 
-    Private Sub FakeSucRateHSB_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles FakeSucRateHSB.Scroll
-        If FakeSucRateHSB.Value >= 80 Then
-            FakeSucRateHSB.Value = 99
-        ElseIf FakeSucRateHSB.Value < 80 And FakeSucRateHSB.Value > 60 Then
-            FakeSucRateHSB.Value = 75
-        ElseIf FakeSucRateHSB.Value <= 60 Then
-            FakeSucRateHSB.Value = 50
-        End If
-
-        fakeSuccessRateLbl.Text = CStr(CSng(FakeSucRateHSB.Value) / 100)
-    End Sub
-
     '--------------------------------------------------------------------------------'
     '----------------- toggle explicit gains settings visibility --------------------'
     '--------------------------------------------------------------------------------'
@@ -136,11 +124,9 @@
         useExplicitGains = useExplicitGainsBtn.Checked 'set the global var
 
         If useExplicitGainsBtn.Checked Then
-            successRateLbl.Text = "not used"
-            fakeSuccessRateLbl.Text = "not used"
+            successRateLbl.Text = "not used"        
         Else
-            successRateLbl.Text = "please set"
-            fakeSuccessRateLbl.Text = "please set"
+            successRateLbl.Text = "please set"            
         End If
     End Sub
 
@@ -156,8 +142,7 @@
         riffHeroSets.set_allowedReactionTime(CSng(reactionTimeHSB.Value))
         riffHeroSets.set_hitWindowSize(CSng(hitWindowSizeHSB.Value))
         riffHeroSets.set_useExplicitGains(CSng(useExplicitGainsBtn.Checked))
-        riffHeroSets.set_sucRate(CSng(SucRateHSB.Value))
-        riffHeroSets.set_fakeSucRate(CSng(FakeSucRateHSB.Value))
+        riffHeroSets.set_sucRate(CSng(SucRateHSB.Value))        
         riffHeroSets.set_gains(CSng(GainsHSB.Value))
         riffHeroSets.set_useBCI(CSng(useBCICbox.Checked))
         riffHeroSets.writeGameSetFile()
@@ -172,8 +157,7 @@
         reactionTimeHSB.Value = riffHeroSets.get_allowedReactionTime
         hitWindowSizeHSB.Value = riffHeroSets.get_hitWindowSize
         useExplicitGainsBtn.Checked = riffHeroSets.get_useExplicitGains
-        SucRateHSB.Value = riffHeroSets.get_sucRate
-        FakeSucRateHSB.Value = riffHeroSets.get_fakeSucRate
+        SucRateHSB.Value = riffHeroSets.get_sucRate        
         GainsHSB.Value = riffHeroSets.get_gains
         useBCICbox.Checked = riffHeroSets.get_useBCI
     End Sub
@@ -185,8 +169,7 @@
         maxNotesValLbl.Text = CStr(CSng(maxNotesPerRiffHSB.Value))
         reactionTimeValLbl.Text = CStr(CSng(reactionTimeHSB.Value))
         hitWindowValLbl.Text = CStr(CSng(hitWindowSizeHSB.Value))
-        successRateLbl.Text = CStr(CSng(SucRateHSB.Value))
-        fakeSuccessRateLbl.Text = CStr(CSng(FakeSucRateHSB.Value))
+        successRateLbl.Text = CStr(CSng(SucRateHSB.Value))        
         explicitGainsLbl.Text = CStr(CSng(GainsHSB.Value))
     End Sub
 #End Region

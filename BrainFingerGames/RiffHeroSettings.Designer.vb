@@ -33,11 +33,8 @@ Partial Class RiffHeroSettings
         Me.explicitGainsLbl = New System.Windows.Forms.Label()
         Me.useExplicitGainsBtn = New System.Windows.Forms.CheckBox()
         Me.GainsHSB = New System.Windows.Forms.HScrollBar()
-        Me.fakeSuccessRateLbl = New System.Windows.Forms.Label()
-        Me.FakeSucRateHSB = New System.Windows.Forms.HScrollBar()
         Me.successRateLbl = New System.Windows.Forms.Label()
         Me.SucRateHSB = New System.Windows.Forms.HScrollBar()
-        Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.updateLstBtn = New System.Windows.Forms.Button()
         Me.addNewStudyLbl = New System.Windows.Forms.Label()
@@ -142,7 +139,7 @@ Partial Class RiffHeroSettings
         'explicitGainsLbl
         '
         Me.explicitGainsLbl.AutoSize = True
-        Me.explicitGainsLbl.Location = New System.Drawing.Point(154, 125)
+        Me.explicitGainsLbl.Location = New System.Drawing.Point(151, 104)
         Me.explicitGainsLbl.Name = "explicitGainsLbl"
         Me.explicitGainsLbl.Size = New System.Drawing.Size(13, 13)
         Me.explicitGainsLbl.TabIndex = 88
@@ -152,7 +149,7 @@ Partial Class RiffHeroSettings
         'useExplicitGainsBtn
         '
         Me.useExplicitGainsBtn.AutoSize = True
-        Me.useExplicitGainsBtn.Location = New System.Drawing.Point(18, 105)
+        Me.useExplicitGainsBtn.Location = New System.Drawing.Point(15, 84)
         Me.useExplicitGainsBtn.Name = "useExplicitGainsBtn"
         Me.useExplicitGainsBtn.Size = New System.Drawing.Size(111, 17)
         Me.useExplicitGainsBtn.TabIndex = 87
@@ -162,7 +159,7 @@ Partial Class RiffHeroSettings
         'GainsHSB
         '
         Me.GainsHSB.LargeChange = 15
-        Me.GainsHSB.Location = New System.Drawing.Point(19, 128)
+        Me.GainsHSB.Location = New System.Drawing.Point(16, 107)
         Me.GainsHSB.Maximum = 45
         Me.GainsHSB.Name = "GainsHSB"
         Me.GainsHSB.Size = New System.Drawing.Size(138, 10)
@@ -170,30 +167,10 @@ Partial Class RiffHeroSettings
         Me.GainsHSB.TabIndex = 86
         Me.GainsHSB.Visible = False
         '
-        'fakeSuccessRateLbl
-        '
-        Me.fakeSuccessRateLbl.AutoSize = True
-        Me.fakeSuccessRateLbl.Location = New System.Drawing.Point(154, 86)
-        Me.fakeSuccessRateLbl.Name = "fakeSuccessRateLbl"
-        Me.fakeSuccessRateLbl.Size = New System.Drawing.Size(19, 13)
-        Me.fakeSuccessRateLbl.TabIndex = 85
-        Me.fakeSuccessRateLbl.Text = "50"
-        '
-        'FakeSucRateHSB
-        '
-        Me.FakeSucRateHSB.Location = New System.Drawing.Point(19, 89)
-        Me.FakeSucRateHSB.Maximum = 99
-        Me.FakeSucRateHSB.Minimum = 50
-        Me.FakeSucRateHSB.Name = "FakeSucRateHSB"
-        Me.FakeSucRateHSB.Size = New System.Drawing.Size(138, 10)
-        Me.FakeSucRateHSB.SmallChange = 10
-        Me.FakeSucRateHSB.TabIndex = 84
-        Me.FakeSucRateHSB.Value = 50
-        '
         'successRateLbl
         '
         Me.successRateLbl.AutoSize = True
-        Me.successRateLbl.Location = New System.Drawing.Point(154, 49)
+        Me.successRateLbl.Location = New System.Drawing.Point(154, 54)
         Me.successRateLbl.Name = "successRateLbl"
         Me.successRateLbl.Size = New System.Drawing.Size(19, 13)
         Me.successRateLbl.TabIndex = 83
@@ -201,7 +178,7 @@ Partial Class RiffHeroSettings
         '
         'SucRateHSB
         '
-        Me.SucRateHSB.Location = New System.Drawing.Point(19, 52)
+        Me.SucRateHSB.Location = New System.Drawing.Point(19, 57)
         Me.SucRateHSB.Maximum = 99
         Me.SucRateHSB.Minimum = 50
         Me.SucRateHSB.Name = "SucRateHSB"
@@ -209,19 +186,10 @@ Partial Class RiffHeroSettings
         Me.SucRateHSB.TabIndex = 80
         Me.SucRateHSB.Value = 50
         '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(15, 71)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(120, 13)
-        Me.Label2.TabIndex = 82
-        Me.Label2.Text = "Set Fake Success Rate"
-        '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(16, 34)
+        Me.Label1.Location = New System.Drawing.Point(16, 39)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(93, 13)
         Me.Label1.TabIndex = 81
@@ -450,13 +418,10 @@ Partial Class RiffHeroSettings
         '
         Me.Panel6.Controls.Add(Me.Label3)
         Me.Panel6.Controls.Add(Me.Label1)
-        Me.Panel6.Controls.Add(Me.Label2)
         Me.Panel6.Controls.Add(Me.SucRateHSB)
         Me.Panel6.Controls.Add(Me.successRateLbl)
         Me.Panel6.Controls.Add(Me.explicitGainsLbl)
-        Me.Panel6.Controls.Add(Me.FakeSucRateHSB)
         Me.Panel6.Controls.Add(Me.useExplicitGainsBtn)
-        Me.Panel6.Controls.Add(Me.fakeSuccessRateLbl)
         Me.Panel6.Controls.Add(Me.GainsHSB)
         Me.Panel6.Location = New System.Drawing.Point(12, 288)
         Me.Panel6.Name = "Panel6"
@@ -518,11 +483,8 @@ Partial Class RiffHeroSettings
     Friend WithEvents explicitGainsLbl As System.Windows.Forms.Label
     Friend WithEvents useExplicitGainsBtn As System.Windows.Forms.CheckBox
     Friend WithEvents GainsHSB As System.Windows.Forms.HScrollBar
-    Friend WithEvents fakeSuccessRateLbl As System.Windows.Forms.Label
-    Friend WithEvents FakeSucRateHSB As System.Windows.Forms.HScrollBar
     Friend WithEvents successRateLbl As System.Windows.Forms.Label
     Friend WithEvents SucRateHSB As System.Windows.Forms.HScrollBar
-    Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents updateLstBtn As System.Windows.Forms.Button
     Friend WithEvents addNewStudyLbl As System.Windows.Forms.Label

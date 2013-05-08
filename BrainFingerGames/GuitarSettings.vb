@@ -19,8 +19,7 @@ Public Class GuitarSettings
     Private allowedReactionTime As Single 'how early the object appears in miliseconds
     Private hitWindowSize As Single
     Private useExplicitGains As Boolean
-    Private sucRate As Single
-    Private fakeSucRate As Single
+    Private sucRate As Single    
     Private gains As Single
     Private useBCI As Boolean
 
@@ -50,8 +49,7 @@ Public Class GuitarSettings
         gameSetFile.WriteLine("maxNumberNotesPerBurst: " & maxNumberNotesPerBurst)
         gameSetFile.WriteLine("allowedReactionTime: " & allowedReactionTime)
         gameSetFile.WriteLine("hitWindowSize: " & hitWindowSize)
-        gameSetFile.WriteLine("sucRate: " & sucRate)
-        gameSetFile.WriteLine("fakeSucRate: " & fakeSucRate)
+        gameSetFile.WriteLine("sucRate: " & sucRate)        
         gameSetFile.WriteLine("useExplicitGains: " & useExplicitGains)
         gameSetFile.WriteLine("gains: " & gains)
         gameSetFile.WriteLine("useBCI: " & useBCI)
@@ -69,8 +67,7 @@ Public Class GuitarSettings
         allowedReactionTime = gameSetDic.Lookup("allowedReactionTime", "1000")
         hitWindowSize = gameSetDic.Lookup("hitWindowSize", "500")
         useExplicitGains = gameSetDic.Lookup("useExplicitGains", "False")
-        sucRate = gameSetDic.Lookup("sucRate", "0.5")
-        fakeSucRate = gameSetDic.Lookup("fakeSucRate", "0.5")
+        sucRate = gameSetDic.Lookup("sucRate", "0.5")        
         gains = gameSetDic.Lookup("gains", "0")
         useBCI = gameSetDic.Lookup("useBCI", "False")
     End Sub
@@ -105,10 +102,6 @@ Public Class GuitarSettings
 
     Public Function get_sucRate() As Single
         Return sucRate
-    End Function
-
-    Public Function get_fakeSucRate() As Single
-        Return fakeSucRate
     End Function
 
     Public Function get_gains() As Single
@@ -150,10 +143,6 @@ Public Class GuitarSettings
 
     Public Sub set_sucRate(ByVal newVal As Single)
         sucRate = newVal
-    End Sub
-
-    Public Sub set_fakeSucRate(ByVal newVal As Single)
-        fakeSucRate = newVal
     End Sub
 
     Public Sub set_gains(ByVal newVal As Single)

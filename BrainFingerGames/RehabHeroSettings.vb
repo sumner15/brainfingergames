@@ -102,17 +102,6 @@
         successRateLbl.Text = CStr(CSng(SucRateHSB.Value) / 100)
     End Sub
 
-    Private Sub FakeSucRateHSB_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles FakeSucRateHSB.Scroll
-        If FakeSucRateHSB.Value >= 80 Then
-            FakeSucRateHSB.Value = 99
-        ElseIf FakeSucRateHSB.Value < 80 And FakeSucRateHSB.Value > 60 Then
-            FakeSucRateHSB.Value = 75
-        ElseIf FakeSucRateHSB.Value <= 60 Then
-            FakeSucRateHSB.Value = 50
-        End If
-
-        fakeSuccessRateLbl.Text = CStr(CSng(FakeSucRateHSB.Value) / 100)
-    End Sub
 
     '--------------------------------------------------------------------------------'
     '----------------- toggle explicit gains settings visibility --------------------'
@@ -123,11 +112,9 @@
         useExplicitGains = useExplicitGainsBtn.Checked 'set the global var
 
         If useExplicitGainsBtn.Checked Then
-            successRateLbl.Text = "not used"
-            fakeSuccessRateLbl.Text = "not used"
+            successRateLbl.Text = "not used"            
         Else
-            successRateLbl.Text = "please set"
-            fakeSuccessRateLbl.Text = "please set"
+            successRateLbl.Text = "please set"            
         End If
     End Sub
 
@@ -140,8 +127,7 @@
         rehabHeroSets.set_allowedReactionTime(CSng(reactionTimeHSB.Value))
         rehabHeroSets.set_hitWindowSize(CSng(hitWindowSizeHSB.Value))
         rehabHeroSets.set_useExplicitGains(CSng(useExplicitGainsBtn.Checked))
-        rehabHeroSets.set_sucRate(CSng(SucRateHSB.Value))
-        rehabHeroSets.set_fakeSucRate(CSng(FakeSucRateHSB.Value))
+        rehabHeroSets.set_sucRate(CSng(SucRateHSB.Value))        
         rehabHeroSets.set_gains(CSng(GainsHSB.Value))
         rehabHeroSets.set_useBCI(CSng(useBCICbox.Checked))
         rehabHeroSets.writeGameSetFile()
@@ -153,8 +139,7 @@
         reactionTimeHSB.Value = rehabHeroSets.get_allowedReactionTime
         hitWindowSizeHSB.Value = rehabHeroSets.get_hitWindowSize
         useExplicitGainsBtn.Checked = rehabHeroSets.get_useExplicitGains
-        SucRateHSB.Value = rehabHeroSets.get_sucRate
-        FakeSucRateHSB.Value = rehabHeroSets.get_fakeSucRate
+        SucRateHSB.Value = rehabHeroSets.get_sucRate        
         GainsHSB.Value = rehabHeroSets.get_gains
         useBCICbox.Checked = rehabHeroSets.get_useBCI
     End Sub
@@ -163,8 +148,7 @@
         'this function's purpose is to refresh the labels next to each scroll bar
         reactionTimeValLbl.Text = CStr(CSng(reactionTimeHSB.Value))
         hitWindowValLbl.Text = CStr(CSng(hitWindowSizeHSB.Value))
-        successRateLbl.Text = CStr(CSng(SucRateHSB.Value))
-        fakeSuccessRateLbl.Text = CStr(CSng(FakeSucRateHSB.Value))
+        successRateLbl.Text = CStr(CSng(SucRateHSB.Value))        
         explicitGainsLbl.Text = CStr(CSng(GainsHSB.Value))
     End Sub
 #End Region

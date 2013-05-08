@@ -53,9 +53,7 @@
 
         Dim successRate As Single        
         Dim difficulties() As Integer = {level.superEasy, level.easy, level.medium}
-        If Not difficultyList.SelectedIndex >= level.superEasy Then
-            difficultyList.SelectedIndex = level.superEasy
-        End If
+        If difficultyList.SelectedIndex = -1 Then MsgBox("choose a difficulty level") : Return
 
 
         If Not gameRunning Then
@@ -65,11 +63,11 @@
                 trialStr = currentSong.name & "_" & "_"
                 Select Case currentGame
                     Case "Rehab_Hero"
-                        ourWindowRehab = New RehabHeroGame(currentSong, propGains, difficulties(difficultyList.SelectedIndex))
+                        ourWindowRehab = New RehabHeroGame(currentSong, successRate, propGains, difficulties(difficultyList.SelectedIndex))
                         ourWindowRehab.Run(FPS)
                         ourWindowRehab.Dispose()                        
                     Case "Riff_Hero"
-                        ourWindowRiff = New RiffHeroGame(currentSong, propGains, difficulties(difficultyList.SelectedIndex))
+                        ourWindowRiff = New RiffHeroGame(currentSong, successRate, propGains, difficulties(difficultyList.SelectedIndex))
                         ourWindowRiff.Run()
                         ourWindowRiff.Dispose()
                 End Select                

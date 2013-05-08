@@ -54,7 +54,7 @@ Public Class FingerBot
 
     Private movementSet As Boolean = False
     Public destination As Single = 0.105 ' 0.175
-    Private reachtime As Single = 0
+    Private reachtime As Single = 0.5
     Public startTime As Double = 0
 
 
@@ -245,6 +245,7 @@ Public Class FingerBot
         Dim setVal(0) As Double
         startTime = targetHitTime
         setVal(0) = targetHitTime
+        Console.WriteLine("target set at time " & CStr(targetHitTime) & " current time" & CStr(targetTime))
 
         If rightHandMode Then
             stat = target_obj.SetParam(parameters_obj.hitTimeGold, setVal)
@@ -287,21 +288,14 @@ Public Class FingerBot
 
     End Sub
 
-    Public Sub moveFingersToCurrent(ByVal turnBlockOn As Boolean)
+    Public Sub moveFingersToCurrent()
 
         Dim setVal(0) As Double
-        If turnBlockOn Then
-            setVal(0) = posF1
-            stat = target_obj.SetParam(parameters_obj.blockoffset1, setVal)
-            setVal(0) = posF2
-            stat = target_obj.SetParam(parameters_obj.blockoffset2, setVal)
-        Else
-            setVal(0) = 0
-            stat = target_obj.SetParam(parameters_obj.blockoffset1, setVal)
-            setVal(0) = 0
-            stat = target_obj.SetParam(parameters_obj.blockoffset2, setVal)
-        End If
 
+        setVal(0) = 0
+        stat = target_obj.SetParam(parameters_obj.blockoffset1, setVal)
+        setVal(0) = 0
+        stat = target_obj.SetParam(parameters_obj.blockoffset2, setVal)
     End Sub
 
     '--------------------------------------------------------------------------------'

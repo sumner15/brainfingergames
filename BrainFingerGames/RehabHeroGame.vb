@@ -143,8 +143,8 @@ Public Class RehabHeroGame
     '----------------------------------------------------------------------------------'
     '------------------ alternate constructor - set gains explicitly ------------------'
     '----------------------------------------------------------------------------------'    
-    Public Sub New(ByRef currentSong As Song, ByVal propGains As Single(), ByVal difficulty As Integer)
-        secondHand = New FingerBot()        
+    Public Sub New(ByRef currentSong As Song, ByVal successRate As Single, ByVal propGains As Single(), ByVal difficulty As Integer)
+        secondHand = New FingerBot()
 
         useExplicitGains = True
         explicitGains = propGains
@@ -158,7 +158,7 @@ Public Class RehabHeroGame
         initializeGL()
 
         cloudBox.loadVbo()
-        cloudBox.loadTexture("clouds2.bmp")        
+        cloudBox.loadTexture("clouds2.bmp")
     End Sub
 
 #End Region
@@ -317,7 +317,7 @@ Public Class RehabHeroGame
             greatSuccess = False ' just resetting it
             greatSuccessVis = False
             hitAttempted = False
-            secondHand.moveFingersToCurrent(False)
+            'secondHand.moveFingersToCurrent()
             fretboard.getNextNote()
             'secondHand.getMovementTimes()
 
@@ -411,7 +411,7 @@ Public Class RehabHeroGame
             key = AscW(e.KeyChar) - 49
             fretboard.checkHit(secondHand.targetTime, key)
         ElseIf (e.KeyChar = "g") Then
-            secondHand.moveFingersToCurrent(False)
+            secondHand.moveFingersToCurrent()
         ElseIf (e.KeyChar = "i") Then
             scoreText.visable = Not scoreText.visable
         ElseIf (e.KeyChar = "s") Then
