@@ -50,6 +50,18 @@ Public Class RehabHeroGame
     Private decreaseStepKp As Single = sigmaKp
     Private increaseStepKd As Single = alpha * sigmaKd
     Private decreaseStepKd As Single = sigmaKd
+
+    'originally ran in robot class'
+    Private posHitWindow As Single = 0.02
+    Private velThreshold As Single = 0.0035
+    Public hitSetResetPos As Single = 0.045
+    Private hitSet As Boolean = False
+    Public hitChanged As Boolean = False
+    Public hitString As Integer = 0
+    Public hitTime As Single = 0
+    Public hitPos As Single = 0
+    Public InPosWindow As Boolean = False
+    Public InTimeWindow As Boolean = False
     
     Private zeroPosComplete As Boolean = False
     Private startupTimer As New Stopwatch
@@ -58,6 +70,7 @@ Public Class RehabHeroGame
     Private scoreText As New TextSign("this is used to show your score")
 
     Private scorefile As New StreamWriter(GAMEPATH & "scoreFiles\" & "score_" & currentSub.ID & "_" & String.Format("{0:yyyyMMddhhmmss}", Now) & ".txt")
+    Private hitTimeFile As StreamWriter
     Private greatSuccess As Boolean = False
     Private greatSuccessVis As Boolean = False
     Private possibleScore As Integer = 0
@@ -377,6 +390,70 @@ Public Class RehabHeroGame
 
         End If
     End Sub
+
+    '--------------------------------------------------------------------------------'
+    '-------------------------- check for a hit by finger 1 -------------------------'
+    '--------------------------------------------------------------------------------'
+    Public Sub checkFingerHit(ByRef fretBoard As Fretboard)
+        Dim comboHitThresh As Single = 0.04
+
+        If (secondHand.velF1 < velThreshold) And (secondHand.posF1 > hitSetResetPos) And Not hitSet Then
+            hitChanged = True
+            hitSet = True
+            hitPos = secondHand.posF1
+            hitTime = secondHand.targetTime
+
+            ' is it a combo hit?
+            If Abs(secondHand.posF1 - secondHand.posF2) < comboHitThresh Then  ' combo hit condition
+                hitString = 1
+            Else : hitString = 0 : End If
+
+            InTimeWindow = fretBoard.checkHit(hitTime, hitString)
+            hitTimeFile.WriteLine(fretBoard.nextNotePos & vbTab & fretBoard.nextNoteTime & vbTab & hitString & vbTab & hitTime)
+
+            If Abs(hitPos - secondHand.destination) < posHitWindow Then
+                InPosWindow = True
+            Else : InPosWindow = False : End If
+
+            If (InTimeWindow And InPosWindow) Then : fretBoard.triggerFlame(hitString) : End If
+
+        ElseIf (secondHand.velF2 < velThreshold) And (secondHand.posF2 > hitSetResetPos) And Not hitSet Then
+            hitChanged = True
+            hitSet = True
+            hitPos = secondHand.posF2
+            hitTime = secondHand.targetTime
+
+            ' is it a combo hit?
+            If Abs(secondHand.posF1 - secondHand.posF2) < comboHitThresh Then  ' combo hit condition
+                hitString = 1
+            Else : hitString = 2 : End If
+
+            InTimeWindow = fretBoard.checkHit(hitTime, hitString)
+            hitTimeFile.WriteLine(fretBoard.nextNotePos & vbTab & fretBoard.nextNoteTime & vbTab & hitString & vbTab & hitTime)
+
+            If Abs(hitPos - secondHand.destination) < posHitWindow Then
+                InPosWindow = True
+                'Console.WriteLine("hit attempt on string " & hitString & " in window")
+            Else
+                InPosWindow = False
+                'Console.WriteLine("hit attempt on string " & hitString & " NOT in window")
+            End If
+
+            'Console.WriteLine("hit attempt on string " & hitString & " on time?" & " " & InTimeWindow & vbTab & "In target?" & " " & InPosWindow)
+
+            If (InTimeWindow And InPosWindow) Then : fretBoard.triggerFlame(hitString) : End If
+
+        Else : hitChanged = False : End If
+
+        If (secondHand.posF1 <= hitSetResetPos) And (secondHand.posF2 <= hitSetResetPos) Then
+            'If hitSet Then Console.WriteLine("hitSet flag reset")
+            hitSet = False
+            InPosWindow = False
+            InTimeWindow = False
+        End If
+
+    End Sub
+
 #End Region
 
 #Region "purdyWindow's events"
@@ -409,7 +486,10 @@ Public Class RehabHeroGame
         secondHand.startR()
         startupTimer.Start()
         absoluteTimer.Start()
+
         scorefile.WriteLine("stringNum" & vbTab & "noteStime" & vbTab & "TrueSuccess" & vbTab & "perceivedSuccess")
+        hitTimeFile = New StreamWriter(GAMEPATH & "hitTimeFiles\" & "hittimes_" & currentSub.ID & String.Format("{0:yyyyMMddhhmmss}", Now) & ".txt")
+        hitTimeFile.WriteLine("desiredNote" & vbTab & "desiredTime" & vbTab & "actualNote" & vbTab & "actualTime")
 
         secondHand.initializeGains()
 
@@ -515,7 +595,7 @@ Public Class RehabHeroGame
         '    secondHand.setBlockingGains()
         'End If
 
-        'debugFile.WriteLine(secondHand.posF1 & vbTab & secondHand.posF2 & vbTab & fretboard.nextNotePos & vbTab & fretboard.nextNoteTime & vbTab & secondHand.targetTime)
+        'debugFile.WriteLine(secondHand.secondHand.posF1 & vbTab & secondHand.secondHand.posF2 & vbTab & fretboard.nextNotePos & vbTab & fretboard.nextNoteTime & vbTab & secondHand.targetTime)
 
         If zeroPosComplete Then ' check if we are currently zeroing the robot
             'gameClock.updateAll()
