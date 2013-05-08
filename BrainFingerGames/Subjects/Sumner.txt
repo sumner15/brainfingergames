@@ -1,7 +1,7 @@
 num: 2
 ID: Sumner
 LoginDate: 2013-05-01 15:59:50
-trial: 9
-lastSessionDate: 2013-05-08 14:23:14
+trial: 18
+lastSessionDate: 2013-05-08 14:50:43
 lastSessionNumber: 4
 hand: R

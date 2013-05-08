@@ -611,10 +611,10 @@ Public Class FingerBot
 
         hand = currentSub.hand 'this looks like a valid call to the subjects file, but the files have no hand entry (yet)?
         If currentSub.hand.ToUpper().StartsWith("L") Then
-            MsgBox("This subject usually uses the left hand... Turn robot over?")
+            'MsgBox("This subject usually uses the left hand... Turn robot over?")
             rightHandMode = False
         ElseIf currentSub.hand.ToUpper().StartsWith("R") Then
-            MsgBox("This subject usually uses the right hand.")
+            'MsgBox("This subject usually uses the right hand.")
             rightHandMode = True
         Else
             MsgBox("Subject handedness not set. Assuming right handed.")

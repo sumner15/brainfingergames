@@ -6,10 +6,10 @@
     Public ourWindowRiff As RiffHeroGame
 
     Enum level As Integer
-        superEasy = 0
-        easy = 1
-        medium = 2
-        Amazing = 3
+        superEasy = 1
+        easy = 2
+        medium = 3
+        Amazing = 4
     End Enum
 
     '--------------------------------------------------------------------------------'
