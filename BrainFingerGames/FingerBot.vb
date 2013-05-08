@@ -53,7 +53,7 @@ Public Class FingerBot
     Public targetTime As Single = 0
 
     Private movementSet As Boolean = False
-    Public destination As Single = 0.105 ' 0.175
+    Public destination As Single = 0.105
     Private reachtime As Single = 0.5
     Public startTime As Double = 0
 

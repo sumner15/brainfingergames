@@ -37,7 +37,6 @@ Partial Class Menu
         Me.lastSessionLabel = New System.Windows.Forms.Label()
         Me.sessionNumberTB = New System.Windows.Forms.TextBox()
         Me.trialNumTextLbl = New System.Windows.Forms.Label()
-        Me.GameHistoryList = New System.Windows.Forms.ListBox()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.SubjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -52,12 +51,15 @@ Partial Class Menu
         Me.MusicGlovePB = New System.Windows.Forms.ProgressBar()
         Me.FingerPB = New System.Windows.Forms.ProgressBar()
         Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.RecentGamesLbl = New System.Windows.Forms.Label()
+        Me.lastGameLbl = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Panel3 = New System.Windows.Forms.Panel()
         Me.gamePnl.SuspendLayout()
         CType(Me.thumbnail, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
+        Me.Panel3.SuspendLayout()
         Me.SuspendLayout()
         '
         'gamePnl
@@ -194,16 +196,6 @@ Partial Class Menu
         Me.trialNumTextLbl.TabIndex = 19
         Me.trialNumTextLbl.Text = "Trial Number:"
         '
-        'GameHistoryList
-        '
-        Me.GameHistoryList.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GameHistoryList.FormattingEnabled = True
-        Me.GameHistoryList.ItemHeight = 18
-        Me.GameHistoryList.Location = New System.Drawing.Point(27, 358)
-        Me.GameHistoryList.Name = "GameHistoryList"
-        Me.GameHistoryList.Size = New System.Drawing.Size(240, 94)
-        Me.GameHistoryList.TabIndex = 23
-        '
         'MenuStrip1
         '
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SubjectToolStripMenuItem, Me.SettingsToolStripMenuItem, Me.HelpToolStripMenuItem})
@@ -314,15 +306,35 @@ Partial Class Menu
         Me.Panel2.Size = New System.Drawing.Size(286, 94)
         Me.Panel2.TabIndex = 27
         '
-        'RecentGamesLbl
+        'lastGameLbl
         '
-        Me.RecentGamesLbl.AutoSize = True
-        Me.RecentGamesLbl.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RecentGamesLbl.Location = New System.Drawing.Point(84, 427)
-        Me.RecentGamesLbl.Name = "RecentGamesLbl"
-        Me.RecentGamesLbl.Size = New System.Drawing.Size(121, 15)
-        Me.RecentGamesLbl.TabIndex = 23
-        Me.RecentGamesLbl.Text = "recent games played"
+        Me.lastGameLbl.AutoSize = True
+        Me.lastGameLbl.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lastGameLbl.Location = New System.Drawing.Point(71, 53)
+        Me.lastGameLbl.Name = "lastGameLbl"
+        Me.lastGameLbl.Size = New System.Drawing.Size(78, 20)
+        Me.lastGameLbl.TabIndex = 23
+        Me.lastGameLbl.Text = "lastGame"
+        Me.lastGameLbl.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(43, 18)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(143, 20)
+        Me.Label2.TabIndex = 23
+        Me.Label2.Text = "Last Game Played:"
+        '
+        'Panel3
+        '
+        Me.Panel3.Controls.Add(Me.Label2)
+        Me.Panel3.Controls.Add(Me.lastGameLbl)
+        Me.Panel3.Location = New System.Drawing.Point(27, 358)
+        Me.Panel3.Name = "Panel3"
+        Me.Panel3.Size = New System.Drawing.Size(234, 94)
+        Me.Panel3.TabIndex = 28
         '
         'Menu
         '
@@ -331,9 +343,7 @@ Partial Class Menu
         Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.ClientSize = New System.Drawing.Size(907, 499)
-        Me.Controls.Add(Me.RecentGamesLbl)
         Me.Controls.Add(Me.RefreshBtn)
-        Me.Controls.Add(Me.GameHistoryList)
         Me.Controls.Add(Me.runBtn)
         Me.Controls.Add(Me.gamePnl)
         Me.Controls.Add(Me.gameList)
@@ -342,6 +352,7 @@ Partial Class Menu
         Me.Controls.Add(Me.MenuStrip1)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.Panel2)
+        Me.Controls.Add(Me.Panel3)
         Me.DoubleBuffered = True
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "Menu"
@@ -354,6 +365,8 @@ Partial Class Menu
         Me.Panel1.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
+        Me.Panel3.ResumeLayout(False)
+        Me.Panel3.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -372,7 +385,6 @@ Partial Class Menu
     Friend WithEvents lastSessionLabel As System.Windows.Forms.Label
     Friend WithEvents sessionNumberTB As System.Windows.Forms.TextBox
     Friend WithEvents trialNumTextLbl As System.Windows.Forms.Label
-    Friend WithEvents GameHistoryList As System.Windows.Forms.ListBox
     Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
     Friend WithEvents SubjectToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents NewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -385,7 +397,9 @@ Partial Class Menu
     Friend WithEvents RefreshBtn As System.Windows.Forms.Button
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
-    Friend WithEvents RecentGamesLbl As System.Windows.Forms.Label
     Friend WithEvents MusicGlovePB As System.Windows.Forms.ProgressBar
     Friend WithEvents FingerPB As System.Windows.Forms.ProgressBar
+    Friend WithEvents lastGameLbl As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents Panel3 As System.Windows.Forms.Panel
 End Class

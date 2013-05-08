@@ -11,6 +11,7 @@ Public Class Subject
     Public trial As Single
     Public lastSessionDate As DateTime
     Public lastSessionNumber As Integer
+    Public lastGame As String
     Public hand As String
 
     Private epoch As DateTime = "1970-01-01 00:00:00"
@@ -27,6 +28,7 @@ Public Class Subject
         lastSessionDate = epoch
         lastSessionNumber = 0
         hand = "R"
+        lastGame = "none"
         writeSubjectFile()
     End Sub
 
@@ -45,6 +47,7 @@ Public Class Subject
         subjectFile.WriteLine("trial: " & trial)
         subjectFile.WriteLine("lastSessionDate: " & lastSessionDate.ToString("s").Replace("T", " "))
         subjectFile.WriteLine("lastSessionNumber: " & lastSessionNumber)
+        subjectFile.WriteLine("lastGame: " & currentGame)
         subjectFile.WriteLine("hand: " & hand)
         subjectFile.Close()
     End Sub
@@ -60,6 +63,7 @@ Public Class Subject
         trial = fromFile.Lookup("trial", "0")
         lastSessionDate = fromFile.Lookup("lastSessionDate", epoch)
         lastSessionNumber = fromFile.Lookup("lastSessionNumber", 0)
+        lastGame = fromFile.Lookup("lastGame", "none")
         hand = fromFile.Lookup("hand", "R")
     End Sub
     '--------------------------------------------------------------------------------'
@@ -81,6 +85,7 @@ Public Class Subject
         result = result & " at " & lastSessionDate.ToString("h:mm tt")
         Return result
     End Function
+
     Public Function getExpectedSessionNumber() As String
         Dim hrs As Double = Now.Subtract(lastSessionDate).TotalHours
         Dim number As Integer = If(hrs < 4, lastSessionNumber, lastSessionNumber + 1)

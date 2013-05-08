@@ -23,6 +23,7 @@
         gameRunning = 0
         currentSub = subPopulation.subjects(0)
         currentGame = gamePopulation.gameIds(0)
+        lastGameLbl.Text = "n/a"
     End Sub
 
     '--------------------------------------------------------------------------------'
@@ -46,6 +47,7 @@
 
     Private Sub updateSubjectInfoGUI()
         lastSessionLabel.Text = currentSub.getSessionString()
+        lastGameLbl.Text = currentSub.lastGame
         sessionNumberTB.Text = currentSub.getExpectedSessionNumber()
     End Sub
 
@@ -83,6 +85,8 @@
         thumbnail.ImageLocation = (GAMEPATH & "Games\" & currentGame & "\thumbnail.jpg")
         gameNameLbl.Text = currentGame
     End Sub
+
+
 
     '--------------------------------------------------------------------------------'
     '---------------------------------- run game button -----------------------------'
@@ -138,4 +142,5 @@
         FingerPB.Value = 0
         MusicGlovePB.Value = 100
     End Sub
+
 End Class
