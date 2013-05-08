@@ -251,23 +251,19 @@ Public Class RehabHeroGame
     Private Sub checkHit()
         Dim inTimeWindow As Boolean = False
 
-        secondHand.checkFingerHit(fretboard)
-        secondHand.checkFingerHitVis(fretboard)
+        checkFingerHit(fretboard)
+        checkFingerHitVis(fretboard)
 
         ' check if it was on time
-        If (secondHand.hitChanged) And secondHand.InTimeWindow Then
-            'Console.WriteLine("NOTE HIT CORRECTLY")
+        If (hitChanged) And inTimeWindow Then
             greatSuccess = True
-        Else
-            'greatSuccess = False
-            'If Abs(secondHand.hitTime - fretboard.nextNoteTime) < 400 Then inTimeWindow = True
         End If
 
         If (secondHand.hitChangedVis) And secondHand.InPosWindowVis And secondHand.InTimeWindowVis Then
             greatSuccessVis = True
         End If
 
-        If secondHand.hitChanged Then
+        If hitChanged Then
             If Not hitAttempted Then
                 hitAttempted = True
                 'Console.WriteLine("hit Attempted")
@@ -321,17 +317,6 @@ Public Class RehabHeroGame
                     secondHand.noteBlockerOff()
                 End If
             End If
-
-            ' write a line to the score file indicating whether or not the trial was sucessful
-            'If greatSuccess And Not blockedTrial Then
-            '    scorefile.WriteLine(fretboard.nextNotePos & vbTab & 1)
-            '    Console.WriteLine("Current score " & score / possibleScore)
-            '    possibleScore += 1 : score += 1 : setProgrssBar(score / possibleScore)
-            'ElseIf Not greatSuccess And Not blockedTrial Then
-            '    Console.WriteLine("Current score " & score / possibleScore)
-            '    scorefile.WriteLine(fretboard.nextNotePos & vbTab & 0)
-            '    possibleScore += 1 : setProgrssBar(score / possibleScore)
-            'End If
 
             If Not blockedTrial Then
                 scorefile.WriteLine(fretboard.nextNotePos & vbTab & fretboard.nextNoteTime & vbTab & success & vbTab & greatSuccessVis)
@@ -392,7 +377,7 @@ Public Class RehabHeroGame
     End Sub
 
     '--------------------------------------------------------------------------------'
-    '-------------------------- check for a hit by finger 1 -------------------------'
+    '-------------------------- check for a hit by finger  --------------------------'
     '--------------------------------------------------------------------------------'
     Public Sub checkFingerHit(ByRef fretBoard As Fretboard)
         Dim comboHitThresh As Single = 0.04
@@ -451,7 +436,6 @@ Public Class RehabHeroGame
             InPosWindow = False
             InTimeWindow = False
         End If
-
     End Sub
 
 #End Region
