@@ -34,9 +34,7 @@ Public Class RehabHeroGame
     Public cloudBox As New MeshVbo(poly.QUADS)
 
     Public fretboard As Fretboard
-    Private hitAttempted As Boolean = False
-    Private blockedTrial As Boolean = False
-    Private randomBlocker As New Random()
+    Private hitAttempted As Boolean = False        
 
     Public secondHand As FingerBot
     Public bci2000 As BCI2000Exchange = Nothing
@@ -51,17 +49,21 @@ Public Class RehabHeroGame
     Private increaseStepKd As Single = alpha * sigmaKd
     Private decreaseStepKd As Single = sigmaKd
 
-    'originally ran in robot class'
+    'originally ran in robot class CLEAN THIS UP (ORGANIZE when done adding)
     Private posHitWindow As Single = 0.02
     Private velThreshold As Single = 0.0035
     Public hitSetResetPos As Single = 0.045
+    Public fixedDur As Single = 0.5
+
     Private hitSet As Boolean = False
     Public hitChanged As Boolean = False
     Public hitString As Integer = 0
     Public hitTime As Single = 0
     Public hitPos As Single = 0
+
     Public InPosWindow As Boolean = False
     Public InTimeWindow As Boolean = False
+    '-----------------------------------------------------------------------'
     
     Private zeroPosComplete As Boolean = False
     Private startupTimer As New Stopwatch
@@ -76,8 +78,7 @@ Public Class RehabHeroGame
     Private possibleScore As Integer = 0
     Private score As Integer = 0
 
-    Private debugFile As New StreamWriter(GAMEPATH & "scoreFiles\" & "whatsgoingon.txt")
-    Private blockedNotes() As Boolean
+    Private debugFile As New StreamWriter(GAMEPATH & "scoreFiles\" & "whatsgoingon.txt")    
     Private currentNote As Integer = 0
 
     Private state As Integer = -1
@@ -90,6 +91,17 @@ Public Class RehabHeroGame
     Private legend As New Model("legend", "legendTile", {-Width / 50 + 5, 0.5 * (Height / 50), -6.0}, {90.0, 0.0, 0.0}, 1.5 * Width / Height)
     Private topPannel As New Model("topPannel", "topPannel", {0, Height / 50, -20.0}, {0.0, 180.0, 0.0}, Width / (50 * 10))
     Private progressbar As New Model("progressBar", {0, Height / 50, -20.0}, {0.0, 180.0, 0.0}, Width / (50 * 10))
+
+    '---------------------- graphics related objects --------------------------------
+    Private finger1Ball As New FingerBall("ballg", {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, 0.25)
+    Private finger2Ball As New FingerBall("bally", {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, 0.25)
+    Private fingers1Ball As New FingerBall("ballb", {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, 0.25)
+    Private fingers2Ball As New FingerBall("ballb", {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, 0.25)
+    Private fingerScale As Single = 10
+
+    Private backLine As New Model("cubegreen", {0.0, 0.25, 0.0}, {0.0, 0.0, 0.0}, {2.5, 0.01, 0.01})
+    Private targFrontLine As New Model("cube", {0.0, 0.25, 0.0}, {0.0, 0.0, 0.0}, {2.5, 0.01, 0.01})
+    Private targBackLine As New Model("cube", {0.0, 0.25, 0.0}, {0.0, 0.0, 0.0}, {2.5, 0.01, 0.01})
 
 #Region "constructors"
     '----------------------------------------------------------------------------------'
@@ -105,8 +117,7 @@ Public Class RehabHeroGame
         initializeGL()
 
         cloudBox.loadVbo()
-        cloudBox.loadTexture("clouds2.bmp")
-        PrepBlockedTrials(0)        
+        cloudBox.loadTexture("clouds2.bmp")        
         debugFile.WriteLine("status" & vbTab & "desirednote" & vbTab & "kp1" & vbTab & "kd1" & vbTab & "kp2" & vbTab & "kv2")
 
     End Sub
@@ -126,8 +137,7 @@ Public Class RehabHeroGame
         initializeGL()
 
         cloudBox.loadVbo()
-        cloudBox.loadTexture("clouds2.bmp")
-        PrepBlockedTrials(0)
+        cloudBox.loadTexture("clouds2.bmp")        
     End Sub
 
     '----------------------------------------------------------------------------------'
@@ -148,8 +158,7 @@ Public Class RehabHeroGame
         initializeGL()
 
         cloudBox.loadVbo()
-        cloudBox.loadTexture("clouds2.bmp")
-        PrepBlockedTrials(0)
+        cloudBox.loadTexture("clouds2.bmp")        
     End Sub
 
 #End Region
@@ -251,16 +260,11 @@ Public Class RehabHeroGame
     Private Sub checkHit()
         Dim inTimeWindow As Boolean = False
 
-        checkFingerHit(fretboard)
-        checkFingerHitVis(fretboard)
+        checkFingerHit(fretboard)        
 
         ' check if it was on time
         If (hitChanged) And inTimeWindow Then
             greatSuccess = True
-        End If
-
-        If (secondHand.hitChangedVis) And secondHand.InPosWindowVis And secondHand.InTimeWindowVis Then
-            greatSuccessVis = True
         End If
 
         If hitChanged Then
@@ -269,17 +273,6 @@ Public Class RehabHeroGame
                 'Console.WriteLine("hit Attempted")
             End If
         End If
-
-        '' this is the code that automatically updates the gains to control the success rate.
-        '' we want to make this manual, so we will comment this out for now. (Gains now updated
-        ''using incramentGainsF1 and incramentGainsF2 under updateCurrentNote
-        'secondHand.updatePGains(blockedTrial)
-        'secondHand.updateDGains(inTimeWindow, blockedTrial)
-        'secondHand.updateGainsRatiometrically(blockedTrial)
-        'secondHand.updateGainFile()
-        'secondHand.updateGainsRatiometrically(blockedTrial)
-        'secondHand.updateGainFile()
-        secondHand.updateWeightsRationmetrically(blockedTrial)
 
     End Sub
 
@@ -292,12 +285,11 @@ Public Class RehabHeroGame
 
         Dim success As Boolean = greatSuccess
 
-        If (secondHand.targetTime > (fretboard.nextNoteTime + secondHand.fixedDur * 1000 + 75) And (Not fretboard.songOver)) Then
+        If (secondHand.targetTime > (fretboard.nextNoteTime + fixedDur * 1000 + 75) And (Not fretboard.songOver)) Then
             Dim previousNote As Single
             previousNote = fretboard.nextNotePos
-            ' check if they attempted the hit and increases the gain if they didn't - unless the previous trial was a blocked trial
-            If Not useExplicitGains Then
-                If Not blockedTrial Then
+            ' check if they attempted the hit and increases the gain if they didn't 
+            If Not useExplicitGains Then                
                     Select Case previousNote
                         Case positions(0)
                             If Not hitAttempted Then secondHand.incrementGains(increaseStepKp, 0)
@@ -311,28 +303,15 @@ Public Class RehabHeroGame
                             If Not hitAttempted Then secondHand.incrementGains(0, increaseStepKp)
                             Exit Select
                     End Select
-                Else
-                    ' restore normal gains
-                    secondHand.returnToCurrentGains()
-                    secondHand.noteBlockerOff()
                 End If
-            End If
 
-            If Not blockedTrial Then
-                scorefile.WriteLine(fretboard.nextNotePos & vbTab & fretboard.nextNoteTime & vbTab & success & vbTab & greatSuccessVis)
-                If success Then
-                    possibleScore += 1 : score += 1 : setProgrssBar(score / possibleScore)
-                Else
-                    possibleScore += 1 : setProgrssBar(score / possibleScore)
-                End If
-            End If
-
-            ' determine whether to block the next trial
-            If blockedNotes(currentNote) Then
-                blockedTrial = 1
+            scorefile.WriteLine(fretboard.nextNotePos & vbTab & fretboard.nextNoteTime & vbTab & success & vbTab & greatSuccessVis)
+            If success Then
+                possibleScore += 1 : score += 1 : setProgrssBar(score / possibleScore)
             Else
-                blockedTrial = 0
+                possibleScore += 1 : setProgrssBar(score / possibleScore)
             End If
+
             currentNote += 1
 
             greatSuccess = False ' just resetting it
@@ -353,25 +332,6 @@ Public Class RehabHeroGame
                     secondHand.moveFinger2((fretboard.nextNoteTime + trueStartUpDelay) / 1000)
                     Exit Select
             End Select
-
-            If blockedTrial And Not useExplicitGains Then
-                'secondHand.moveFingersToCurrent(True)
-                Select Case (fretboard.nextNotePos)
-                    Case positions(0)
-                        secondHand.noteBlockerOn(1)
-                        Exit Select
-                    Case positions(1)
-                        secondHand.noteBlockerOn(1)
-                        secondHand.noteBlockerOn(2)
-                        Exit Select
-                    Case positions(2)
-                        secondHand.noteBlockerOn(2)
-                        Exit Select
-                End Select
-
-                secondHand.noteBlockerOn(1)
-                secondHand.setBlockingGains()
-            End If
 
         End If
     End Sub
@@ -477,22 +437,17 @@ Public Class RehabHeroGame
 
         secondHand.initializeGains()
 
-        secondHand.getMovementTimes()
-        'fretboard.getNextNote()
-
-        If Not blockedTrial Then
-            Select Case (fretboard.nextNotePos)
-                Case positions(0)
-                    secondHand.moveFinger1((fretboard.nextNoteTime + trueStartUpDelay) / 1000)
-                    Exit Select
-                Case positions(1)
-                    secondHand.moveFingers((fretboard.nextNoteTime + trueStartUpDelay) / 1000)
-                    Exit Select
-                Case positions(2)
-                    secondHand.moveFinger2((fretboard.nextNoteTime + trueStartUpDelay) / 1000)
-                    Exit Select
-            End Select
-        End If
+        Select Case (fretboard.nextNotePos)
+            Case positions(0)
+                secondHand.moveFinger1((fretboard.nextNoteTime + trueStartUpDelay) / 1000)
+                Exit Select
+            Case positions(1)
+                secondHand.moveFingers((fretboard.nextNoteTime + trueStartUpDelay) / 1000)
+                Exit Select
+            Case positions(2)
+                secondHand.moveFinger2((fretboard.nextNoteTime + trueStartUpDelay) / 1000)
+                Exit Select
+        End Select
 
         If rehabHeroSets.get_useBCI Then
             bci2000 = New BCI2000Exchange(Me)
@@ -517,7 +472,7 @@ Public Class RehabHeroGame
         GL.PopMatrix()
 
         fretboard.draw(secondHand.targetTime)
-        secondHand.drawModels()
+        drawModels()
 
         If Not zeroPosComplete Then zeroingInst.drawSign()
         If theEnd Then scoreText.drawSign()
@@ -571,15 +526,9 @@ Public Class RehabHeroGame
 
         secondHand.getPos()
         secondHand.getTargetTime()
-        secondHand.moveFingerBalls()
+        moveFingerBalls()
         If Not (bci2000 Is Nothing) Then bci2000.Update(Me)
 
-        'If blockedTrial And (secondHand.targetTime > (fretboard.nextNoteTime - secondHand.fixedDur * 1000 - 200) And (Not fretboard.songOver)) Then
-        '    secondHand.moveFingersToCurrent(True)
-        '    secondHand.setBlockingGains()
-        'End If
-
-        'debugFile.WriteLine(secondHand.secondHand.posF1 & vbTab & secondHand.secondHand.posF2 & vbTab & fretboard.nextNotePos & vbTab & fretboard.nextNoteTime & vbTab & secondHand.targetTime)
 
         If zeroPosComplete Then ' check if we are currently zeroing the robot
             'gameClock.updateAll()
@@ -612,8 +561,7 @@ Public Class RehabHeroGame
         GL.DeleteTextures(TextureTarget.Texture2D, cloudBox.textureID)
         cloudBox.freeBuffers()
 
-        scorefile.Close()
-        secondHand.attributeGainsToSubject()
+        scorefile.Close()    
 
         fretboard.freeMemory()
         secondHand.stopR()
@@ -630,30 +578,60 @@ Public Class RehabHeroGame
 
 #End Region
 
-#Region "other functions"
-    Private Sub PrepBlockedTrials(ByVal percentBlocked As Single)
-        If percentBlocked > 100 Then percentBlocked = 100
-        If percentBlocked < 0 Then percentBlocked = 0
+#Region "drawing commands"
+    Public Sub drawModels()
+        finger1Ball.drawModel()
+        finger2Ball.drawModel()
 
-        ReDim blockedNotes(fretboard.numNotes)
+        fingers1Ball.drawModel()
+        fingers2Ball.drawModel()
 
-        Dim numBlocked As Integer = Round(blockedNotes.Length * percentBlocked / 100)
+        backLine.drawModel()
+        'targFrontLine.drawModel()
+        'targBackLine.drawModel()
+    End Sub
 
-        For Each note As Boolean In blockedNotes
-            note = False
-        Next
+    Public Sub moveFingerBalls()
+        ' move the fingerballs
+        Dim pf1 As Single
+        Dim pf2 As Single
 
-        For i As Integer = 0 To numBlocked - 1
-            blockedNotes(i) = True
-        Next
+        pf1 = secondHand.posF1
+        pf2 = secondHand.posF2
 
-        shuffler(blockedNotes)
+        finger1Ball.pos(0) = positions(0)
+        finger1Ball.pos(1) = 0.25
+        finger1Ball.pos(2) = -(secondHand.destination * fingerScale - pf1 * fingerScale)
 
-        'For Each note In blockedNotes
-        '    Console.WriteLine(note)
-        'Next
+        finger2Ball.pos(0) = positions(2)
+        finger2Ball.pos(1) = 0.25
+        finger2Ball.pos(2) = -(secondHand.destination * fingerScale - pf2 * fingerScale)
+
+        fingers1Ball.pos(0) = positions(1) + 0.1
+        fingers1Ball.pos(1) = 0.25
+        fingers1Ball.pos(2) = -(secondHand.destination * fingerScale - pf1 * fingerScale)
+
+        fingers2Ball.pos(0) = positions(1) - 0.1
+        fingers2Ball.pos(1) = 0.25
+        fingers2Ball.pos(2) = -(secondHand.destination * fingerScale - pf2 * fingerScale)
+
+        If hitSet Then
+            finger1Ball.RedMode = True
+            finger2Ball.RedMode = True
+            fingers1Ball.RedMode = True
+            fingers2Ball.RedMode = True
+        Else
+            finger1Ball.RedMode = False
+            finger2Ball.RedMode = False
+            fingers1Ball.RedMode = False
+            fingers2Ball.RedMode = False
+        End If
 
     End Sub
+
+#End Region
+
+#Region "other functions"
 
     '----------------------------------------------------------------------------------'
     '----------- create random permutation by just shuffling the data------------------'

@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="BCI2000Exchange.vb" />
     <Compile Include="FileDict.vb" />
+    <Compile Include="FingerBall.vb" />
     <Compile Include="FingerBot.vb" />
     <Compile Include="Fretboard.vb" />
     <Compile Include="GamePop.vb" />
