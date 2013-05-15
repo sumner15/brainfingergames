@@ -27,12 +27,13 @@ Public Class Fretboard
     Private currentNote As Integer = 0
     Public nextNotePos As Single
     Public nextNoteTime As Double
+    Public previousNoteTime As Double = 0
 
     Public songOver As Boolean = False
 
     Private fretBoardZ As Single
-    Private winSizeS As Double = 5000  ' how early notes appear in miliseconds
-    Private winSizeU As Double = 18    ' how far away notes are when they appears
+    Private winSizeS As Double = 5000   ' how early notes appear in miliseconds
+    Private winSizeU As Double = 18     ' how far away notes are when they appears
 
     Private timeSinceLastMove As New Stopwatch
 
@@ -41,32 +42,33 @@ Public Class Fretboard
     '----------------------------------------------------------------------------------'
     ' the constructor requires that we pass in a song and a difficulty
     Public Sub New(ByRef mySong As Song, ByVal difficulty As Integer)
+        Dim takeNth As Integer = rehabHeroSets.get_takeEveryNNotes()
         Select Case difficulty
             Case level.superEasy
                 allNotes = mySong.superEasyAll
                 For i = 0 To 4 Step 1
-                    strings(i) = New GuitarString(mySong.superEasy(i).onTimes, i)
+                    strings(i) = New GuitarString(takeEveryNthNote(takeNth, mySong.superEasy(i).onTimes), i)
                     targets(i) = New Target(i)
                 Next
                 Exit Select
             Case level.easy
                 allNotes = mySong.easyAll
                 For i = 0 To 4 Step 1
-                    strings(i) = New GuitarString(mySong.easy(i).onTimes, i)
+                    strings(i) = New GuitarString(takeEveryNthNote(takeNth, mySong.easy(i).onTimes), i)
                     targets(i) = New Target(i)
                 Next
                 Exit Select
             Case level.medium
                 allNotes = mySong.mediumAll
                 For i = 0 To 4 Step 1
-                    strings(i) = New GuitarString(mySong.medium(i).onTimes, i)
+                    strings(i) = New GuitarString(takeEveryNthNote(takeNth, mySong.medium(i).onTimes), i)
                     targets(i) = New Target(i)
                 Next
                 Exit Select
             Case level.Amazing
                 allNotes = mySong.amazingAll
                 For i = 0 To 4 Step 1
-                    strings(i) = New GuitarString(mySong.amazing(i).onTimes, i)
+                    strings(i) = New GuitarString(takeEveryNthNote(takeNth, mySong.amazing(i).onTimes), i)
                     targets(i) = New Target(i)
                 Next
                 Exit Select
@@ -79,7 +81,7 @@ Public Class Fretboard
         stage.loadTexture("fretBoard3.bmp")
         fretBoardZ = -8
 
-        numNotes = allNotes.GetLength(0)
+        numNotes = countUpNotes() 'allNotes.GetLength(0)
 
         timeSinceLastMove.Start()
         'getNextNote()
@@ -207,16 +209,101 @@ Public Class Fretboard
     '----------------------------------------------------------------------------------'
     '----------------------------------- get next note --------------------------------'
     '----------------------------------------------------------------------------------'
-    ' looks at all of the strings and checks which one has the next note
-    Public Sub getNextNote()
-        nextNoteTime = allNotes(currentNote, 0)
-        nextNotePos = positions(CInt(allNotes(currentNote, 2)))
-        If (currentNote + 1) < allNotes.GetLength(0) Then
-            currentNote += 1
+    ' scan through all the strings. don't just use the dumb allNotes array
+    Public Sub getNextNote(ByRef currentTime As Single)
+        Dim checkNextNoteT As Double = 0
+        checkNextNoteT = strings(0).getNextNoteTime()
+        Dim soonestNote As Double() = {checkNextNoteT, 0}
+        ' we need to make sure that there are still notes available int that array
+        If (checkNextNoteT > previousNoteTime) And Not strings(0).checkIfLast() Then
+            soonestNote = {checkNextNoteT, 0}
         Else
+            soonestNote = {0, 0}
+        End If
+
+        For i = 1 To 4 Step 1
+            checkNextNoteT = strings(i).getNextNoteTime()
+            If (checkNextNoteT > previousNoteTime) And (checkNextNoteT <= soonestNote(0)) And Not strings(i).checkIfLast() Then
+                soonestNote = {checkNextNoteT, i}
+            End If
+        Next
+
+        previousNoteTime = checkNextNoteT ' every once in a while this wierd thing happends where it suddenly wants to skip a bunch of notes in a row. I think that means that it's current note is set in the past.
+
+        ' only update them if the value is in the future!
+        If (soonestNote(0) > currentTime) Then
+            nextNoteTime = soonestNote(0)
+            ' the value that I need to send is not the index, but the position. Just apply the index to the position vector.
+            nextNotePos = positions(soonestNote(1))
+            If (currentNote + 1) < numNotes Then
+                currentNote += 1
+            Else
+                songOver = True
+            End If
+        End If
+
+        ' add an end condition if all the strings have finished their last note.
+        Dim allAtLastNote As Boolean = True
+        For i = 0 To 4
+            allAtLastNote = allAtLastNote And strings(i).checkIfLast()
+        Next
+        If allAtLastNote Then
             songOver = True
         End If
         'Console.Write("next note: " & nextNotePos & vbTab & "time: " & nextNoteTime & vbNewLine)
     End Sub
+
+    'Public Sub getNextNote()
+    '    nextNoteTime = allNotes(currentNote, 0)
+    '    nextNotePos = positions(CInt(allNotes(currentNote, 2)))
+    '    Console.WriteLine("this ran " & nextNoteTime)
+    '    If (currentNote + 1) < allNotes.GetLength(0) Then
+    '        currentNote += 1
+    '    Else
+    '        songOver = True
+    '    End If
+    '    'Console.Write("next note: " & nextNotePos & vbTab & "time: " & nextNoteTime & vbNewLine)
+    'End Sub
+
+    '----------------------------------------------------------------------------------'
+    '-------------------------------- count up the notes ------------------------------'
+    '----------------------------------------------------------------------------------'
+    ' since we want to get away from using the allNotes array, we need to count up the 
+    ' actual number of notes in all of the songs
+    Public Function countUpNotes() As Integer
+        Dim nNotes As Integer = 0
+        For i = 0 To 4 Step 1
+            nNotes += strings(i).noteTimes.GetLength(0)
+        Next
+        Return nNotes
+    End Function
+
+    '----------------------------------------------------------------------------------'
+    '-------------------------------- take every nth note -----------------------------'
+    '----------------------------------------------------------------------------------'
+    ' I'm actually going to write this to take every nth note from each string. It seems
+    ' that is more likely to be what the user would want, and it's easier to do.
+    Private Function takeEveryNthNote(ByVal n As Integer, ByRef noteTimeArray As Double()) As Double()
+        ' for each string take every nth note
+        Dim currentNumberOfNotes As Integer = noteTimeArray.GetLength(0)
+        Dim newNumberOfNotes = Floor(currentNumberOfNotes / n)
+        Dim newNoteTimes(newNumberOfNotes) As Double
+        Dim count As Integer = 0
+
+        If n >= 1 Then
+            For ii = 0 To (currentNumberOfNotes - 1) Step n
+                newNoteTimes(count) = noteTimeArray(ii)
+                If ((count + 1) < newNumberOfNotes) Then
+                    count += 1
+                End If
+            Next
+            Return newNoteTimes
+        Else
+            MsgBox("tried to take every " & CStr(n) & "th note - n must be >= 1. we just used all the notes isntead")
+            Return noteTimeArray
+        End If
+
+
+    End Function
 
 End Class

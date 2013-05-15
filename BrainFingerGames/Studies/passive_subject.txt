@@ -7,3 +7,4 @@ sucRate: 50
 useExplicitGains: True
 gains: 25
 useBCI: False
+takeEveryNNotes:2

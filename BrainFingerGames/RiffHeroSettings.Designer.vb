@@ -61,7 +61,11 @@ Partial Class RiffHeroSettings
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel6 = New System.Windows.Forms.Panel()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.takeNthNoteLbl = New System.Windows.Forms.Label()
+        Me.takeNthNoteHSB = New System.Windows.Forms.HScrollBar()
         Me.Panel1.SuspendLayout()
+        Me.Panel3.SuspendLayout()
         Me.Panel4.SuspendLayout()
         Me.Panel5.SuspendLayout()
         Me.Panel6.SuspendLayout()
@@ -80,7 +84,7 @@ Partial Class RiffHeroSettings
         'hitWindowValLbl
         '
         Me.hitWindowValLbl.AutoSize = True
-        Me.hitWindowValLbl.Location = New System.Drawing.Point(195, 255)
+        Me.hitWindowValLbl.Location = New System.Drawing.Point(179, 74)
         Me.hitWindowValLbl.Name = "hitWindowValLbl"
         Me.hitWindowValLbl.Size = New System.Drawing.Size(25, 13)
         Me.hitWindowValLbl.TabIndex = 94
@@ -88,7 +92,7 @@ Partial Class RiffHeroSettings
         '
         'hitWindowSizeHSB
         '
-        Me.hitWindowSizeHSB.Location = New System.Drawing.Point(31, 255)
+        Me.hitWindowSizeHSB.Location = New System.Drawing.Point(15, 74)
         Me.hitWindowSizeHSB.Maximum = 1000
         Me.hitWindowSizeHSB.Minimum = 50
         Me.hitWindowSizeHSB.Name = "hitWindowSizeHSB"
@@ -99,7 +103,7 @@ Partial Class RiffHeroSettings
         'hitWindowSizeLbl
         '
         Me.hitWindowSizeLbl.AutoSize = True
-        Me.hitWindowSizeLbl.Location = New System.Drawing.Point(28, 242)
+        Me.hitWindowSizeLbl.Location = New System.Drawing.Point(12, 61)
         Me.hitWindowSizeLbl.Name = "hitWindowSizeLbl"
         Me.hitWindowSizeLbl.Size = New System.Drawing.Size(150, 13)
         Me.hitWindowSizeLbl.TabIndex = 92
@@ -263,7 +267,7 @@ Partial Class RiffHeroSettings
         'reactionTimeValLbl
         '
         Me.reactionTimeValLbl.AutoSize = True
-        Me.reactionTimeValLbl.Location = New System.Drawing.Point(195, 219)
+        Me.reactionTimeValLbl.Location = New System.Drawing.Point(179, 38)
         Me.reactionTimeValLbl.Name = "reactionTimeValLbl"
         Me.reactionTimeValLbl.Size = New System.Drawing.Size(31, 13)
         Me.reactionTimeValLbl.TabIndex = 72
@@ -271,7 +275,7 @@ Partial Class RiffHeroSettings
         '
         'reactionTimeHSB
         '
-        Me.reactionTimeHSB.Location = New System.Drawing.Point(31, 219)
+        Me.reactionTimeHSB.Location = New System.Drawing.Point(15, 38)
         Me.reactionTimeHSB.Maximum = 5000
         Me.reactionTimeHSB.Minimum = 200
         Me.reactionTimeHSB.Name = "reactionTimeHSB"
@@ -340,7 +344,7 @@ Partial Class RiffHeroSettings
         'allowedReactionTimeLbl
         '
         Me.allowedReactionTimeLbl.AutoSize = True
-        Me.allowedReactionTimeLbl.Location = New System.Drawing.Point(28, 206)
+        Me.allowedReactionTimeLbl.Location = New System.Drawing.Point(12, 25)
         Me.allowedReactionTimeLbl.Name = "allowedReactionTimeLbl"
         Me.allowedReactionTimeLbl.Size = New System.Drawing.Size(197, 13)
         Me.allowedReactionTimeLbl.TabIndex = 64
@@ -392,9 +396,18 @@ Partial Class RiffHeroSettings
         '
         'Panel3
         '
+        Me.Panel3.Controls.Add(Me.Label5)
+        Me.Panel3.Controls.Add(Me.takeNthNoteLbl)
+        Me.Panel3.Controls.Add(Me.takeNthNoteHSB)
+        Me.Panel3.Controls.Add(Me.allowedReactionTimeLbl)
+        Me.Panel3.Controls.Add(Me.hitWindowValLbl)
+        Me.Panel3.Controls.Add(Me.reactionTimeHSB)
+        Me.Panel3.Controls.Add(Me.hitWindowSizeHSB)
+        Me.Panel3.Controls.Add(Me.reactionTimeValLbl)
+        Me.Panel3.Controls.Add(Me.hitWindowSizeLbl)
         Me.Panel3.Location = New System.Drawing.Point(12, 162)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(246, 120)
+        Me.Panel3.Size = New System.Drawing.Size(246, 132)
         Me.Panel3.TabIndex = 98
         '
         'Panel4
@@ -423,10 +436,39 @@ Partial Class RiffHeroSettings
         Me.Panel6.Controls.Add(Me.explicitGainsLbl)
         Me.Panel6.Controls.Add(Me.useExplicitGainsBtn)
         Me.Panel6.Controls.Add(Me.GainsHSB)
-        Me.Panel6.Location = New System.Drawing.Point(12, 288)
+        Me.Panel6.Location = New System.Drawing.Point(12, 300)
         Me.Panel6.Name = "Panel6"
-        Me.Panel6.Size = New System.Drawing.Size(246, 145)
+        Me.Panel6.Size = New System.Drawing.Size(246, 133)
         Me.Panel6.TabIndex = 99
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(14, 94)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(105, 13)
+        Me.Label5.TabIndex = 97
+        Me.Label5.Text = "Take every Nth note"
+        '
+        'takeNthNoteLbl
+        '
+        Me.takeNthNoteLbl.AutoSize = True
+        Me.takeNthNoteLbl.Location = New System.Drawing.Point(179, 107)
+        Me.takeNthNoteLbl.Name = "takeNthNoteLbl"
+        Me.takeNthNoteLbl.Size = New System.Drawing.Size(25, 13)
+        Me.takeNthNoteLbl.TabIndex = 96
+        Me.takeNthNoteLbl.Text = "500"
+        '
+        'takeNthNoteHSB
+        '
+        Me.takeNthNoteHSB.LargeChange = 1
+        Me.takeNthNoteHSB.Location = New System.Drawing.Point(15, 107)
+        Me.takeNthNoteHSB.Maximum = 5
+        Me.takeNthNoteHSB.Minimum = 1
+        Me.takeNthNoteHSB.Name = "takeNthNoteHSB"
+        Me.takeNthNoteHSB.Size = New System.Drawing.Size(161, 13)
+        Me.takeNthNoteHSB.TabIndex = 95
+        Me.takeNthNoteHSB.Value = 5
         '
         'RiffHeroSettings
         '
@@ -436,21 +478,15 @@ Partial Class RiffHeroSettings
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.ClientSize = New System.Drawing.Size(503, 582)
         Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.hitWindowValLbl)
-        Me.Controls.Add(Me.hitWindowSizeHSB)
-        Me.Controls.Add(Me.hitWindowSizeLbl)
         Me.Controls.Add(Me.RiffTimingLbl)
         Me.Controls.Add(Me.StudySettingsLbl)
         Me.Controls.Add(Me.studyList)
-        Me.Controls.Add(Me.reactionTimeValLbl)
-        Me.Controls.Add(Me.reactionTimeHSB)
         Me.Controls.Add(Me.maxNotesValLbl)
         Me.Controls.Add(Me.maxBurstValLbl)
         Me.Controls.Add(Me.minBurstValLbl)
         Me.Controls.Add(Me.maxNotesPerRiffHSB)
         Me.Controls.Add(Me.maxMsecBetweenBurstsHSB)
         Me.Controls.Add(Me.minMsecBetweenBurstsHSB)
-        Me.Controls.Add(Me.allowedReactionTimeLbl)
         Me.Controls.Add(Me.maxNumberNotesPerBurstLbl)
         Me.Controls.Add(Me.maxMsecBetweenBurstsLbl)
         Me.Controls.Add(Me.minMsecBetweenBurstsLbl)
@@ -464,6 +500,8 @@ Partial Class RiffHeroSettings
         Me.Text = "RiffHeroSettings"
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        Me.Panel3.ResumeLayout(False)
+        Me.Panel3.PerformLayout()
         Me.Panel4.ResumeLayout(False)
         Me.Panel4.PerformLayout()
         Me.Panel5.ResumeLayout(False)
@@ -511,4 +549,7 @@ Partial Class RiffHeroSettings
     Friend WithEvents Panel4 As System.Windows.Forms.Panel
     Friend WithEvents Panel5 As System.Windows.Forms.Panel
     Friend WithEvents Panel6 As System.Windows.Forms.Panel
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents takeNthNoteLbl As System.Windows.Forms.Label
+    Friend WithEvents takeNthNoteHSB As System.Windows.Forms.HScrollBar
 End Class

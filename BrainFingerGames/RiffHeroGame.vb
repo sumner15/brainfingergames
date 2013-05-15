@@ -318,7 +318,7 @@ Public Class RiffHeroGame
             greatSuccessVis = False
             hitAttempted = False
             secondHand.moveFingersToCurrent()
-            fretboard.getNextNote()
+            fretboard.getNextNote(secondHand.targetTime)
             'secondHand.getMovementTimes()
 
             Select Case (fretboard.nextNotePos)
