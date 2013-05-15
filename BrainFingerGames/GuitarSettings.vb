@@ -22,6 +22,7 @@ Public Class GuitarSettings
     Private sucRate As Single    
     Private gains As Single
     Private useBCI As Boolean
+    Private takeEveryNNotes As Integer ' used to make the songs more sparse on the fly
 
     Public settingsFileName As String = "default"
     Public studyIds() As String
@@ -53,6 +54,7 @@ Public Class GuitarSettings
         gameSetFile.WriteLine("useExplicitGains: " & useExplicitGains)
         gameSetFile.WriteLine("gains: " & gains)
         gameSetFile.WriteLine("useBCI: " & useBCI)
+        gameSetFile.WriteLine("takeEveryNNotes:" & takeEveryNNotes)
         gameSetFile.Close()
     End Sub
 
@@ -70,6 +72,7 @@ Public Class GuitarSettings
         sucRate = gameSetDic.Lookup("sucRate", "0.5")        
         gains = gameSetDic.Lookup("gains", "0")
         useBCI = gameSetDic.Lookup("useBCI", "False")
+        takeEveryNNotes = gameSetDic.Lookup("takeEveryNNotes", "1")
     End Sub
 
     '----------------------------------------------------------------------------------'
@@ -111,6 +114,10 @@ Public Class GuitarSettings
     Public Function get_useBCI() As Boolean
         Return useBCI
     End Function
+
+    Public Function get_takeEveryNNotes() As Integer
+        Return takeEveryNNotes
+    End Function
 #End Region
 
     '----------------------------------------------------------------------------------'
@@ -151,6 +158,10 @@ Public Class GuitarSettings
 
     Public Sub set_useBCI(ByVal newVal As Boolean)
         useBCI = newVal
+    End Sub
+
+    Public Sub set_takeEveryNNotes(ByVal newVal As Integer)
+        takeEveryNNotes = newVal
     End Sub
 #End Region
 

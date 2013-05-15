@@ -30,6 +30,10 @@
         hitWindowValLbl.Text = CStr(CSng(hitWindowSizeHSB.Value))
     End Sub
 
+    Private Sub takeNthNoteHSB_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles takeNthNoteHSB.Scroll
+        takeNthNoteValLbl.Text = CStr(CSng(takeNthNoteHSB.Value))
+    End Sub
+
     Private Sub GainsHSB_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles GainsHSB.Scroll
         explicitGainsLbl.Text = CStr(CSng(GainsHSB.Value))
     End Sub
@@ -130,6 +134,7 @@
         rehabHeroSets.set_sucRate(CSng(SucRateHSB.Value))        
         rehabHeroSets.set_gains(CSng(GainsHSB.Value))
         rehabHeroSets.set_useBCI(CSng(useBCICbox.Checked))
+        rehabHeroSets.set_takeEveryNNotes(CSng(takeNthNoteHSB.Value))
         rehabHeroSets.writeGameSetFile()
     End Sub
 
@@ -142,6 +147,7 @@
         SucRateHSB.Value = rehabHeroSets.get_sucRate        
         GainsHSB.Value = rehabHeroSets.get_gains
         useBCICbox.Checked = rehabHeroSets.get_useBCI
+        takeNthNoteHSB.Value = rehabHeroSets.get_takeEveryNNotes
     End Sub
 
     Private Sub set_allLabels()
@@ -150,7 +156,9 @@
         hitWindowValLbl.Text = CStr(CSng(hitWindowSizeHSB.Value))
         successRateLbl.Text = CStr(CSng(SucRateHSB.Value))        
         explicitGainsLbl.Text = CStr(CSng(GainsHSB.Value))
+        takeNthNoteValLbl.Text = CStr(CSng(takeNthNoteHSB.Value))
     End Sub
 #End Region
+
 
 End Class

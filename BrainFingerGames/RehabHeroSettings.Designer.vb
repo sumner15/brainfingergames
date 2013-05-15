@@ -50,6 +50,9 @@ Partial Class RehabHeroSettings
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.TakeNthNoteLbl = New System.Windows.Forms.Label()
+        Me.takeNthNoteValLbl = New System.Windows.Forms.Label()
+        Me.takeNthNoteHSB = New System.Windows.Forms.HScrollBar()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         Me.Panel3.SuspendLayout()
@@ -119,7 +122,7 @@ Partial Class RehabHeroSettings
         'explicitGainsLbl
         '
         Me.explicitGainsLbl.AutoSize = True
-        Me.explicitGainsLbl.Location = New System.Drawing.Point(163, 106)
+        Me.explicitGainsLbl.Location = New System.Drawing.Point(164, 104)
         Me.explicitGainsLbl.Name = "explicitGainsLbl"
         Me.explicitGainsLbl.Size = New System.Drawing.Size(13, 13)
         Me.explicitGainsLbl.TabIndex = 79
@@ -129,7 +132,7 @@ Partial Class RehabHeroSettings
         'useExplicitGainsBtn
         '
         Me.useExplicitGainsBtn.AutoSize = True
-        Me.useExplicitGainsBtn.Location = New System.Drawing.Point(27, 86)
+        Me.useExplicitGainsBtn.Location = New System.Drawing.Point(28, 84)
         Me.useExplicitGainsBtn.Name = "useExplicitGainsBtn"
         Me.useExplicitGainsBtn.Size = New System.Drawing.Size(111, 17)
         Me.useExplicitGainsBtn.TabIndex = 78
@@ -139,7 +142,7 @@ Partial Class RehabHeroSettings
         'GainsHSB
         '
         Me.GainsHSB.LargeChange = 15
-        Me.GainsHSB.Location = New System.Drawing.Point(28, 109)
+        Me.GainsHSB.Location = New System.Drawing.Point(29, 107)
         Me.GainsHSB.Maximum = 45
         Me.GainsHSB.Name = "GainsHSB"
         Me.GainsHSB.Size = New System.Drawing.Size(138, 10)
@@ -280,6 +283,9 @@ Partial Class RehabHeroSettings
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.TakeNthNoteLbl)
+        Me.Panel2.Controls.Add(Me.takeNthNoteValLbl)
+        Me.Panel2.Controls.Add(Me.takeNthNoteHSB)
         Me.Panel2.Controls.Add(Me.Label4)
         Me.Panel2.Controls.Add(Me.hitWindowValLbl)
         Me.Panel2.Controls.Add(Me.allowedReactionTimeLbl)
@@ -289,7 +295,7 @@ Partial Class RehabHeroSettings
         Me.Panel2.Controls.Add(Me.reactionTimeValLbl)
         Me.Panel2.Location = New System.Drawing.Point(12, 12)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(237, 138)
+        Me.Panel2.Size = New System.Drawing.Size(237, 159)
         Me.Panel2.TabIndex = 70
         '
         'Panel3
@@ -301,9 +307,9 @@ Partial Class RehabHeroSettings
         Me.Panel3.Controls.Add(Me.Label1)
         Me.Panel3.Controls.Add(Me.useExplicitGainsBtn)
         Me.Panel3.Controls.Add(Me.GainsHSB)
-        Me.Panel3.Location = New System.Drawing.Point(12, 156)
+        Me.Panel3.Location = New System.Drawing.Point(12, 177)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(237, 152)
+        Me.Panel3.Size = New System.Drawing.Size(237, 131)
         Me.Panel3.TabIndex = 70
         '
         'Panel4
@@ -322,6 +328,35 @@ Partial Class RehabHeroSettings
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(443, 88)
         Me.Panel5.TabIndex = 87
+        '
+        'TakeNthNoteLbl
+        '
+        Me.TakeNthNoteLbl.AutoSize = True
+        Me.TakeNthNoteLbl.Location = New System.Drawing.Point(13, 120)
+        Me.TakeNthNoteLbl.Name = "TakeNthNoteLbl"
+        Me.TakeNthNoteLbl.Size = New System.Drawing.Size(105, 13)
+        Me.TakeNthNoteLbl.TabIndex = 100
+        Me.TakeNthNoteLbl.Text = "Take every Nth note"
+        '
+        'takeNthNoteValLbl
+        '
+        Me.takeNthNoteValLbl.AutoSize = True
+        Me.takeNthNoteValLbl.Location = New System.Drawing.Point(178, 133)
+        Me.takeNthNoteValLbl.Name = "takeNthNoteValLbl"
+        Me.takeNthNoteValLbl.Size = New System.Drawing.Size(13, 13)
+        Me.takeNthNoteValLbl.TabIndex = 99
+        Me.takeNthNoteValLbl.Text = "1"
+        '
+        'takeNthNoteHSB
+        '
+        Me.takeNthNoteHSB.LargeChange = 1
+        Me.takeNthNoteHSB.Location = New System.Drawing.Point(14, 133)
+        Me.takeNthNoteHSB.Maximum = 5
+        Me.takeNthNoteHSB.Minimum = 1
+        Me.takeNthNoteHSB.Name = "takeNthNoteHSB"
+        Me.takeNthNoteHSB.Size = New System.Drawing.Size(161, 13)
+        Me.takeNthNoteHSB.TabIndex = 98
+        Me.takeNthNoteHSB.Value = 5
         '
         'RehabHeroSettings
         '
@@ -379,4 +414,7 @@ Partial Class RehabHeroSettings
     Friend WithEvents Panel3 As System.Windows.Forms.Panel
     Friend WithEvents Panel4 As System.Windows.Forms.Panel
     Friend WithEvents Panel5 As System.Windows.Forms.Panel
+    Friend WithEvents TakeNthNoteLbl As System.Windows.Forms.Label
+    Friend WithEvents takeNthNoteValLbl As System.Windows.Forms.Label
+    Friend WithEvents takeNthNoteHSB As System.Windows.Forms.HScrollBar
 End Class
