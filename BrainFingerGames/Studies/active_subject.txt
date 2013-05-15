@@ -4,7 +4,6 @@ maxNumberNotesPerBurst: 1
 allowedReactionTime: 2421
 hitWindowSize: 101
 sucRate: 50
-fakeSucRate: 50
 useExplicitGains: True
 gains: 0
 useBCI: False

@@ -44,7 +44,7 @@ Public Class GuitarSettings
         writeGameSetFile(settingsFileName)
     End Sub
     Public Sub writeGameSetFile(ByVal filename As String)
-        Dim fullFileName As String = GAMEPATH & "gameSettings\" & filename & ".txt"
+        Dim fullFileName As String = GAMEPATH & "Studies\" & filename & ".txt"
         'Console.WriteLine(fullFileName)
         Dim gameSetFile As StreamWriter = New StreamWriter(fullFileName)
         gameSetFile.WriteLine("minMsecBetweenBursts: " & minMsecBetweenBursts)
@@ -80,8 +80,8 @@ Public Class GuitarSettings
         Dim tempSettingsName As String = "_temp"
         Console.WriteLine(useBCI)
         writeGameSetFile(tempSettingsName)
-        Dim fd1 As FileDict = New FileDict(GAMEPATH & "gameSettings\" & tempSettingsName & ".txt")
-        Dim fd2 As FileDict = New FileDict(GAMEPATH & "gameSettings\" & settingsFileName & ".txt")
+        Dim fd1 As FileDict = New FileDict(GAMEPATH & "Studies\" & tempSettingsName & ".txt")
+        Dim fd2 As FileDict = New FileDict(GAMEPATH & "Studies\" & settingsFileName & ".txt")
         Console.WriteLine(fd1.AsText().Replace(vbNewLine, "; "))
         Console.WriteLine(fd2.AsText().Replace(vbNewLine, "; "))
         Return (String.Compare(fd1.AsText(), fd2.AsText()) <> 0)

@@ -128,7 +128,7 @@ Partial Class Menu
         Me.gameSettingsBtn.Name = "gameSettingsBtn"
         Me.gameSettingsBtn.Size = New System.Drawing.Size(125, 64)
         Me.gameSettingsBtn.TabIndex = 15
-        Me.gameSettingsBtn.Text = "game settings"
+        Me.gameSettingsBtn.Text = "Game Settings:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "None Selected Yet!"
         Me.gameSettingsBtn.UseVisualStyleBackColor = True
         '
         'runBtn
