@@ -6,6 +6,7 @@
     Public rehabSettingsMenu As RehabHeroSettings    
     Public riffSettingsMenu As RiffHeroSettings
     Public newSubjMenu As NewSubjectForm
+    Public newIPMenu As manualIPForm
     Public deleteSubjMenu As DeleteSubjectForm
     Public rehabHeroPrep As SongPrep
     Public riffHeroPrep As SongPrep
@@ -25,6 +26,14 @@
         currentSub = subPopulation.subjects(0)
         currentGame = gamePopulation.gameIds(0)
         lastGameLbl.Text = "n/a"
+    End Sub
+
+    '--------------------------------------------------------------------------------'
+    '------------------------ communication menu item events ------------------------'
+    '--------------------------------------------------------------------------------'   
+    Private Sub SetIPManuallyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SetIPManuallyToolStripMenuItem.Click
+        newIPMenu = New manualIPForm
+        newIPMenu.Show()
     End Sub
 
     '--------------------------------------------------------------------------------'
@@ -133,5 +142,6 @@
         FingerPB.Value = 0
         MusicGlovePB.Value = 100
     End Sub
+
 
 End Class

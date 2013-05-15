@@ -97,6 +97,12 @@
     <Compile Include="GamePop.vb" />
     <Compile Include="GuitarString.vb" />
     <Compile Include="Library.vb" />
+    <Compile Include="manualIPForm.Designer.vb">
+      <DependentUpon>manualIPForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="manualIPForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Material.vb" />
     <Compile Include="Menu.Designer.vb">
       <DependentUpon>Menu.vb</DependentUpon>
@@ -162,6 +168,9 @@
   <ItemGroup>
     <EmbeddedResource Include="DeleteSubjectForm.resx">
       <DependentUpon>DeleteSubjectForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="manualIPForm.resx">
+      <DependentUpon>manualIPForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Menu.resx">
       <DependentUpon>Menu.vb</DependentUpon>
