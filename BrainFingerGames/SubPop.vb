@@ -2,8 +2,7 @@
 '================================================================================'
 '-------------------- Population class for the Subject list ---------------------'
 '================================================================================'
-Public Class SubPop
-    'Private popFile As String = "population.txt"
+Public Class SubPop    
     Private subList As String = "allSubjects.txt"
     Public popSize As Integer
     Public subjects() As Subject
@@ -64,5 +63,47 @@ Public Class SubPop
         subjects(popSize - 1) = subject
         subIds(popSize - 1) = subject.ID        
         subject.update()
+    End Sub
+
+    '--------------------------------------------------------------------------------'
+    '---------------------- delete subject from the population ----------------------'
+    '--------------------------------------------------------------------------------'
+    Public Sub deleteSubject(ByRef subject As Subject)
+        If (subject.ID = "Default") Then
+            MsgBox("You cannot delete the Default Subject") : Return
+        End If
+
+        Dim oldSubjects() As Subject = subjects
+        Dim oldSubIds() As String = subIds
+
+        ReDim subjects(popSize - 2)
+        ReDim subIds(popSize - 2)
+
+        Dim allSubjectsFile As New System.IO.StreamWriter(GAMEPATH & "Subjects\" & "allSubjects.txt")        
+
+        Dim j As Integer = 0
+        For i = 0 To (popSize - 2) Step 1
+            If Not oldSubIds(i) = subject.ID Then
+
+                subjects(j) = oldSubjects(i)
+                subIds(j) = oldSubIds(i)
+
+                Dim currentID As String = subIds(j)
+                If (i = popSize - 2) Then                    
+                    allSubjectsFile.Write(currentID)
+                Else
+                    allSubjectsFile.WriteLine(currentID)
+                End If
+
+                j += 1
+            End If
+        Next i
+
+        popSize -= 1
+
+
+        
+        allSubjectsFile.Close()
+
     End Sub
 End Class

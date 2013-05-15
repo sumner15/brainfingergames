@@ -6,6 +6,7 @@
     Public rehabSettingsMenu As RehabHeroSettings    
     Public riffSettingsMenu As RiffHeroSettings
     Public newSubjMenu As NewSubjectForm
+    Public deleteSubjMenu As DeleteSubjectForm
     Public rehabHeroPrep As SongPrep
     Public riffHeroPrep As SongPrep
 
@@ -27,12 +28,18 @@
     End Sub
 
     '--------------------------------------------------------------------------------'
-    '-------------------------- add subject menu item event -------------------------'
+    '--------------------------- subject menu item events ---------------------------'
     '--------------------------------------------------------------------------------'    
     Private Sub NewToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewToolStripMenuItem.Click
         'open a new form that takes the subject ID and has an add button
         newSubjMenu = New NewSubjectForm
         newSubjMenu.Show()
+    End Sub
+
+    Private Sub RemoveToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveToolStripMenuItem.Click
+        'open a new form that lists the subject IDs and has a delete/cancel button
+        deleteSubjMenu = New DeleteSubjectForm
+        deleteSubjMenu.Show()
     End Sub
 
     '--------------------------------------------------------------------------------'
