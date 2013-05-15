@@ -46,10 +46,18 @@
 
         '---set all the settings from the scrollbars---'
         set_allSettings()
+        rehabHeroSets.writeGameSetFile()
         Me.Close() 'close the setting window'
 
     End Sub
 
+    '--------------------------------------------------------------------------------'
+    '-------------------------------- click x event ---------------------------------'
+    '--------------------------------------------------------------------------------'
+    Private Sub settingsForm_Disposed(ByVal sender As Object, ByVal e As Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        set_allSettings()
+        Module1.menu.gameSettingsBtn.Text = "game settings:" & vbNewLine & rehabHeroSets.settingsFileName & If(rehabHeroSets.hasChanged(), " (modified)", "")
+    End Sub
 
     '--------------------------------------------------------------------------------'
     '--------------------------- click study list event -----------------------------'
@@ -69,12 +77,13 @@
     '---------------------------- add study button event ----------------------------'
     '--------------------------------------------------------------------------------'
     Private Sub updateLstBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles updateLstBtn.Click
-        If (studyIdTb.Text = "") Then : MsgBox("Enter the subject's information before trying to save the subject.") : Return : End If
+        If (studyIdTb.Text = "") Then : MsgBox("Enter the name of the condition before trying to save settings.") : Return : End If
         If CSng(hitWindowSizeHSB.Value) > CSng(reactionTimeHSB.Value) Then : MsgBox("please set the reaction time larger than the hit window") : Return : End If
 
         rehabHeroSets.settingsFileName = studyIdTb.Text
         '---set all the settings from the scrollbars---'
-        set_allSettings()        
+        set_allSettings()
+        rehabHeroSets.writeGameSetFile()
 
         'update the studies list'
         studyPop.addStudy(studyIdTb.Text)
@@ -129,8 +138,7 @@
         rehabHeroSets.set_useExplicitGains(CSng(useExplicitGainsBtn.Checked))
         rehabHeroSets.set_sucRate(CSng(SucRateHSB.Value))        
         rehabHeroSets.set_gains(CSng(GainsHSB.Value))
-        rehabHeroSets.set_useBCI(CSng(useBCICbox.Checked))
-        rehabHeroSets.writeGameSetFile()
+        rehabHeroSets.set_useBCI(CSng(useBCICbox.Checked))        
     End Sub
 
     Private Sub get_allSettings()

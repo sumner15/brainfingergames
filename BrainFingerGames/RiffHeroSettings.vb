@@ -57,8 +57,18 @@
 
         '---set all the settings from the scrollbars---'
         set_allSettings()
+        riffHeroSets.writeGameSetFile()
         Me.Close() 'close the setting window'
 
+    End Sub
+
+
+    '--------------------------------------------------------------------------------'
+    '-------------------------------- click x event ---------------------------------'
+    '--------------------------------------------------------------------------------'
+    Private Sub settingsForm_Disposed(ByVal sender As Object, ByVal e As Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        set_allSettings()
+        Module1.menu.gameSettingsBtn.Text = "game settings:" & vbNewLine & riffHeroSets.settingsFileName & If(riffHeroSets.hasChanged(), " (modified)", "")
     End Sub
 
 
@@ -80,7 +90,7 @@
     '---------------------------- add study button event ----------------------------'
     '--------------------------------------------------------------------------------'
     Private Sub updateLstBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles updateLstBtn.Click
-        If (studyIdTb.Text = "") Then : MsgBox("Enter the subject's information before trying to save the subject.") : Return : End If
+        If (studyIdTb.Text = "") Then : MsgBox("Enter the name of the condition before trying to save settings.") : Return : End If
         If CSng(hitWindowSizeHSB.Value) > CSng(reactionTimeHSB.Value) Then : MsgBox("please set the reaction time larger than the hit window") : Return : End If
         If CSng(maxMsecBetweenBurstsHSB.Value) < CSng(minMsecBetweenBurstsHSB.Value) Then : MsgBox("please set the maximum time between bursts larger than the minimum time between bursts") : Return : End If
 
@@ -88,6 +98,7 @@
         riffHeroSets.settingsFileName = studyIdTb.Text
         '---set all the settings from the scrollbars---'
         set_allSettings()
+        riffHeroSets.writeGameSetFile()
 
         'update the studies list'
         studyPop.addStudy(studyIdTb.Text)
@@ -144,8 +155,7 @@
         riffHeroSets.set_useExplicitGains(CSng(useExplicitGainsBtn.Checked))
         riffHeroSets.set_sucRate(CSng(SucRateHSB.Value))        
         riffHeroSets.set_gains(CSng(GainsHSB.Value))
-        riffHeroSets.set_useBCI(CSng(useBCICbox.Checked))
-        riffHeroSets.writeGameSetFile()
+        riffHeroSets.set_useBCI(CSng(useBCICbox.Checked))        
     End Sub
 
     Private Sub get_allSettings()
@@ -173,4 +183,5 @@
         explicitGainsLbl.Text = CStr(CSng(GainsHSB.Value))
     End Sub
 #End Region
+
 End Class
