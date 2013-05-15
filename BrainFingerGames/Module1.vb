@@ -11,8 +11,6 @@ Module Module1
     Public currentSub As Subject
     Public currentSong As Song
     Public trialStr As String = ""
-    Public addSubjID As String
-    Public addSubjHand As String
     Public currentGame As String
     Public currentDevice As String = "fingerbot"
 

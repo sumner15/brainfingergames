@@ -1,6 +1,6 @@
 ﻿Public Class Menu
 
-    Private subPopulation As SubPop
+    Public subPopulation As SubPop
     Private gamePopulation As GamePop        
     Private gameRunning As Boolean
     Public rehabSettingsMenu As RehabHeroSettings    
@@ -54,25 +54,9 @@
     '--------------------------------------------------------------------------------'
     '-------------- refresh the subject list after adding a new subject -------------'
     '--------------------------------------------------------------------------------'
-    Private Sub RefreshBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshBtn.Click
-        If Not (addSubjID = "") Then
-            'refresh the subject list
-            Dim num As Integer      ' number corresponding to subject            
-            Dim subj As Subject     ' subject
-
-            num = subPopulation.popSize + 1
-            subj = New Subject(num, addSubjID, 1)
-            subj.hand = addSubjHand
-            subPopulation.addSubject(subj)
-
+    Private Sub RefreshBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshBtn.Click        
             subjectList.DataSource = subPopulation.subIds
-            subjectList.Update()
-
-            addSubjID = ""
-        Else
-            subjectList.DataSource = subPopulation.subIds
-            subjectList.Update()
-        End If
+            subjectList.Update()        
     End Sub
 
     '--------------------------------------------------------------------------------'
