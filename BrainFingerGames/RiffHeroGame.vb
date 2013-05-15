@@ -20,7 +20,7 @@ Public Class RiffHeroGame
     Inherits OpenTK.GameWindow
     Public thetaY As Single = 0.0
     Public thetaX As Single = 0.0
-    Public camPos() = {0, 4.5, -5}
+    Public camPos() = {0, 10, 0} ' {0, 4.5, -5}
     Public sampTex As Bitmap
     Public texture As Integer
 
@@ -49,7 +49,6 @@ Public Class RiffHeroGame
     Private increaseStepKd As Single = alpha * sigmaKd
     Private decreaseStepKd As Single = sigmaKd
 
-    'originally ran in robot class CLEAN THIS UP (ORGANIZE when done adding)
     Private posHitWindow As Single = 0.02
     Private velThreshold As Single = 0.0035
     Public hitSetResetPos As Single = 0.045
@@ -63,12 +62,11 @@ Public Class RiffHeroGame
 
     Public InPosWindow As Boolean = False
     Public InTimeWindow As Boolean = False
-    '-----------------------------------------------------------------------'
 
     Private zeroPosComplete As Boolean = False
     Private startupTimer As New Stopwatch
     Private trueStartUpDelay As Single
-    Private zeroingInst As New TextSign("relax while the robot zeros itself")
+    Private zeroingInst As New TextSign("relax for a moment")
     Private scoreText As New TextSign("this is used to show your score")
 
     Private scorefile As New StreamWriter(GAMEPATH & "scoreFiles\" & "score_" & currentSub.ID & "_" & String.Format("{0:yyyyMMddhhmmss}", Now) & ".txt")
