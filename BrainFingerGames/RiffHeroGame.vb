@@ -19,7 +19,7 @@ Imports OpenTK.Graphics
 Public Class RiffHeroGame
     Inherits OpenTK.GameWindow
     Public thetaY As Single = 0.0
-    Public thetaX As Single = 0.0
+    Public thetaX As Single = 0.0 '0.0 riff_fix
     Public camPos() = {0, 10, 0} ' {0, 4.5, -5}
     Public sampTex As Bitmap
     Public texture As Integer
@@ -527,16 +527,16 @@ Public Class RiffHeroGame
         moveFingerBalls()
         If Not (bci2000 Is Nothing) Then bci2000.Update(Me)
 
+        gameStates()
 
-        If zeroPosComplete Then ' check if we are currently zeroing the robot
-            'gameClock.updateAll()
-            checkHit()
-            updateCurrentNote()
-            If (mySong.player.Finished) And Not theEnd Then
-                theEnd = True
-                scoreText = New TextSign("you scored " & CStr(score) & " out of " & CStr(possibleScore))
-            End If
-        Else
+    End Sub
+
+    '----------------------------------------------------------------------------------'
+    '----------------------------- Here's my state machine ----------------------------'
+    '----------------------------------------------------------------------------------'
+    Private Sub gameStates()
+
+        If Not zeroPosComplete Then ' check if we are currently zeroing the robot                                
             If startupTimer.ElapsedMilliseconds > 5000 Then
                 secondHand.toreGame()
                 startupTimer.Stop()
@@ -548,7 +548,16 @@ Public Class RiffHeroGame
                     secondHand.setGainsExplicitly(explicitGains)
                 End If
             End If
+            Return
         End If
+
+        If (mySong.player.Finished) And Not theEnd Then
+            theEnd = True
+            scoreText = New TextSign("you scored " & CStr(score) & " out of " & CStr(possibleScore))
+        End If
+
+        checkHit()
+        updateCurrentNote()        
 
     End Sub
 

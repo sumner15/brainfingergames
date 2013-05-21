@@ -1,8 +1,8 @@
 num: 2
 ID: Sumner
 LoginDate: 2013-05-01 15:59:50
-trial: 36
-lastSessionDate: 2013-05-15 13:21:07
-lastSessionNumber: 6
+trial: 41
+lastSessionDate: 2013-05-20 16:53:16
+lastSessionNumber: 7
 lastGame: Riff_Hero
 hand: R
