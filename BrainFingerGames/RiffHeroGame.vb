@@ -71,8 +71,7 @@ Public Class RiffHeroGame
 
     Private scorefile As New StreamWriter(GAMEPATH & "scoreFiles\" & "score_" & currentSub.ID & "_" & String.Format("{0:yyyyMMddhhmmss}", Now) & ".txt")
     Private hitTimeFile As StreamWriter
-    Private greatSuccess As Boolean = False
-    Private greatSuccessVis As Boolean = False
+    Private greatSuccess As Boolean = False    
     Private possibleScore As Integer = 0
     Private score As Integer = 0
 
@@ -253,8 +252,7 @@ Public Class RiffHeroGame
     '----------------------------------------------------------------------------------'
     '-------------------------------- check tapper hit --------------------------------'
     '----------------------------------------------------------------------------------'
-    ' this checks to see if tapper has moved into a hit window at the correct time
-    ' this is what I need to do: if a hit goes by without the subject trying to hit it, increase the gains
+    ' this checks to see if tapper has moved into a hit window at the correct time    
     Private Sub checkHit()
         Dim inTimeWindow As Boolean = False
 
@@ -303,7 +301,7 @@ Public Class RiffHeroGame
                 End Select
             End If
 
-            scorefile.WriteLine(fretboard.nextNotePos & vbTab & fretboard.nextNoteTime & vbTab & success & vbTab & greatSuccessVis)
+            scorefile.WriteLine(fretboard.nextNotePos & vbTab & fretboard.nextNoteTime & vbTab & success & vbTab)
             If success Then
                 possibleScore += 1 : score += 1 : setProgrssBar(score / possibleScore)
             Else
@@ -312,12 +310,10 @@ Public Class RiffHeroGame
 
             currentNote += 1
 
-            greatSuccess = False ' just resetting it
-            greatSuccessVis = False
+            greatSuccess = False ' just resetting it            
             hitAttempted = False
             secondHand.moveFingersToCurrent()
-            fretboard.getNextNote(secondHand.targetTime)
-            'secondHand.getMovementTimes()
+            fretboard.getNextNote(secondHand.targetTime)            
 
             Select Case (fretboard.nextNotePos)
                 Case positions(0)
