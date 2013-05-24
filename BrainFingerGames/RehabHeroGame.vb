@@ -257,14 +257,12 @@ Public Class RehabHeroGame
     '----------------------------------------------------------------------------------'
     ' this checks to see if tapper has moved into a hit window at the correct time
     ' this is what I need to do: if a hit goes by without the subject trying to hit it, increase the gains
-    Private Sub checkHit()
-        Dim inTimeWindow As Boolean = False
-
+    Private Sub checkHit()        
         checkFingerHit(fretboard)        
 
         ' check if it was on time
-        If (hitChanged) And inTimeWindow Then
-            greatSuccess = True
+        If hitChanged And InTimeWindow Then
+            greatSuccess = True            
         End If
 
         If hitChanged Then
@@ -342,7 +340,7 @@ Public Class RehabHeroGame
     Public Sub checkFingerHit(ByRef fretBoard As Fretboard)
         Dim comboHitThresh As Single = 0.04
 
-        If (secondHand.velF1 < velThreshold) And (secondHand.posF1 > hitSetResetPos) And Not hitSet Then
+        If (secondHand.velF1 < velThreshold) And (secondHand.posF1 > hitSetResetPos) And Not hitSet Then            
             hitChanged = True
             hitSet = True
             hitPos = secondHand.posF1

@@ -245,7 +245,7 @@ Public Class FingerBot
         Dim setVal(0) As Double
         startTime = targetHitTime
         setVal(0) = targetHitTime
-        Console.WriteLine("target set at time " & CStr(targetHitTime) & " current time" & CStr(targetTime))
+        'Console.WriteLine("target set at time " & CStr(targetHitTime) & " current time" & CStr(targetTime))
 
         If rightHandMode Then
             stat = target_obj.SetParam(parameters_obj.hitTimeGold, setVal)
