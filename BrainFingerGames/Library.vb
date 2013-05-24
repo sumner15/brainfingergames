@@ -3,7 +3,7 @@
 '--------------------------------- Library class --------------------------------'
 '================================================================================'
 Public Class Library
-    Private songList As String = "allSongs.txt"
+    Private songList As String = "allSongs.txt"    
     Public libSize As Integer
     Public songs() As Song
     Public songNames() As String
@@ -12,6 +12,13 @@ Public Class Library
     '--------------------------- constructor for library ----------------------------'
     '--------------------------------------------------------------------------------'
     Public Sub New()
+        Select Case currentGame
+            Case "Rehab_Hero"
+                songList = "allSongs.txt"
+            Case "Riff_Hero"
+                songList = "allRiffs.txt"            
+        End Select
+
         Dim fileReader As StreamReader
         Dim idstring As String
         'need to find out how many songs we have
