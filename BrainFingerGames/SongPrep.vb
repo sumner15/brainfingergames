@@ -23,7 +23,9 @@
         library = New Library()        
         songList.DataSource = Library.songNames
         gameRunning = 0
-        currentSong = Library.songs(0)
+        currentSong = library.songs(0)
+
+        difficultyList.SelectedIndex = 0
     End Sub
 
     '--------------------------------------------------------------------------------'
