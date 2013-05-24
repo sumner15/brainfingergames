@@ -19,8 +19,8 @@ Imports OpenTK.Graphics
 Public Class RiffHeroGame
     Inherits OpenTK.GameWindow
     Public thetaY As Single = 0.0
-    Public thetaX As Single = 0.0
-    Public camPos() = {0, 4.5, -5}
+    Public thetaX As Single = 0.0 '0.0 riff_fix
+    Public camPos() = {0, 10, 0} ' {0, 4.5, -5}
     Public sampTex As Bitmap
     Public texture As Integer
 
@@ -49,7 +49,6 @@ Public Class RiffHeroGame
     Private increaseStepKd As Single = alpha * sigmaKd
     Private decreaseStepKd As Single = sigmaKd
 
-    'originally ran in robot class CLEAN THIS UP (ORGANIZE when done adding)
     Private posHitWindow As Single = 0.02
     Private velThreshold As Single = 0.0035
     Public hitSetResetPos As Single = 0.045
@@ -63,18 +62,16 @@ Public Class RiffHeroGame
 
     Public InPosWindow As Boolean = False
     Public InTimeWindow As Boolean = False
-    '-----------------------------------------------------------------------'
 
     Private zeroPosComplete As Boolean = False
     Private startupTimer As New Stopwatch
     Private trueStartUpDelay As Single
-    Private zeroingInst As New TextSign("relax while the robot zeros itself")
+    Private zeroingInst As New TextSign("relax for a moment")
     Private scoreText As New TextSign("this is used to show your score")
 
     Private scorefile As New StreamWriter(GAMEPATH & "scoreFiles\" & "score_" & currentSub.ID & "_" & String.Format("{0:yyyyMMddhhmmss}", Now) & ".txt")
     Private hitTimeFile As StreamWriter
-    Private greatSuccess As Boolean = False
-    Private greatSuccessVis As Boolean = False
+    Private greatSuccess As Boolean = False    
     Private possibleScore As Integer = 0
     Private score As Integer = 0
 
@@ -255,8 +252,7 @@ Public Class RiffHeroGame
     '----------------------------------------------------------------------------------'
     '-------------------------------- check tapper hit --------------------------------'
     '----------------------------------------------------------------------------------'
-    ' this checks to see if tapper has moved into a hit window at the correct time
-    ' this is what I need to do: if a hit goes by without the subject trying to hit it, increase the gains
+    ' this checks to see if tapper has moved into a hit window at the correct time    
     Private Sub checkHit()        
         checkFingerHit(fretboard)
 
@@ -303,7 +299,7 @@ Public Class RiffHeroGame
                 End Select
             End If
 
-            scorefile.WriteLine(fretboard.nextNotePos & vbTab & fretboard.nextNoteTime & vbTab & success & vbTab & greatSuccessVis)
+            scorefile.WriteLine(fretboard.nextNotePos & vbTab & fretboard.nextNoteTime & vbTab & success & vbTab)
             If success Then
                 possibleScore += 1 : score += 1 : setProgrssBar(score / possibleScore)
             Else
@@ -312,12 +308,10 @@ Public Class RiffHeroGame
 
             currentNote += 1
 
-            greatSuccess = False ' just resetting it
-            greatSuccessVis = False
+            greatSuccess = False ' just resetting it            
             hitAttempted = False
             secondHand.moveFingersToCurrent()
-            fretboard.getNextNote(secondHand.targetTime)
-            'secondHand.getMovementTimes()
+            fretboard.getNextNote(secondHand.targetTime)            
 
             Select Case (fretboard.nextNotePos)
                 Case positions(0)
@@ -527,16 +521,16 @@ Public Class RiffHeroGame
         moveFingerBalls()
         If Not (bci2000 Is Nothing) Then bci2000.Update(Me)
 
+        gameStates()
 
-        If zeroPosComplete Then ' check if we are currently zeroing the robot
-            'gameClock.updateAll()
-            checkHit()
-            updateCurrentNote()
-            If (mySong.player.Finished) And Not theEnd Then
-                theEnd = True
-                scoreText = New TextSign("you scored " & CStr(score) & " out of " & CStr(possibleScore))
-            End If
-        Else
+    End Sub
+
+    '----------------------------------------------------------------------------------'
+    '----------------------------- Here's my state machine ----------------------------'
+    '----------------------------------------------------------------------------------'
+    Private Sub gameStates()
+
+        If Not zeroPosComplete Then ' check if we are currently zeroing the robot                                
             If startupTimer.ElapsedMilliseconds > 5000 Then
                 secondHand.toreGame()
                 startupTimer.Stop()
@@ -548,7 +542,16 @@ Public Class RiffHeroGame
                     secondHand.setGainsExplicitly(explicitGains)
                 End If
             End If
+            Return
         End If
+
+        If (mySong.player.Finished) And Not theEnd Then
+            theEnd = True
+            scoreText = New TextSign("you scored " & CStr(score) & " out of " & CStr(possibleScore))
+        End If
+
+        checkHit()
+        updateCurrentNote()        
 
     End Sub
 
