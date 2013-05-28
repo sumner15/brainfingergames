@@ -35,7 +35,7 @@ Public Class RiffHeroGame
 
     Public fretboard As Fretboard
     Private hitAttempted As Boolean = False
-    Private ERD As Boolean = False
+    Private noteControl As Boolean = False
 
     Public secondHand As FingerBot
     Public bci2000 As BCI2000Exchange = Nothing
@@ -312,7 +312,7 @@ Public Class RiffHeroGame
             greatSuccess = False ' just resetting it            
             hitAttempted = False
             secondHand.moveFingersToCurrent()
-            fretboard.getNextNote(secondHand.targetTime)            
+            fretboard.getNextNote(secondHand.targetTime) 'FIXME
 
             Select Case (fretboard.nextNotePos)
                 Case positions(0)
@@ -464,7 +464,7 @@ Public Class RiffHeroGame
         cloudBox.drawVbo()
         GL.PopMatrix()
 
-        fretboard.draw(secondHand.targetTime)
+        fretboard.draw(secondHand.targetTime, noteControl)
         drawModels()
 
         If Not zeroPosComplete Then zeroingInst.drawSign()
