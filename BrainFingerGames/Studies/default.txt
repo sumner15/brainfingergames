@@ -1,9 +1,9 @@
 minMsecBetweenBursts: 300
 maxMsecBetweenBursts: 1000
 maxNumberNotesPerBurst: 1
-allowedReactionTime: 3118
-hitWindowSize: 500
-sucRate: 67
+allowedReactionTime: 4991
+hitWindowSize: 400
+sucRate: 76
 useExplicitGains: False
 gains: 31
 useBCI: False

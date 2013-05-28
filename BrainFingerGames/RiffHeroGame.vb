@@ -19,8 +19,8 @@ Imports OpenTK.Graphics
 Public Class RiffHeroGame
     Inherits OpenTK.GameWindow
     Public thetaY As Single = 0.0
-    Public thetaX As Single = 0.0 '0.0 riff_fix
-    Public camPos() = {0, 10, 0} ' {0, 4.5, -5}
+    Public thetaX As Single = 0.0
+    Public camPos() = {0, 4.5, -5}
     Public sampTex As Bitmap
     Public texture As Integer
 
@@ -35,6 +35,7 @@ Public Class RiffHeroGame
 
     Public fretboard As Fretboard
     Private hitAttempted As Boolean = False
+    Private ERD As Boolean = False
 
     Public secondHand As FingerBot
     Public bci2000 As BCI2000Exchange = Nothing
@@ -273,7 +274,7 @@ Public Class RiffHeroGame
     '----------------------------------------------------------------------------------'
     '------------------------------ update current note -------------------------------'
     '----------------------------------------------------------------------------------'
-    ' this function checks if we have gone passed the current note. If so, it sets the 
+    ' this function checks if we have gone past the current note. If so, it sets the 
     ' next note as the current note and calculates the movements times for tapper.
     Private Sub updateCurrentNote()
 
