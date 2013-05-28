@@ -145,7 +145,7 @@ Public Class Fretboard
         End If
 
         For i = 0 To 4 Step 1
-            If noteControl Then strings(i).drawNotes(targetTime) : End
+            If noteControl Then : strings(i).drawNotes(targetTime) : End If
             targets(i).drawTarget()
         Next
     End Sub

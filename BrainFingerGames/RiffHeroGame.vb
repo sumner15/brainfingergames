@@ -35,7 +35,7 @@ Public Class RiffHeroGame
 
     Public fretboard As Fretboard
     Private hitAttempted As Boolean = False
-    Private noteControl As Boolean = False
+    Private noteControl As Boolean = True
 
     Public secondHand As FingerBot
     Public bci2000 As BCI2000Exchange = Nothing
