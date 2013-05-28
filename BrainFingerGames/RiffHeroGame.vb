@@ -35,7 +35,7 @@ Public Class RiffHeroGame
 
     Public fretboard As Fretboard
     Private hitAttempted As Boolean = False
-    Private noteControl As Boolean = True
+    Private noteControl As Boolean = False
 
     Public secondHand As FingerBot
     Public bci2000 As BCI2000Exchange = Nothing
@@ -272,6 +272,17 @@ Public Class RiffHeroGame
     End Sub
 
     '----------------------------------------------------------------------------------'
+    '------------------------------ check brain states --------------------------------'
+    '----------------------------------------------------------------------------------'
+    ' this checks to see if the user is creating the proper brain states to bring notes onto the screen
+    Private Sub checkBrain()
+        'Write in brain logic here! tag: wadsworth
+        'if brain state = event related desynchronization
+        '   noteControl = True
+        'end if
+    End Sub
+
+    '----------------------------------------------------------------------------------'
     '------------------------------ update current note -------------------------------'
     '----------------------------------------------------------------------------------'
     ' this function checks if we have gone past the current note. If so, it sets the 
@@ -412,6 +423,8 @@ Public Class RiffHeroGame
             'Console.WriteLine("forcves toggled")
         ElseIf (AscW(e.KeyChar) = 27) Then
             Me.Exit()
+        ElseIf (e.KeyChar = "b") Then 'bci override
+            noteControl = True
         End If
     End Sub
 
@@ -552,6 +565,7 @@ Public Class RiffHeroGame
         End If
 
         checkHit()
+        checkBrain()
         updateCurrentNote()        
 
     End Sub

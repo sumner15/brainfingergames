@@ -1,4 +1,12 @@
-﻿Imports BCI2000AutomationLib
+﻿' tag: wadsworth -
+'In the BCI2000Exchange.vb class, I made a few additions (see Revision 23). I essentially copied the constructor and Update functions
+'in order to handle each of the current two games we are working with (rehabHero and riffHero). Of course, this isn't the cleanest 
+'way to do it. I have a suspicion that with the new way we are doing things, we should be able to pass in the fingerBot class only to 
+'the BCI2000Exchange constructor and its Update function. I don't want to go making that kind of high level reconstruction of the 
+'BCI2000 class, though. I just added the new constructor and Update function for the time being, but these should be deleted in the 
+'future, and BCI2000Exchange rewritten to handle several game types.  -Sumner
+
+Imports BCI2000AutomationLib
 
 Public Class BCI2000Exchange
 

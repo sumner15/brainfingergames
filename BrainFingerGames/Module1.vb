@@ -68,7 +68,7 @@ Module Module1
         If My.Computer.Name = "FINGER-HOSTUCI" Then
             TARGETIP = "129.101.53.73"
         ElseIf My.Computer.Name = "HOST2" Then
-            TARGETIP = "169.254.201.253" ' Wadsworth BCI setup
+            TARGETIP = "169.254.201.253" ' New York BCI setup
         Else
             TARGETIP = "129.101.53.73"
         End If
