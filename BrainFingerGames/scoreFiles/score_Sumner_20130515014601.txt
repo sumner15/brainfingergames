@@ -1,1 +1,0 @@
-stringNum	noteStime	TrueSuccess	perceivedSuccess

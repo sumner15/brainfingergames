@@ -1,6 +1,0 @@
-stringNum	noteStime	TrueSuccess	perceivedSuccess
-0	0	False	False
-2.25	3179.37199999985	False	False
-2.25	4769.05799999985	False	False
-0	6358.74399999985	False	False
-0	7948.42999999985	False	False
