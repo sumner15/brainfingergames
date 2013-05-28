@@ -90,7 +90,7 @@ Public Class GuitarString
     '----------------------------------------------------------------------------------'
     '------------------------------ draw upcoming notes -------------------------------'
     '----------------------------------------------------------------------------------'
-    Public Sub drawNotes(ByVal gameTime As Double)
+    Public Sub drawNotes(ByVal gameTime As Double, ByVal noteControl As Boolean)
         ' find the first note that is more than N seconds away
         Dim farNote As Integer
 
@@ -106,24 +106,26 @@ Public Class GuitarString
         Dim showNotes(farNote - nextNote) As Integer
         Dim notePos As Double
 
-        'now we can actually draw the upcoming notes
-        GL.Enable(EnableCap.Texture2D)
-        GL.BindTexture(TextureTarget.Texture2D, Note.textureID)
-        For i = nextNote To farNote Step 1
-            notePos = (noteTimes(i) - gameTime) * winSizeU / winSizeS
-            GL.PushMatrix()
-            GL.Translate(xPos, 0.125, -notePos)
-            Note.drawVbo()
-            GL.PopMatrix()
-            ' we want to draw the previous note if it was missed, but not if it was hit.
-            If Not hitLast Then
-                notePos = (noteTimes(previousNote) - gameTime) * winSizeU / winSizeS
+        If noteControl Then
+            'now we can actually draw the upcoming notes
+            GL.Enable(EnableCap.Texture2D)
+            GL.BindTexture(TextureTarget.Texture2D, Note.textureID)
+            For i = nextNote To farNote Step 1
+                notePos = (noteTimes(i) - gameTime) * winSizeU / winSizeS
                 GL.PushMatrix()
                 GL.Translate(xPos, 0.125, -notePos)
                 Note.drawVbo()
                 GL.PopMatrix()
-            End If
-        Next i
+                ' we want to draw the previous note if it was missed, but not if it was hit.
+                If Not hitLast Then
+                    notePos = (noteTimes(previousNote) - gameTime) * winSizeU / winSizeS
+                    GL.PushMatrix()
+                    GL.Translate(xPos, 0.125, -notePos)
+                    Note.drawVbo()
+                    GL.PopMatrix()
+                End If
+            Next i
+        End If
 
         ' advance next note and previous note
         If (noteTimes(nextNote) - gameTime < -(hitWin / 2)) And ((nextNote + 1) < (noteTimes.Length)) Then

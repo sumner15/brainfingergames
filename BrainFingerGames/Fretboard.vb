@@ -91,36 +91,6 @@ Public Class Fretboard
     '----------------------------------------------------------------------------------'
     '-------------------------------- drawing function --------------------------------'
     '----------------------------------------------------------------------------------'
-    ' draws the fretboard, the strings, and the targets
-    Public Sub draw(ByRef targetTime As Single)
-        'GL.Enable(EnableCap.Blend)
-        GL.Enable(EnableCap.Texture2D)
-        GL.PushMatrix()
-        GL.Translate(0.0, 0.0, fretBoardZ)
-        GL.BindTexture(TextureTarget.Texture2D, stage.textureID)
-        stage.drawVbo()
-        GL.PopMatrix()
-
-        GL.PushMatrix()
-        GL.Translate(0.0, 0.0, fretBoardZ - 18)
-        GL.BindTexture(TextureTarget.Texture2D, stage.textureID)
-        stage.drawVbo()
-        GL.PopMatrix()
-        'GL.Disable(EnableCap.Blend)
-
-        If (fretBoardZ >= 10) Then
-            fretBoardZ = -8
-        Else
-            fretBoardZ += winSizeU / winSizeS * timeSinceLastMove.ElapsedMilliseconds  ' clock.timeStep
-            timeSinceLastMove.Restart()
-        End If
-
-        For i = 0 To 4 Step 1
-            strings(i).drawNotes(targetTime)
-            targets(i).drawTarget()
-        Next
-    End Sub
-
     Public Sub draw(ByRef targetTime As Single, ByVal noteControl As Boolean)
         'GL.Enable(EnableCap.Blend)
         GL.Enable(EnableCap.Texture2D)
@@ -145,7 +115,7 @@ Public Class Fretboard
         End If
 
         For i = 0 To 4 Step 1
-            If noteControl Then : strings(i).drawNotes(targetTime) : End If
+            strings(i).drawNotes(targetTime, noteControl)
             targets(i).drawTarget()
         Next
     End Sub

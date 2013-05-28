@@ -36,6 +36,7 @@ Public Class RiffHeroGame
     Public fretboard As Fretboard
     Private hitAttempted As Boolean = False
     Private noteControl As Boolean = False
+    Private brainOverRide As Boolean = False
 
     Public secondHand As FingerBot
     Public bci2000 As BCI2000Exchange = Nothing
@@ -280,6 +281,10 @@ Public Class RiffHeroGame
         'if brain state = event related desynchronization
         '   noteControl = True
         'end if
+        If brainOverRide Then
+            noteControl = True
+            brainOverRide = False 'reset
+        End If
     End Sub
 
     '----------------------------------------------------------------------------------'
@@ -322,6 +327,7 @@ Public Class RiffHeroGame
 
             greatSuccess = False ' just resetting it            
             hitAttempted = False
+            noteControl = False
             secondHand.moveFingersToCurrent()
             fretboard.getNextNote(secondHand.targetTime) 'FIXME
 
@@ -424,7 +430,7 @@ Public Class RiffHeroGame
         ElseIf (AscW(e.KeyChar) = 27) Then
             Me.Exit()
         ElseIf (e.KeyChar = "b") Then 'bci override
-            noteControl = True
+            brainOverRide = True
         End If
     End Sub
 
