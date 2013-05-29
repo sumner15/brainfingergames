@@ -317,9 +317,9 @@ Public Class RiffHeroGame
             End If
 
             scorefile.WriteLine(fretboard.nextNotePos & vbTab & fretboard.nextNoteTime & vbTab & success & vbTab)
-            If success Then
+            If success And noteControl Then
                 possibleScore += 1 : score += 1 : setProgrssBar(score / possibleScore)
-            Else
+            ElseIf noteControl Then
                 possibleScore += 1 : setProgrssBar(score / possibleScore)
             End If
 
