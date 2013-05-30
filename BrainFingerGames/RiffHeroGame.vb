@@ -76,11 +76,11 @@ Public Class RiffHeroGame
     Private greatSuccess As Boolean = False    
     Private possibleScore As Integer = 0
     Private score As Integer = 0
+    Private riffLength As Integer = riffHeroSets.get_maxNumberNotesPerBurst
+    Private riffLengthCounter As Integer = 1
 
     Private debugFile As New StreamWriter(GAMEPATH & "scoreFiles\" & "whatsgoingon.txt")
     Private currentNote As Integer = 0
-
-    Private state As Integer = -1
 
     Public mySong As Song
     Public gameClock2 As New Stopwatch()
@@ -327,7 +327,12 @@ Public Class RiffHeroGame
 
             greatSuccess = False ' just resetting it            
             hitAttempted = False
-            noteControl = False
+            If riffLengthCounter <= riffLength Then
+                riffLengthCounter += 1
+            ElseIf riffLengthCounter > riffLength Then
+                noteControl = False
+                riffLengthCounter = 1
+            End If            
             secondHand.moveFingersToCurrent()
             fretboard.getNextNote(secondHand.targetTime) 'FIXME
 
@@ -572,7 +577,7 @@ Public Class RiffHeroGame
 
         checkHit()
         checkBrain()
-        updateCurrentNote()        
+        updateCurrentNote()
 
     End Sub
 

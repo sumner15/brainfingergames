@@ -1,6 +1,6 @@
 minMsecBetweenBursts: 300
 maxMsecBetweenBursts: 1000
-maxNumberNotesPerBurst: 1
+maxNumberNotesPerBurst: 3
 allowedReactionTime: 4991
 hitWindowSize: 400
 sucRate: 76
