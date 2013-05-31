@@ -90,30 +90,9 @@ Public Class GuitarString
     '----------------------------------------------------------------------------------'
     '------------------------------ draw upcoming notes -------------------------------'
     '----------------------------------------------------------------------------------'
-    Public Sub drawNotes(ByVal gameTime As Double, ByVal noteControl As Boolean)        
-        Dim farNote As Integer
-        Dim riffLength = riffHeroSets.get_maxNumberNotesPerBurst
-        Dim reactionTime = riffHeroSets.get_allowedReactionTime
+    Public Sub drawNotes(ByVal gameTime As Double, ByVal noteControl As Boolean)
 
-        Select Case currentGame
-            Case "Rehab_Hero"
-                For i = nextNote To (noteTimes.Length - 1) Step 1
-                    If ((noteTimes(i) - gameTime) > reactionTime) Then
-                        farNote = i - 1
-                        Exit For
-                    Else
-                        farNote = noteTimes.Length - 1
-                    End If
-                Next i
-                'Console.WriteLine("Rehab_Hero ::::  nextNote: " & nextNote & "   farNote: " & farNote)
-            Case "Riff_Hero"                
-                If nextNote + riffLength < noteTimes.Length - 1 Then
-                    farNote = nextNote  '+ riffLength  - 1
-                Else
-                    farNote = noteTimes.Length - 1
-                End If
-                'Console.WriteLine("Riff_Hero ::::  nextNote: " & nextNote & "   farNote: " & farNote)
-        End Select
+        farNote = findFarNote(gameTime)
 
         Dim showNotes(farNote - nextNote) As Integer
         Dim notePos As Double
@@ -146,6 +125,32 @@ Public Class GuitarString
         End If
 
     End Sub
+
+    Public Function findFarNote(ByVal gameTime)
+        Dim riffLength = riffHeroSets.get_maxNumberNotesPerBurst
+        Dim reactionTime = riffHeroSets.get_allowedReactionTime
+
+        Select Case currentGame
+            Case "Rehab_Hero"
+                For i = nextNote To (noteTimes.Length - 1) Step 1
+                    If ((noteTimes(i) - gameTime) > reactionTime) Then
+                        farNote = i - 1
+                        Exit For
+                    Else
+                        farNote = noteTimes.Length - 1
+                    End If
+                Next i
+                'Console.WriteLine("Rehab_Hero ::::  nextNote: " & nextNote & "   farNote: " & farNote)
+            Case "Riff_Hero"
+                If nextNote + riffLength < noteTimes.Length - 1 Then
+                    farNote = nextNote  '+ riffLength  - 1
+                Else
+                    farNote = noteTimes.Length - 1
+                End If
+                'Console.WriteLine("Riff_Hero ::::  nextNote: " & nextNote & "   farNote: " & farNote)
+        End Select
+        Return farNote
+    End Function
 
     '----------------------------------------------------------------------------------'
     '--------------------------------- check for hit ----------------------------------'
