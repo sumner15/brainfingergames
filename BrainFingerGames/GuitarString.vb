@@ -90,18 +90,30 @@ Public Class GuitarString
     '----------------------------------------------------------------------------------'
     '------------------------------ draw upcoming notes -------------------------------'
     '----------------------------------------------------------------------------------'
-    Public Sub drawNotes(ByVal gameTime As Double, ByVal noteControl As Boolean)
-        ' find the first note that is more than N seconds away
+    Public Sub drawNotes(ByVal gameTime As Double, ByVal noteControl As Boolean)        
         Dim farNote As Integer
+        Dim riffLength = riffHeroSets.get_maxNumberNotesPerBurst
+        Dim reactionTime = riffHeroSets.get_allowedReactionTime
 
-        For i = nextNote To (noteTimes.Length - 1) Step 1
-            If ((noteTimes(i) - gameTime) > 5000) Then
-                farNote = i - 1
-                Exit For
-            Else
-                farNote = noteTimes.Length - 1
-            End If
-        Next i
+        Select Case currentGame
+            Case "Rehab_Hero"
+                For i = nextNote To (noteTimes.Length - 1) Step 1
+                    If ((noteTimes(i) - gameTime) > reactionTime) Then
+                        farNote = i - 1
+                        Exit For
+                    Else
+                        farNote = noteTimes.Length - 1
+                    End If
+                Next i
+                'Console.WriteLine("Rehab_Hero ::::  nextNote: " & nextNote & "   farNote: " & farNote)
+            Case "Riff_Hero"                
+                If nextNote + riffLength < noteTimes.Length - 1 Then
+                    farNote = nextNote  '+ riffLength  - 1
+                Else
+                    farNote = noteTimes.Length - 1
+                End If
+                'Console.WriteLine("Riff_Hero ::::  nextNote: " & nextNote & "   farNote: " & farNote)
+        End Select
 
         Dim showNotes(farNote - nextNote) As Integer
         Dim notePos As Double
