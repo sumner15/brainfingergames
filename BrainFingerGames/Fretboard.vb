@@ -29,6 +29,8 @@ Public Class Fretboard
     Public nextNoteTime As Double
     Public previousNoteTime As Double = 0
 
+    Private noteCount As Integer()
+
     Public songOver As Boolean = False
 
     Private fretBoardZ As Single
@@ -114,10 +116,47 @@ Public Class Fretboard
             timeSinceLastMove.Restart()
         End If
 
+        'draw the notes and targets
+        prepareRiff()
         For i = 0 To 4 Step 1
-            strings(i).drawNotes(targetTime, noteControl)
+            strings(i).drawNotes(targetTime, noteControl, noteCount(i))
             targets(i).drawTarget()
         Next
+
+    End Sub
+
+
+    '----------------------------------------------------------------------------------'
+    '--------- Prepare array of note counts for each string (for a riff) --------------'
+    '----------------------------------------------------------------------------------'
+    Public Sub prepareRiff()    
+        Select Case currentGame
+            Case "Rehab_Hero"
+                noteCount = {0, 0, 0, 0, 0}
+
+            Case "Riff_Hero"
+                Dim riffLength = riffHeroSets.get_maxNumberNotesPerBurst
+                Dim nextNoteTime As Integer
+                Dim nextNoteTimes(4) As Integer
+                noteCount = {0, 0, 0, 0, 0}
+
+                ' find next note (N = # notes in riff) times   
+                For ii = 1 To riffLength
+                    For i = 0 To 4
+                        nextNoteTimes(i) = strings(i).noteTimes(strings(i).nextNote)                        
+                    Next
+                    nextNoteTime = Min(nextNoteTimes(0), Min(nextNoteTimes(1), nextNoteTimes(2)))
+
+                    For i = 0 To 4 'for each note
+                        'find the note that corresponds to the next time a note comes up
+                        If nextNoteTime = nextNoteTimes(i) Then
+                            noteCount(i) += 1
+                            Console.WriteLine("note count: " & noteCount(0) & noteCount(1) & noteCount(2) & noteCount(3) & noteCount(4))
+                        End If
+                    Next
+                Next
+            Case Else : MsgBox("No game selected")
+        End Select
     End Sub
 
     '----------------------------------------------------------------------------------'

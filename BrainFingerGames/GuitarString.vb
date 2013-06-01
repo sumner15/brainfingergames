@@ -90,9 +90,9 @@ Public Class GuitarString
     '----------------------------------------------------------------------------------'
     '------------------------------ draw upcoming notes -------------------------------'
     '----------------------------------------------------------------------------------'
-    Public Sub drawNotes(ByVal gameTime As Double, ByVal noteControl As Boolean)
+    Public Sub drawNotes(ByVal gameTime As Double, ByVal noteControl As Boolean, ByVal noteCount As Integer)
 
-        farNote = findFarNote(gameTime)
+        farNote = findFarNote(gameTime, noteCount)        
 
         Dim showNotes(farNote - nextNote) As Integer
         Dim notePos As Double
@@ -126,8 +126,7 @@ Public Class GuitarString
 
     End Sub
 
-    Public Function findFarNote(ByVal gameTime)
-        Dim riffLength = riffHeroSets.get_maxNumberNotesPerBurst
+    Private Function findFarNote(ByVal gameTime, ByVal noteCount)                
         Dim reactionTime = riffHeroSets.get_allowedReactionTime
 
         Select Case currentGame
@@ -141,14 +140,26 @@ Public Class GuitarString
                     End If
                 Next i
                 'Console.WriteLine("Rehab_Hero ::::  nextNote: " & nextNote & "   farNote: " & farNote)
+
             Case "Riff_Hero"
-                If nextNote + riffLength < noteTimes.Length - 1 Then
-                    farNote = nextNote  '+ riffLength  - 1
+                'make sure we haven't reached the end of the song                     
+                If ((nextNote + noteCount - 1) < (noteTimes.Length - 1)) Then
+                    farNote = nextNote + noteCount - 1
+                    'farNote = nextNote
+                    Console.WriteLine("note count " & noteCount)
                 Else
                     farNote = noteTimes.Length - 1
+                    Console.WriteLine("reached end of song? note count was: " & noteCount)
                 End If
-                'Console.WriteLine("Riff_Hero ::::  nextNote: " & nextNote & "   farNote: " & farNote)
+
+                ''dont render notes not yet on screen
+                'While ((noteTimes(farNote) - gameTime) > reactionTime)
+                '    farNote = farNote - 1
+                'End While
+
+
         End Select
+
         Return farNote
     End Function
 
