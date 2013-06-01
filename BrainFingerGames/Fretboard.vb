@@ -142,8 +142,8 @@ Public Class Fretboard
 
                 ' find next note (N = # notes in riff) times   
                 For ii = 1 To riffLength
-                    For i = 0 To 4
-                        nextNoteTimes(i) = strings(i).noteTimes(strings(i).nextNote)                        
+                    For i = 0 To 2                        
+                        nextNoteTimes(i) = strings(i).noteTimes(strings(i).nextNote + noteCount(i))
                     Next
                     nextNoteTime = Min(nextNoteTimes(0), Min(nextNoteTimes(1), nextNoteTimes(2)))
 
