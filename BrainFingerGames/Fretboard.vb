@@ -153,7 +153,7 @@ Public Class Fretboard
                         End If
                     Next
                 Next
-                Console.WriteLine("note count: " & noteCount(0) & " - " & noteCount(1) & " - " & noteCount(2))
+                'Console.WriteLine("note count: " & noteCount(0) & " - " & noteCount(1) & " - " & noteCount(2))
 
             Case Else : MsgBox("No game selected")
         End Select

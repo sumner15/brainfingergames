@@ -62,7 +62,7 @@ Module Module1
     End Sub
 
 
-    ''------------------------- complete context specific settup ------------------------''
+    ''------------------------- complete context specific setup ------------------------''
     '' Setup context specific values (like the IP address of the target computer)
     Sub setContextValues()
         If My.Computer.Name = "FINGER-HOSTUCI" Then

@@ -11,9 +11,12 @@ Imports OpenTK.Graphics.OpenGL
 Public Class GuitarString
     Public noteTimes() As Double
     Public hitTimes(0, 1) As Double  ' first column indicates whether or not the note was hit, the second column gives the time at which it was hit
+
     Public nextNote As Integer = 0
     Public farNote As Integer
-    Public previousNote As Integer = 0    
+    Public previousNote As Integer = 0
+    Private changedNote As Boolean = False
+
     Private hitLast As Boolean = False
     Private winSizeU As Double = 18    ' how far away the object is when it appears
     Public xPos As Double
@@ -117,10 +120,11 @@ Public Class GuitarString
             Next i
         End If
 
-        ' advance next note, previous note, and riff progress when we reach a new note
+        ' advance next note, previous note when we reach a new note
         If (noteTimes(nextNote) - gameTime < -(hitWin / 2)) And ((nextNote + 1) < (noteTimes.Length)) Then
             previousNote = nextNote
-            nextNote = nextNote + 1            
+            nextNote = nextNote + 1
+            changedNote = True            
         End If
 
     End Sub
@@ -188,6 +192,19 @@ Public Class GuitarString
         If (nextNote + 1) < (noteTimes.Length) Then
             Return False
         Else
+            Return True
+        End If
+    End Function
+
+    '----------------------------------------------------------------------------------'
+    '---------------------- check if we have reached a new note -----------------------'
+    '----------------------------------------------------------------------------------'
+
+    Public Function checkIfNewNote() As Boolean
+        If Not changedNote Then
+            Return False
+        Else
+            changedNote = False 'reset
             Return True
         End If
     End Function

@@ -293,30 +293,25 @@ Public Class RiffHeroGame
     '----------------------------------------------------------------------------------'
     ' this function checks if we have gone past the current note. If so, it sets the 
     ' next note as the current note and calculates the movements times for tapper.
+    ' this function now also controls the riff note count variable.
     Private Sub updateCurrentNote()
 
         Dim success As Boolean = greatSuccess
 
+        'use graphics-based timers to check if a new note was hit, and decrement riff note counts 
+        Dim changedNote As Boolean
+        For i = 0 To 2
+            changedNote = fretboard.strings(i).checkIfNewNote
+            If changedNote Then
+                fretboard.noteCount(i) -= 1
+            End If
+        Next
+
+        'use game-level timers to check if a note was hit. If so, sets next note, etc.
         If (secondHand.targetTime > (fretboard.nextNoteTime + fixedDur * 1000 + 75) And (Not fretboard.songOver)) Then
 
             Dim previousNote As Single
             previousNote = fretboard.nextNotePos
-
-            ' decrement the remaining notes in the riff (riff hero)            
-            Select Case previousNote
-                Case positions(0)
-                    If fretboard.noteCount(0) > 0 Then
-                        fretboard.noteCount(0) -= 1
-                    End If
-                Case positions(1)
-                    If fretboard.noteCount(1) > 0 Then
-                        fretboard.noteCount(1) -= 1
-                    End If
-                Case positions(2)
-                    If fretboard.noteCount(2) > 0 Then
-                        fretboard.noteCount(2) -= 1
-                    End If
-            End Select
 
             ' check if they attempted the hit and increases the gain if they didn't 
             If Not useExplicitGains Then
