@@ -340,17 +340,10 @@ Public Class RiffHeroGame
             greatSuccess = False ' just resetting it            
             hitAttempted = False
 
-            ' resetting the brainState (notes shown in riff hero) 
-            If riffLengthCounter <= riffLength Then
-                riffLengthCounter += 1
-            ElseIf riffLengthCounter > riffLength Then
-                brainState = False
-                riffLengthCounter = 1
-            End If
+            If brainState Then secondHand.moveFingersToCurrent()
+            fretboard.getNextNote(secondHand.targetTime)
 
-            secondHand.moveFingersToCurrent()
-            fretboard.getNextNote(secondHand.targetTime) 'FIXME
-
+            If brainState
             Select Case (fretboard.nextNotePos)
                 Case positions(0)
                     secondHand.moveFinger1((fretboard.nextNoteTime + trueStartUpDelay) / 1000)
@@ -361,7 +354,16 @@ Public Class RiffHeroGame
                 Case positions(2)
                     secondHand.moveFinger2((fretboard.nextNoteTime + trueStartUpDelay) / 1000)
                     Exit Select
-            End Select
+                End Select
+            End If
+
+            ' resetting the brainState (notes shown in riff hero) 
+            If riffLengthCounter <= riffLength Then
+                riffLengthCounter += 1
+            ElseIf riffLengthCounter > riffLength Then
+                brainState = False
+                riffLengthCounter = 1
+            End If
 
         End If
     End Sub
