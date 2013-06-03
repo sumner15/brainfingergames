@@ -29,7 +29,7 @@ Public Class Fretboard
     Public nextNoteTime As Double
     Public previousNoteTime As Double = 0
 
-    Private noteCount As Integer()
+    Public noteCount As Integer() = {0, 0, 0, 0, 0}
 
     Public songOver As Boolean = False
 
@@ -93,7 +93,7 @@ Public Class Fretboard
     '----------------------------------------------------------------------------------'
     '-------------------------------- drawing function --------------------------------'
     '----------------------------------------------------------------------------------'
-    Public Sub draw(ByRef targetTime As Single, ByVal noteControl As Boolean)
+    Public Sub draw(ByRef targetTime As Single, ByVal brainState As Boolean)
         'GL.Enable(EnableCap.Blend)
         GL.Enable(EnableCap.Texture2D)
         GL.PushMatrix()
@@ -116,10 +116,9 @@ Public Class Fretboard
             timeSinceLastMove.Restart()
         End If
 
-        'draw the notes and targets
-        prepareRiff()
+        'draw the notes and targets        
         For i = 0 To 4 Step 1
-            strings(i).drawNotes(targetTime, noteControl, noteCount(i))
+            strings(i).drawNotes(targetTime, brainState, noteCount(i))
             targets(i).drawTarget()
         Next
 
@@ -140,7 +139,7 @@ Public Class Fretboard
                 Dim nextNoteTimes(4) As Integer
                 noteCount = {0, 0, 0, 0, 0}
 
-                ' find next note (N = # notes in riff) times   
+                ' find next note (N = # notes in riff)-times   
                 For ii = 1 To riffLength
                     For i = 0 To 2                        
                         nextNoteTimes(i) = strings(i).noteTimes(strings(i).nextNote + noteCount(i))
@@ -150,11 +149,12 @@ Public Class Fretboard
                     For i = 0 To 4 'for each note
                         'find the note that corresponds to the next time a note comes up
                         If nextNoteTime = nextNoteTimes(i) Then
-                            noteCount(i) += 1
-                            Console.WriteLine("note count: " & noteCount(0) & noteCount(1) & noteCount(2) & noteCount(3) & noteCount(4))
+                            noteCount(i) += 1                            
                         End If
                     Next
                 Next
+                Console.WriteLine("note count: " & noteCount(0) & " - " & noteCount(1) & " - " & noteCount(2))
+
             Case Else : MsgBox("No game selected")
         End Select
     End Sub

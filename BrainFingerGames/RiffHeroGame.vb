@@ -35,7 +35,7 @@ Public Class RiffHeroGame
 
     Public fretboard As Fretboard
     Private hitAttempted As Boolean = False
-    Private noteControl As Boolean = False
+    Private brainState As Boolean = False
     Private brainOverRide As Boolean = False
 
     Public secondHand As FingerBot
@@ -73,7 +73,7 @@ Public Class RiffHeroGame
 
     Private scorefile As New StreamWriter(GAMEPATH & "scoreFiles\" & "score_" & currentSub.ID & "_" & String.Format("{0:yyyyMMddhhmmss}", Now) & ".txt")
     Private hitTimeFile As StreamWriter
-    Private greatSuccess As Boolean = False    
+    Private greatSuccess As Boolean = False
     Private possibleScore As Integer = 0
     Private score As Integer = 0
     Private riffLength As Integer = riffHeroSets.get_maxNumberNotesPerBurst
@@ -255,7 +255,7 @@ Public Class RiffHeroGame
     '-------------------------------- check tapper hit --------------------------------'
     '----------------------------------------------------------------------------------'
     ' this checks to see if tapper has moved into a hit window at the correct time    
-    Private Sub checkHit()        
+    Private Sub checkHit()
         checkFingerHit(fretboard)
 
         ' check if it was on time
@@ -279,10 +279,11 @@ Public Class RiffHeroGame
     Private Sub checkBrain()
         'Write in brain logic here! tag: wadsworth
         'if brain state = event related desynchronization
-        '   noteControl = True
+        '   brainState = True
         'end if
         If brainOverRide Then
-            noteControl = True
+            brainState = True
+            fretboard.prepareRiff()
             brainOverRide = False 'reset
         End If
     End Sub
@@ -297,29 +298,45 @@ Public Class RiffHeroGame
         Dim success As Boolean = greatSuccess
 
         If (secondHand.targetTime > (fretboard.nextNoteTime + fixedDur * 1000 + 75) And (Not fretboard.songOver)) Then
+
             Dim previousNote As Single
             previousNote = fretboard.nextNotePos
+
+            ' decrement the remaining notes in the riff (riff hero)            
+            Select Case previousNote
+                Case positions(0)
+                    If fretboard.noteCount(0) > 0 Then
+                        fretboard.noteCount(0) -= 1
+                    End If
+                Case positions(1)
+                    If fretboard.noteCount(1) > 0 Then
+                        fretboard.noteCount(1) -= 1
+                    End If
+                Case positions(2)
+                    If fretboard.noteCount(2) > 0 Then
+                        fretboard.noteCount(2) -= 1
+                    End If
+            End Select
+
             ' check if they attempted the hit and increases the gain if they didn't 
             If Not useExplicitGains Then
                 Select Case previousNote
-                    Case positions(0)
+                    Case positions(0)                        
                         If Not hitAttempted Then secondHand.incrementGains(increaseStepKp, 0)
                         Exit Select
-                    Case positions(1)
-                        If Not hitAttempted Then
-                            secondHand.incrementGains(increaseStepKp, increaseStepKp)
-                        End If
+                    Case positions(1)                        
+                        If Not hitAttempted Then secondHand.incrementGains(increaseStepKp, increaseStepKp)
                         Exit Select
-                    Case positions(2)
+                    Case positions(2)                        
                         If Not hitAttempted Then secondHand.incrementGains(0, increaseStepKp)
                         Exit Select
                 End Select
             End If
 
             scorefile.WriteLine(fretboard.nextNotePos & vbTab & fretboard.nextNoteTime & vbTab & success & vbTab)
-            If success And noteControl Then
+            If success And brainState Then
                 possibleScore += 1 : score += 1 : setProgrssBar(score / possibleScore)
-            ElseIf noteControl Then
+            ElseIf brainState Then
                 possibleScore += 1 : setProgrssBar(score / possibleScore)
             End If
 
@@ -327,12 +344,15 @@ Public Class RiffHeroGame
 
             greatSuccess = False ' just resetting it            
             hitAttempted = False
+
+            ' resetting the brainState (notes shown in riff hero) 
             If riffLengthCounter <= riffLength Then
                 riffLengthCounter += 1
             ElseIf riffLengthCounter > riffLength Then
-                noteControl = False
+                brainState = False
                 riffLengthCounter = 1
-            End If            
+            End If
+
             secondHand.moveFingersToCurrent()
             fretboard.getNextNote(secondHand.targetTime) 'FIXME
 
@@ -488,7 +508,7 @@ Public Class RiffHeroGame
         cloudBox.drawVbo()
         GL.PopMatrix()
 
-        fretboard.draw(secondHand.targetTime, noteControl)
+        fretboard.draw(secondHand.targetTime, brainState)
         drawModels()
 
         If Not zeroPosComplete Then zeroingInst.drawSign()
@@ -577,7 +597,7 @@ Public Class RiffHeroGame
 
         checkHit()
         checkBrain()
-        updateCurrentNote()
+        updateCurrentNote()        
 
     End Sub
 

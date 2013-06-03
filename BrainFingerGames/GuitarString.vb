@@ -13,7 +13,7 @@ Public Class GuitarString
     Public hitTimes(0, 1) As Double  ' first column indicates whether or not the note was hit, the second column gives the time at which it was hit
     Public nextNote As Integer = 0
     Public farNote As Integer
-    Public previousNote As Integer = 0
+    Public previousNote As Integer = 0    
     Private hitLast As Boolean = False
     Private winSizeU As Double = 18    ' how far away the object is when it appears
     Public xPos As Double
@@ -90,17 +90,16 @@ Public Class GuitarString
     '----------------------------------------------------------------------------------'
     '------------------------------ draw upcoming notes -------------------------------'
     '----------------------------------------------------------------------------------'
-    Public Sub drawNotes(ByVal gameTime As Double, ByVal noteControl As Boolean, ByVal noteCount As Integer)
+    Public Sub drawNotes(ByVal gameTime As Double, ByVal brainState As Boolean, ByVal noteCount As Integer)
 
-        farNote = findFarNote(gameTime, noteCount)        
+        farNote = findFarNote(gameTime, noteCount)
 
-        Dim showNotes(farNote - nextNote) As Integer
         Dim notePos As Double
 
-        If noteControl Then
-            'now we can actually draw the upcoming notes
-            GL.Enable(EnableCap.Texture2D)
-            GL.BindTexture(TextureTarget.Texture2D, Note.textureID)
+        'now we can actually draw the upcoming notes        
+        GL.Enable(EnableCap.Texture2D)
+        GL.BindTexture(TextureTarget.Texture2D, Note.textureID)
+        If farNote >= nextNote Then
             For i = nextNote To farNote Step 1
                 notePos = (noteTimes(i) - gameTime) * winSizeU / winSizeS
                 GL.PushMatrix()
@@ -118,15 +117,15 @@ Public Class GuitarString
             Next i
         End If
 
-        ' advance next note and previous note
+        ' advance next note, previous note, and riff progress when we reach a new note
         If (noteTimes(nextNote) - gameTime < -(hitWin / 2)) And ((nextNote + 1) < (noteTimes.Length)) Then
             previousNote = nextNote
-            nextNote = nextNote + 1
+            nextNote = nextNote + 1            
         End If
 
     End Sub
 
-    Private Function findFarNote(ByVal gameTime, ByVal noteCount)                
+    Private Function findFarNote(ByVal gameTime, ByVal noteCount)
         Dim reactionTime = riffHeroSets.get_allowedReactionTime
 
         Select Case currentGame
@@ -139,24 +138,18 @@ Public Class GuitarString
                         farNote = noteTimes.Length - 1
                     End If
                 Next i
-                'Console.WriteLine("Rehab_Hero ::::  nextNote: " & nextNote & "   farNote: " & farNote)
 
             Case "Riff_Hero"
                 'make sure we haven't reached the end of the song                     
                 If ((nextNote + noteCount - 1) < (noteTimes.Length - 1)) Then
-                    farNote = nextNote + noteCount - 1
-                    'farNote = nextNote
-                    Console.WriteLine("note count " & noteCount)
+                    If noteCount > 0 Then
+                        farNote = nextNote + noteCount - 1
+                    Else
+                        farNote = nextNote - 1
+                    End If
                 Else
                     farNote = noteTimes.Length - 1
-                    Console.WriteLine("reached end of song? note count was: " & noteCount)
                 End If
-
-                ''dont render notes not yet on screen
-                'While ((noteTimes(farNote) - gameTime) > reactionTime)
-                '    farNote = farNote - 1
-                'End While
-
 
         End Select
 
