@@ -357,10 +357,20 @@ Public Class RiffHeroGame
         '   fretboard.prepareRiff()        
         'end if
         If brainOverRide Then
+            'if we are past the minimum time between riffs
             If absoluteTimer.ElapsedMilliseconds - lastRiffEndTime > riffHeroSets.get_minMsecBetweenBursts Then
-                Console.WriteLine("Brain state over-ride initiated.")
-                brainState = True                
-                fretboard.prepareRiff()
+                'wait until we have passed a new note
+                Dim newNote As Boolean = False
+                For i = 0 To 2
+                    If fretboard.strings(i).checkIfNewNote Then : newNote = True : End If
+                Next
+                If newNote Then
+                    Console.WriteLine("Brain state over-ride initiated.")
+                    brainState = True
+                    fretboard.prepareRiff()
+                Else
+                    Return
+                End If
             Else
                 Console.WriteLine("Brain state over-ride not possible. There must be " & CStr((riffHeroSets.get_minMsecBetweenBursts / 1000)) & " seconds between riffs")
             End If
@@ -536,9 +546,8 @@ Public Class RiffHeroGame
             'Console.WriteLine("forcves toggled")
         ElseIf (AscW(e.KeyChar) = 27) Then
             Me.Exit()
-        ElseIf (e.KeyChar = "b") Then 'bci override
-            Console.WriteLine("keyboard pressed: b")
-            If exhibitionComplete = True Then brainOverRide = True : Console.WriteLine("brainOverRide set to true") '(doesn't work during exhibition)
+        ElseIf (e.KeyChar = "b") Then 'bci override            
+            If exhibitionComplete = True Then brainOverRide = True '(doesn't work during exhibition)
         End If
     End Sub
 
