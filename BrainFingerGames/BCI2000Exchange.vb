@@ -34,8 +34,8 @@ Public Class BCI2000Exchange
     Private operatorWindow As Boolean = False
     Private verbose As Boolean = False
     Private visualize As Boolean = True
-    Private udpIncomingPort As Integer = 0 ' specify port number, or 0 to use BCI2000Automation calls for incoming updates instead
-    Private udpOutgoingPort As Integer = 0 ' specify port number, or 0 to use BCI2000Automation calls for outgoing updates instead
+    Private udpIncomingPort As Integer = 4567 ' specify port number, or 0 to use BCI2000Automation calls for incoming updates instead
+    Private udpOutgoingPort As Integer = 5678 ' specify port number, or 0 to use BCI2000Automation calls for outgoing updates instead
     ' TODO: ideally we would get rid of the udp communication and use BCI2000Automation COM calls exclusively, making for much simpler vb code in this file, but currently each interpreter command takes too long to return (Juergen will try to fix this)
 #End Region
 
@@ -69,6 +69,10 @@ Public Class BCI2000Exchange
         ExecuteScript("ADD PARAMETER Application:FingerBot  floatlist AssistiveGains=       2   0 0   % 0 %")
         ExecuteScript("ADD PARAMETER Application:RehabHeroGame   string    SongPath=                 %     % % %")
         ExecuteScript("ADD PARAMETER Application:RehabHeroGame   int       NumberOfNotes=            0     0 0 %")
+        If currentGame = "Riff_Hero" Then
+            ExecuteScript("ADD PARAMETER Application:SongGame   float     MinMsecBetweenBursts=     0     0 0 %")
+            ExecuteScript("ADD PARAMETER Application:SongGame   int       MaxNotesPerBurst=         1     1 1 %")
+        End If
 
         ExecuteScript("ADD STATE FingerBotPosF1      32 0")
         ExecuteScript("ADD STATE FingerBotVelF1      32 0")
@@ -118,6 +122,10 @@ Public Class BCI2000Exchange
         SetParameter("FingerBotHandedness", If(game.secondHand.rightHandMode, "right", "left"))
         SetParameter("SongPath", game.mySong.songPath)
         SetParameter("NumberOfNotes", game.fretboard.numNotes)
+        If currentGame = "Riff_Hero" Then
+            SetParameter("MinMsecBetweenBursts", riffHeroSets.get_minMsecBetweenBursts())
+            SetParameter("MaxNotesPerBurst", riffHeroSets.get_maxNumberNotesPerBurst())
+        End If
         Dim propGains As Single() = game.secondHand.getPropGains()
         SetParameter("Application:FingerBot floatlist AssistiveGains= 2 " & propGains(0) & " " & propGains(1)) ' TODO: do these values make sense?
         ' TODO: gains are internally called Kp1 and Kp2, BUT it seems like this might be a different "1"/"2" convention from F1/F2 because
