@@ -22,11 +22,11 @@
     '--------------------------------------------------------------------------------'
 #Region "HSB value labels"
     Private Sub minMsecBetweenBurstsHSB_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles minMsecBetweenBurstsHSB.Scroll
-        minBurstValLbl.Text = CStr(CSng(minMsecBetweenBurstsHSB.Value))
+        minBurstValLbl.Text = CStr(CSng(minMsecBetweenBurstsHSB.Value / 1000))
     End Sub
 
     Private Sub maxMsecBetweenBurstsHSB_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles maxMsecBetweenBurstsHSB.Scroll
-        maxBurstValLbl.Text = CStr(CSng(maxMsecBetweenBurstsHSB.Value))
+        maxBurstValLbl.Text = CStr(CSng(maxMsecBetweenBurstsHSB.Value / 1000))
     End Sub
 
     Private Sub maxNotesPerRiffHSB_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles maxNotesPerRiffHSB.Scroll
@@ -174,8 +174,8 @@
 
     Private Sub set_allLabels()
         'this function's purpose is to refresh the labels next to each scroll bar
-        minBurstValLbl.Text = CStr(CSng(minMsecBetweenBurstsHSB.Value))
-        maxBurstValLbl.Text = CStr(CSng(maxMsecBetweenBurstsHSB.Value))
+        minBurstValLbl.Text = CStr(CSng(minMsecBetweenBurstsHSB.Value) / 1000)
+        maxBurstValLbl.Text = CStr(CSng(maxMsecBetweenBurstsHSB.Value) / 1000)
         maxNotesValLbl.Text = CStr(CSng(maxNotesPerRiffHSB.Value))
         reactionTimeValLbl.Text = CStr(CSng(reactionTimeHSB.Value))
         hitWindowValLbl.Text = CStr(CSng(hitWindowSizeHSB.Value))

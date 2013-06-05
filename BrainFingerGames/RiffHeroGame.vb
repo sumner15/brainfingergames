@@ -89,6 +89,7 @@ Public Class RiffHeroGame
     Public mySong As Song
     Public gameClock2 As New Stopwatch()
     Public absoluteTimer As New Stopwatch()
+    Private lastRiffStartTime As Double = 15000
     Private theEnd As Boolean = False
 
     Private legend As New Model("legend", "legendTile", {-Width / 50 + 5, 0.5 * (Height / 50), -6.0}, {90.0, 0.0, 0.0}, 1.5 * Width / Height)
@@ -574,10 +575,11 @@ Public Class RiffHeroGame
     End Sub
 
     '----------------------------------------------------------------------------------'
-    '----------------------------- Here's my state machine ----------------------------'
+    '----------------------------- Here's my STATE MACHINE ----------------------------'
     '----------------------------------------------------------------------------------'
     Private Sub gameStates()
 
+        '-------------------- zeroing process -----------------------------------------'
         If Not zeroPosComplete Then ' check if we are currently zeroing the robot                                
             If startupTimer.ElapsedMilliseconds > 5000 Then
                 secondHand.toreGame()                
@@ -586,6 +588,7 @@ Public Class RiffHeroGame
                 mySong.player.Paused = False
                 trueStartUpDelay = startupTimer.ElapsedMilliseconds
                 zeroPosComplete = True
+                exhibitStartTime = absoluteTimer.ElapsedMilliseconds
                 If useExplicitGains Then
                     secondHand.setGainsExplicitly(explicitGains)
                 End If
@@ -593,26 +596,37 @@ Public Class RiffHeroGame
             Return
         End If
 
-        If Not exhibitionComplete Then
-            If Not exhibitStartTime > 0 Then exhibitStartTime = absoluteTimer.ElapsedMilliseconds
-            'pause before riff
-            If absoluteTimer.ElapsedMilliseconds < exhibitStartTime + 6000 Then Return
-            brainOverRide = True
-            'pause to complete riff 
-            While absoluteTimer.ElapsedMilliseconds > exhibitStartTime + 10000
-                checkHit()
-                checkBrain()
-                updateCurrentNote()
-            End While
-            exhibitionComplete = True : exhibitStartTime = 0
+        '-------------------- exhibition mode -----------------------------------------'
+        'if the participant has taken too long, then we put them back in exhibition mode
+        If exhibitionComplete And absoluteTimer.ElapsedMilliseconds - lastRiffStartTime > riffHeroSets.get_maxMsecBetweenBursts Then
+            exhibitionComplete = False
+            exhibitStartTime = absoluteTimer.ElapsedMilliseconds
+            Console.WriteLine("exhibition mode re-entered")
         End If
 
+
+        If Not exhibitionComplete And zeroPosComplete Then
+            'pause before riff
+            If absoluteTimer.ElapsedMilliseconds < exhibitStartTime + 5000 Then
+                checkHit() : updateCurrentNote() : brainOverRide = True : Return
+            End If
+
+            'pause to complete riff 
+            If absoluteTimer.ElapsedMilliseconds > exhibitStartTime + 10000 Then
+                checkHit() : checkBrain() : updateCurrentNote() : Return
+            End If
+
+            exhibitionComplete = True
+            lastRiffStartTime = absoluteTimer.ElapsedMilliseconds
+        End If
+
+        '-------------------------- song end ------------------------------------------'
         If (mySong.player.Finished) And Not theEnd Then
             theEnd = True
             scoreText = New TextSign("you scored " & CStr(score) & " out of " & CStr(possibleScore))
         End If
 
-
+        '-------------------------- normal operation ---------------------------------'
         checkHit()
         checkBrain()
         updateCurrentNote()

@@ -66,8 +66,8 @@ Public Class GuitarSettings
     '--------------------------------------------------------------------------------'
     Public Sub readGameSetFile()
         Dim gameSetDic As FileDict = New FileDict(GAMEPATH & "Studies\" & settingsFileName & ".txt")
-        minMsecBetweenBursts = gameSetDic.Lookup("minMsecBetweenBursts", "300")
-        maxMsecBetweenBursts = gameSetDic.Lookup("maxMsecBetweenBursts", "1000")
+        minMsecBetweenBursts = gameSetDic.Lookup("minMsecBetweenBursts", "3000")
+        maxMsecBetweenBursts = gameSetDic.Lookup("maxMsecBetweenBursts", "7000")
         maxNumberNotesPerBurst = gameSetDic.Lookup("maxNumberNotesPerBurst", "1")
         allowedReactionTime = gameSetDic.Lookup("allowedReactionTime", "1000")
         hitWindowSize = gameSetDic.Lookup("hitWindowSize", "500")
