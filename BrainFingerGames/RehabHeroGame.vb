@@ -469,7 +469,7 @@ Public Class RehabHeroGame
         cloudBox.drawVbo()
         GL.PopMatrix()
 
-        fretboard.draw(secondHand.targetTime)
+        fretboard.draw(secondHand.targetTime, True)
         drawModels()
 
         If Not zeroPosComplete Then zeroingInst.drawSign()

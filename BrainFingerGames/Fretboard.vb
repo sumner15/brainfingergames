@@ -29,6 +29,8 @@ Public Class Fretboard
     Public nextNoteTime As Double
     Public previousNoteTime As Double = 0
 
+    Public noteCount As Integer() = {0, 0, 0, 0, 0}
+
     Public songOver As Boolean = False
 
     Private fretBoardZ As Single
@@ -91,8 +93,7 @@ Public Class Fretboard
     '----------------------------------------------------------------------------------'
     '-------------------------------- drawing function --------------------------------'
     '----------------------------------------------------------------------------------'
-    ' draws the fretboard, the strings, and the targets
-    Public Sub draw(ByRef targetTime As Single)
+    Public Sub draw(ByRef targetTime As Single, ByVal brainState As Boolean)
         'GL.Enable(EnableCap.Blend)
         GL.Enable(EnableCap.Texture2D)
         GL.PushMatrix()
@@ -115,10 +116,47 @@ Public Class Fretboard
             timeSinceLastMove.Restart()
         End If
 
+        'draw the notes and targets        
         For i = 0 To 4 Step 1
-            strings(i).drawNotes(targetTime)
+            strings(i).drawNotes(targetTime, brainState, noteCount(i))
             targets(i).drawTarget()
         Next
+
+    End Sub
+
+
+    '----------------------------------------------------------------------------------'
+    '--------- Prepare array of note counts for each string (for a riff) --------------'
+    '----------------------------------------------------------------------------------'
+    Public Sub prepareRiff()    
+        Select Case currentGame
+            Case "Rehab_Hero"
+                noteCount = {0, 0, 0, 0, 0}
+
+            Case "Riff_Hero"
+                Dim riffLength = riffHeroSets.get_maxNumberNotesPerBurst
+                Dim nextNoteTime As Integer
+                Dim nextNoteTimes(4) As Integer
+                noteCount = {0, 0, 0, 0, 0}
+
+                ' find next note (N = # notes in riff)-times   
+                For ii = 1 To riffLength
+                    For i = 0 To 2                        
+                        nextNoteTimes(i) = strings(i).noteTimes(strings(i).nextNote + noteCount(i))
+                    Next
+                    nextNoteTime = Min(nextNoteTimes(0), Min(nextNoteTimes(1), nextNoteTimes(2)))
+
+                    For i = 0 To 4 'for each note
+                        'find the note that corresponds to the next time a note comes up
+                        If nextNoteTime = nextNoteTimes(i) Then
+                            noteCount(i) += 1                            
+                        End If
+                    Next
+                Next
+                'Console.WriteLine("note count: " & noteCount(0) & " - " & noteCount(1) & " - " & noteCount(2))
+
+            Case Else : MsgBox("No game selected")
+        End Select
     End Sub
 
     '----------------------------------------------------------------------------------'
@@ -228,7 +266,8 @@ Public Class Fretboard
             End If
         Next
 
-        previousNoteTime = checkNextNoteT ' every once in a while this wierd thing happends where it suddenly wants to skip a bunch of notes in a row. I think that means that it's current note is set in the past.
+        previousNoteTime = checkNextNoteT ' every once in a while this wierd thing happends where it suddenly wants to skip a 
+        'bunch of notes in a row. I think that means that it's current note is set in the past.
 
         ' only update them if the value is in the future!
         If (soonestNote(0) > currentTime) Then
@@ -299,7 +338,7 @@ Public Class Fretboard
             Next
             Return newNoteTimes
         Else
-            MsgBox("tried to take every " & CStr(n) & "th note - n must be >= 1. we just used all the notes isntead")
+            MsgBox("tried to take every " & CStr(n) & "th note - n must be >= 1. we just used all the notes instead")
             Return noteTimeArray
         End If
 

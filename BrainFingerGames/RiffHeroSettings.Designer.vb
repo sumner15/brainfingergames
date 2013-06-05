@@ -58,12 +58,12 @@ Partial Class RiffHeroSettings
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
-        Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.Panel5 = New System.Windows.Forms.Panel()
-        Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.takeNthNoteLbl = New System.Windows.Forms.Label()
         Me.takeNthNoteHSB = New System.Windows.Forms.HScrollBar()
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.Panel4.SuspendLayout()
@@ -84,7 +84,7 @@ Partial Class RiffHeroSettings
         'hitWindowValLbl
         '
         Me.hitWindowValLbl.AutoSize = True
-        Me.hitWindowValLbl.Location = New System.Drawing.Point(179, 74)
+        Me.hitWindowValLbl.Location = New System.Drawing.Point(179, 82)
         Me.hitWindowValLbl.Name = "hitWindowValLbl"
         Me.hitWindowValLbl.Size = New System.Drawing.Size(25, 13)
         Me.hitWindowValLbl.TabIndex = 94
@@ -92,7 +92,7 @@ Partial Class RiffHeroSettings
         '
         'hitWindowSizeHSB
         '
-        Me.hitWindowSizeHSB.Location = New System.Drawing.Point(15, 74)
+        Me.hitWindowSizeHSB.Location = New System.Drawing.Point(15, 82)
         Me.hitWindowSizeHSB.Maximum = 1000
         Me.hitWindowSizeHSB.Minimum = 50
         Me.hitWindowSizeHSB.Name = "hitWindowSizeHSB"
@@ -103,7 +103,7 @@ Partial Class RiffHeroSettings
         'hitWindowSizeLbl
         '
         Me.hitWindowSizeLbl.AutoSize = True
-        Me.hitWindowSizeLbl.Location = New System.Drawing.Point(12, 61)
+        Me.hitWindowSizeLbl.Location = New System.Drawing.Point(12, 69)
         Me.hitWindowSizeLbl.Name = "hitWindowSizeLbl"
         Me.hitWindowSizeLbl.Size = New System.Drawing.Size(150, 13)
         Me.hitWindowSizeLbl.TabIndex = 92
@@ -124,7 +124,7 @@ Partial Class RiffHeroSettings
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(26, 9)
+        Me.Label3.Location = New System.Drawing.Point(26, 11)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(187, 16)
         Me.Label3.TabIndex = 90
@@ -143,7 +143,7 @@ Partial Class RiffHeroSettings
         'explicitGainsLbl
         '
         Me.explicitGainsLbl.AutoSize = True
-        Me.explicitGainsLbl.Location = New System.Drawing.Point(151, 104)
+        Me.explicitGainsLbl.Location = New System.Drawing.Point(151, 98)
         Me.explicitGainsLbl.Name = "explicitGainsLbl"
         Me.explicitGainsLbl.Size = New System.Drawing.Size(13, 13)
         Me.explicitGainsLbl.TabIndex = 88
@@ -153,7 +153,7 @@ Partial Class RiffHeroSettings
         'useExplicitGainsBtn
         '
         Me.useExplicitGainsBtn.AutoSize = True
-        Me.useExplicitGainsBtn.Location = New System.Drawing.Point(15, 84)
+        Me.useExplicitGainsBtn.Location = New System.Drawing.Point(15, 78)
         Me.useExplicitGainsBtn.Name = "useExplicitGainsBtn"
         Me.useExplicitGainsBtn.Size = New System.Drawing.Size(111, 17)
         Me.useExplicitGainsBtn.TabIndex = 87
@@ -163,7 +163,7 @@ Partial Class RiffHeroSettings
         'GainsHSB
         '
         Me.GainsHSB.LargeChange = 15
-        Me.GainsHSB.Location = New System.Drawing.Point(16, 107)
+        Me.GainsHSB.Location = New System.Drawing.Point(16, 101)
         Me.GainsHSB.Maximum = 45
         Me.GainsHSB.Name = "GainsHSB"
         Me.GainsHSB.Size = New System.Drawing.Size(138, 10)
@@ -267,7 +267,7 @@ Partial Class RiffHeroSettings
         'reactionTimeValLbl
         '
         Me.reactionTimeValLbl.AutoSize = True
-        Me.reactionTimeValLbl.Location = New System.Drawing.Point(179, 38)
+        Me.reactionTimeValLbl.Location = New System.Drawing.Point(179, 46)
         Me.reactionTimeValLbl.Name = "reactionTimeValLbl"
         Me.reactionTimeValLbl.Size = New System.Drawing.Size(31, 13)
         Me.reactionTimeValLbl.TabIndex = 72
@@ -275,7 +275,7 @@ Partial Class RiffHeroSettings
         '
         'reactionTimeHSB
         '
-        Me.reactionTimeHSB.Location = New System.Drawing.Point(15, 38)
+        Me.reactionTimeHSB.Location = New System.Drawing.Point(15, 46)
         Me.reactionTimeHSB.Maximum = 5000
         Me.reactionTimeHSB.Minimum = 200
         Me.reactionTimeHSB.Name = "reactionTimeHSB"
@@ -297,18 +297,18 @@ Partial Class RiffHeroSettings
         Me.maxBurstValLbl.AutoSize = True
         Me.maxBurstValLbl.Location = New System.Drawing.Point(191, 100)
         Me.maxBurstValLbl.Name = "maxBurstValLbl"
-        Me.maxBurstValLbl.Size = New System.Drawing.Size(31, 13)
+        Me.maxBurstValLbl.Size = New System.Drawing.Size(13, 13)
         Me.maxBurstValLbl.TabIndex = 69
-        Me.maxBurstValLbl.Text = "1000"
+        Me.maxBurstValLbl.Text = "7"
         '
         'minBurstValLbl
         '
         Me.minBurstValLbl.AutoSize = True
         Me.minBurstValLbl.Location = New System.Drawing.Point(191, 74)
         Me.minBurstValLbl.Name = "minBurstValLbl"
-        Me.minBurstValLbl.Size = New System.Drawing.Size(25, 13)
+        Me.minBurstValLbl.Size = New System.Drawing.Size(13, 13)
         Me.minBurstValLbl.TabIndex = 68
-        Me.minBurstValLbl.Text = "300"
+        Me.minBurstValLbl.Text = "3"
         '
         'maxNotesPerRiffHSB
         '
@@ -324,27 +324,29 @@ Partial Class RiffHeroSettings
         'maxMsecBetweenBurstsHSB
         '
         Me.maxMsecBetweenBurstsHSB.Location = New System.Drawing.Point(27, 100)
-        Me.maxMsecBetweenBurstsHSB.Maximum = 2000
-        Me.maxMsecBetweenBurstsHSB.Minimum = 50
+        Me.maxMsecBetweenBurstsHSB.Maximum = 10000
+        Me.maxMsecBetweenBurstsHSB.Minimum = 4000
         Me.maxMsecBetweenBurstsHSB.Name = "maxMsecBetweenBurstsHSB"
         Me.maxMsecBetweenBurstsHSB.Size = New System.Drawing.Size(161, 13)
+        Me.maxMsecBetweenBurstsHSB.SmallChange = 10
         Me.maxMsecBetweenBurstsHSB.TabIndex = 66
-        Me.maxMsecBetweenBurstsHSB.Value = 1000
+        Me.maxMsecBetweenBurstsHSB.Value = 7000
         '
         'minMsecBetweenBurstsHSB
         '
         Me.minMsecBetweenBurstsHSB.Location = New System.Drawing.Point(27, 74)
-        Me.minMsecBetweenBurstsHSB.Maximum = 999
+        Me.minMsecBetweenBurstsHSB.Maximum = 6000
         Me.minMsecBetweenBurstsHSB.Minimum = 1
         Me.minMsecBetweenBurstsHSB.Name = "minMsecBetweenBurstsHSB"
         Me.minMsecBetweenBurstsHSB.Size = New System.Drawing.Size(161, 13)
+        Me.minMsecBetweenBurstsHSB.SmallChange = 10
         Me.minMsecBetweenBurstsHSB.TabIndex = 65
-        Me.minMsecBetweenBurstsHSB.Value = 300
+        Me.minMsecBetweenBurstsHSB.Value = 3000
         '
         'allowedReactionTimeLbl
         '
         Me.allowedReactionTimeLbl.AutoSize = True
-        Me.allowedReactionTimeLbl.Location = New System.Drawing.Point(12, 25)
+        Me.allowedReactionTimeLbl.Location = New System.Drawing.Point(12, 33)
         Me.allowedReactionTimeLbl.Name = "allowedReactionTimeLbl"
         Me.allowedReactionTimeLbl.Size = New System.Drawing.Size(197, 13)
         Me.allowedReactionTimeLbl.TabIndex = 64
@@ -364,18 +366,18 @@ Partial Class RiffHeroSettings
         Me.maxMsecBetweenBurstsLbl.AutoSize = True
         Me.maxMsecBetweenBurstsLbl.Location = New System.Drawing.Point(24, 87)
         Me.maxMsecBetweenBurstsLbl.Name = "maxMsecBetweenBurstsLbl"
-        Me.maxMsecBetweenBurstsLbl.Size = New System.Drawing.Size(152, 13)
+        Me.maxMsecBetweenBurstsLbl.Size = New System.Drawing.Size(144, 13)
         Me.maxMsecBetweenBurstsLbl.TabIndex = 62
-        Me.maxMsecBetweenBurstsLbl.Text = "Maximum msec between ""riffs"""
+        Me.maxMsecBetweenBurstsLbl.Text = "Maximum sec between ""riffs"""
         '
         'minMsecBetweenBurstsLbl
         '
         Me.minMsecBetweenBurstsLbl.AutoSize = True
         Me.minMsecBetweenBurstsLbl.Location = New System.Drawing.Point(24, 61)
         Me.minMsecBetweenBurstsLbl.Name = "minMsecBetweenBurstsLbl"
-        Me.minMsecBetweenBurstsLbl.Size = New System.Drawing.Size(149, 13)
+        Me.minMsecBetweenBurstsLbl.Size = New System.Drawing.Size(141, 13)
         Me.minMsecBetweenBurstsLbl.TabIndex = 61
-        Me.minMsecBetweenBurstsLbl.Text = "Minimum msec between ""riffs"""
+        Me.minMsecBetweenBurstsLbl.Text = "Minimum sec between ""riffs"""
         '
         'Panel1
         '
@@ -407,8 +409,37 @@ Partial Class RiffHeroSettings
         Me.Panel3.Controls.Add(Me.hitWindowSizeLbl)
         Me.Panel3.Location = New System.Drawing.Point(12, 162)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(246, 132)
+        Me.Panel3.Size = New System.Drawing.Size(246, 143)
         Me.Panel3.TabIndex = 98
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(14, 102)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(105, 13)
+        Me.Label5.TabIndex = 97
+        Me.Label5.Text = "Take every Nth note"
+        '
+        'takeNthNoteLbl
+        '
+        Me.takeNthNoteLbl.AutoSize = True
+        Me.takeNthNoteLbl.Location = New System.Drawing.Point(179, 115)
+        Me.takeNthNoteLbl.Name = "takeNthNoteLbl"
+        Me.takeNthNoteLbl.Size = New System.Drawing.Size(25, 13)
+        Me.takeNthNoteLbl.TabIndex = 96
+        Me.takeNthNoteLbl.Text = "500"
+        '
+        'takeNthNoteHSB
+        '
+        Me.takeNthNoteHSB.LargeChange = 1
+        Me.takeNthNoteHSB.Location = New System.Drawing.Point(15, 115)
+        Me.takeNthNoteHSB.Maximum = 5
+        Me.takeNthNoteHSB.Minimum = 1
+        Me.takeNthNoteHSB.Name = "takeNthNoteHSB"
+        Me.takeNthNoteHSB.Size = New System.Drawing.Size(161, 13)
+        Me.takeNthNoteHSB.TabIndex = 95
+        Me.takeNthNoteHSB.Value = 5
         '
         'Panel4
         '
@@ -436,39 +467,10 @@ Partial Class RiffHeroSettings
         Me.Panel6.Controls.Add(Me.explicitGainsLbl)
         Me.Panel6.Controls.Add(Me.useExplicitGainsBtn)
         Me.Panel6.Controls.Add(Me.GainsHSB)
-        Me.Panel6.Location = New System.Drawing.Point(12, 300)
+        Me.Panel6.Location = New System.Drawing.Point(12, 311)
         Me.Panel6.Name = "Panel6"
-        Me.Panel6.Size = New System.Drawing.Size(246, 133)
+        Me.Panel6.Size = New System.Drawing.Size(246, 122)
         Me.Panel6.TabIndex = 99
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(14, 94)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(105, 13)
-        Me.Label5.TabIndex = 97
-        Me.Label5.Text = "Take every Nth note"
-        '
-        'takeNthNoteLbl
-        '
-        Me.takeNthNoteLbl.AutoSize = True
-        Me.takeNthNoteLbl.Location = New System.Drawing.Point(179, 107)
-        Me.takeNthNoteLbl.Name = "takeNthNoteLbl"
-        Me.takeNthNoteLbl.Size = New System.Drawing.Size(25, 13)
-        Me.takeNthNoteLbl.TabIndex = 96
-        Me.takeNthNoteLbl.Text = "500"
-        '
-        'takeNthNoteHSB
-        '
-        Me.takeNthNoteHSB.LargeChange = 1
-        Me.takeNthNoteHSB.Location = New System.Drawing.Point(15, 107)
-        Me.takeNthNoteHSB.Maximum = 5
-        Me.takeNthNoteHSB.Minimum = 1
-        Me.takeNthNoteHSB.Name = "takeNthNoteHSB"
-        Me.takeNthNoteHSB.Size = New System.Drawing.Size(161, 13)
-        Me.takeNthNoteHSB.TabIndex = 95
-        Me.takeNthNoteHSB.Value = 5
         '
         'RiffHeroSettings
         '

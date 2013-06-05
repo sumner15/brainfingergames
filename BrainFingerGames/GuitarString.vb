@@ -11,9 +11,12 @@ Imports OpenTK.Graphics.OpenGL
 Public Class GuitarString
     Public noteTimes() As Double
     Public hitTimes(0, 1) As Double  ' first column indicates whether or not the note was hit, the second column gives the time at which it was hit
+
     Public nextNote As Integer = 0
     Public farNote As Integer
     Public previousNote As Integer = 0
+    Private changedNote As Boolean = False
+
     Private hitLast As Boolean = False
     Private winSizeU As Double = 18    ' how far away the object is when it appears
     Public xPos As Double
@@ -90,48 +93,72 @@ Public Class GuitarString
     '----------------------------------------------------------------------------------'
     '------------------------------ draw upcoming notes -------------------------------'
     '----------------------------------------------------------------------------------'
-    Public Sub drawNotes(ByVal gameTime As Double)
-        ' find the first note that is more than N seconds away
-        Dim farNote As Integer
+    Public Sub drawNotes(ByVal gameTime As Double, ByVal brainState As Boolean, ByVal noteCount As Integer)
 
-        For i = nextNote To (noteTimes.Length - 1) Step 1
-            If ((noteTimes(i) - gameTime) > 5000) Then
-                farNote = i - 1
-                Exit For
-            Else
-                farNote = noteTimes.Length - 1
-            End If
-        Next i
+        farNote = findFarNote(gameTime, noteCount)
 
-        Dim showNotes(farNote - nextNote) As Integer
         Dim notePos As Double
 
-        'now we can actually draw the upcoming notes
+        'now we can actually draw the upcoming notes        
         GL.Enable(EnableCap.Texture2D)
         GL.BindTexture(TextureTarget.Texture2D, Note.textureID)
-        For i = nextNote To farNote Step 1
-            notePos = (noteTimes(i) - gameTime) * winSizeU / winSizeS
-            GL.PushMatrix()
-            GL.Translate(xPos, 0.125, -notePos)
-            Note.drawVbo()
-            GL.PopMatrix()
-            ' we want to draw the previous note if it was missed, but not if it was hit.
-            If Not hitLast Then
-                notePos = (noteTimes(previousNote) - gameTime) * winSizeU / winSizeS
+        If farNote >= nextNote Then
+            For i = nextNote To farNote Step 1
+                notePos = (noteTimes(i) - gameTime) * winSizeU / winSizeS
                 GL.PushMatrix()
                 GL.Translate(xPos, 0.125, -notePos)
                 Note.drawVbo()
                 GL.PopMatrix()
-            End If
-        Next i
+                ' we want to draw the previous note if it was missed, but not if it was hit.
+                If Not hitLast Then
+                    notePos = (noteTimes(previousNote) - gameTime) * winSizeU / winSizeS
+                    GL.PushMatrix()
+                    GL.Translate(xPos, 0.125, -notePos)
+                    Note.drawVbo()
+                    GL.PopMatrix()
+                End If
+            Next i
+        End If
 
-        ' advance next note and previous note
+        ' advance next note, previous note when we reach a new note
         If (noteTimes(nextNote) - gameTime < -(hitWin / 2)) And ((nextNote + 1) < (noteTimes.Length)) Then
             previousNote = nextNote
             nextNote = nextNote + 1
+            changedNote = True            
         End If
 
     End Sub
+
+    Private Function findFarNote(ByVal gameTime, ByVal noteCount)
+        Dim reactionTime = riffHeroSets.get_allowedReactionTime
+
+        Select Case currentGame
+            Case "Rehab_Hero"
+                For i = nextNote To (noteTimes.Length - 1) Step 1
+                    If ((noteTimes(i) - gameTime) > reactionTime) Then
+                        farNote = i - 1
+                        Exit For
+                    Else
+                        farNote = noteTimes.Length - 1
+                    End If
+                Next i
+
+            Case "Riff_Hero"
+                'make sure we haven't reached the end of the song                     
+                If ((nextNote + noteCount - 1) < (noteTimes.Length - 1)) Then
+                    If noteCount > 0 Then
+                        farNote = nextNote + noteCount - 1
+                    Else
+                        farNote = nextNote - 1
+                    End If
+                Else
+                    farNote = noteTimes.Length - 1
+                End If
+
+        End Select
+
+        Return farNote
+    End Function
 
     '----------------------------------------------------------------------------------'
     '--------------------------------- check for hit ----------------------------------'
@@ -165,6 +192,19 @@ Public Class GuitarString
         If (nextNote + 1) < (noteTimes.Length) Then
             Return False
         Else
+            Return True
+        End If
+    End Function
+
+    '----------------------------------------------------------------------------------'
+    '---------------------- check if we have reached a new note -----------------------'
+    '----------------------------------------------------------------------------------'
+
+    Public Function checkIfNewNote() As Boolean
+        If Not changedNote Then
+            Return False
+        Else
+            changedNote = False 'reset
             Return True
         End If
     End Function

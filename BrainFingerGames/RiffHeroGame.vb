@@ -19,8 +19,8 @@ Imports OpenTK.Graphics
 Public Class RiffHeroGame
     Inherits OpenTK.GameWindow
     Public thetaY As Single = 0.0
-    Public thetaX As Single = 0.0 '0.0 riff_fix
-    Public camPos() = {0, 10, 0} ' {0, 4.5, -5}
+    Public thetaX As Single = 0.0
+    Public camPos() = {0, 4.5, -5}
     Public sampTex As Bitmap
     Public texture As Integer
 
@@ -35,6 +35,8 @@ Public Class RiffHeroGame
 
     Public fretboard As Fretboard
     Private hitAttempted As Boolean = False
+    Private brainState As Boolean = False
+    Private brainOverRide As Boolean = False
 
     Public secondHand As FingerBot
     Public bci2000 As BCI2000Exchange = Nothing
@@ -64,25 +66,30 @@ Public Class RiffHeroGame
     Public InTimeWindow As Boolean = False
 
     Private zeroPosComplete As Boolean = False
+    Private exhibitionComplete As Boolean = False
     Private startupTimer As New Stopwatch
     Private trueStartUpDelay As Single
+    Private exhibitStartTime As Single = 0
     Private zeroingInst As New TextSign("relax for a moment")
+    Private brainPrompt As New TextSign("try to play the notes")
     Private scoreText As New TextSign("this is used to show your score")
+    Private relaxText As New TextSign("relax. the robot will guide you.")
 
     Private scorefile As New StreamWriter(GAMEPATH & "scoreFiles\" & "score_" & currentSub.ID & "_" & String.Format("{0:yyyyMMddhhmmss}", Now) & ".txt")
     Private hitTimeFile As StreamWriter
-    Private greatSuccess As Boolean = False    
+    Private greatSuccess As Boolean = False
     Private possibleScore As Integer = 0
     Private score As Integer = 0
+    Private riffLength As Integer = riffHeroSets.get_maxNumberNotesPerBurst
+    Private riffLengthCounter As Integer = 1
 
     Private debugFile As New StreamWriter(GAMEPATH & "scoreFiles\" & "whatsgoingon.txt")
     Private currentNote As Integer = 0
 
-    Private state As Integer = -1
-
     Public mySong As Song
     Public gameClock2 As New Stopwatch()
     Public absoluteTimer As New Stopwatch()
+    Private lastRiffStartTime As Double = 15000
     Private theEnd As Boolean = False
 
     Private legend As New Model("legend", "legendTile", {-Width / 50 + 5, 0.5 * (Height / 50), -6.0}, {90.0, 0.0, 0.0}, 1.5 * Width / Height)
@@ -253,7 +260,7 @@ Public Class RiffHeroGame
     '-------------------------------- check tapper hit --------------------------------'
     '----------------------------------------------------------------------------------'
     ' this checks to see if tapper has moved into a hit window at the correct time    
-    Private Sub checkHit()        
+    Private Sub checkHit()
         checkFingerHit(fretboard)
 
         ' check if it was on time
@@ -271,17 +278,46 @@ Public Class RiffHeroGame
     End Sub
 
     '----------------------------------------------------------------------------------'
+    '------------------------------ check brain states --------------------------------'
+    '----------------------------------------------------------------------------------'
+    ' this checks to see if the user is creating the proper brain states to bring notes onto the screen
+    Private Sub checkBrain()
+        'Write in brain logic here! tag: wadsworth
+        'if brain state = event related desynchronization
+        '   brainState = True
+        'end if
+        If brainOverRide Then
+            brainState = True
+            fretboard.prepareRiff()
+            brainOverRide = False 'reset
+        End If
+    End Sub
+
+    '----------------------------------------------------------------------------------'
     '------------------------------ update current note -------------------------------'
     '----------------------------------------------------------------------------------'
-    ' this function checks if we have gone passed the current note. If so, it sets the 
+    ' this function checks if we have gone past the current note. If so, it sets the 
     ' next note as the current note and calculates the movements times for tapper.
+    ' this function now also controls the riff note count variable.
     Private Sub updateCurrentNote()
 
         Dim success As Boolean = greatSuccess
 
+        'use graphics-based timers to check if a new note was hit, and decrement riff note counts 
+        Dim changedNote As Boolean
+        For i = 0 To 2
+            changedNote = fretboard.strings(i).checkIfNewNote
+            If changedNote Then
+                fretboard.noteCount(i) -= 1
+            End If
+        Next
+
+        'use game-level timers to check if a note was hit. If so, sets next note, etc.
         If (secondHand.targetTime > (fretboard.nextNoteTime + fixedDur * 1000 + 75) And (Not fretboard.songOver)) Then
+
             Dim previousNote As Single
             previousNote = fretboard.nextNotePos
+
             ' check if they attempted the hit and increases the gain if they didn't 
             If Not useExplicitGains Then
                 Select Case previousNote
@@ -289,9 +325,7 @@ Public Class RiffHeroGame
                         If Not hitAttempted Then secondHand.incrementGains(increaseStepKp, 0)
                         Exit Select
                     Case positions(1)
-                        If Not hitAttempted Then
-                            secondHand.incrementGains(increaseStepKp, increaseStepKp)
-                        End If
+                        If Not hitAttempted Then secondHand.incrementGains(increaseStepKp, increaseStepKp)
                         Exit Select
                     Case positions(2)
                         If Not hitAttempted Then secondHand.incrementGains(0, increaseStepKp)
@@ -300,9 +334,9 @@ Public Class RiffHeroGame
             End If
 
             scorefile.WriteLine(fretboard.nextNotePos & vbTab & fretboard.nextNoteTime & vbTab & success & vbTab)
-            If success Then
+            If success And brainState Then
                 possibleScore += 1 : score += 1 : setProgrssBar(score / possibleScore)
-            Else
+            ElseIf brainState Then
                 possibleScore += 1 : setProgrssBar(score / possibleScore)
             End If
 
@@ -310,20 +344,31 @@ Public Class RiffHeroGame
 
             greatSuccess = False ' just resetting it            
             hitAttempted = False
-            secondHand.moveFingersToCurrent()
-            fretboard.getNextNote(secondHand.targetTime)            
 
-            Select Case (fretboard.nextNotePos)
-                Case positions(0)
-                    secondHand.moveFinger1((fretboard.nextNoteTime + trueStartUpDelay) / 1000)
-                    Exit Select
-                Case positions(1)
-                    secondHand.moveFingers((fretboard.nextNoteTime + trueStartUpDelay) / 1000)
-                    Exit Select
-                Case positions(2)
-                    secondHand.moveFinger2((fretboard.nextNoteTime + trueStartUpDelay) / 1000)
-                    Exit Select
-            End Select
+            If brainState Then secondHand.moveFingersToCurrent()
+            fretboard.getNextNote(secondHand.targetTime)
+
+            If brainState Then
+                Select Case (fretboard.nextNotePos)
+                    Case positions(0)
+                        secondHand.moveFinger1((fretboard.nextNoteTime + trueStartUpDelay) / 1000)
+                        Exit Select
+                    Case positions(1)
+                        secondHand.moveFingers((fretboard.nextNoteTime + trueStartUpDelay) / 1000)
+                        Exit Select
+                    Case positions(2)
+                        secondHand.moveFinger2((fretboard.nextNoteTime + trueStartUpDelay) / 1000)
+                        Exit Select
+                End Select
+            End If
+
+            ' resetting the brainState (notes shown in riff hero) 
+            If riffLengthCounter <= riffLength Then
+                riffLengthCounter += 1
+            ElseIf riffLengthCounter > riffLength Then
+                brainState = False
+                riffLengthCounter = 1
+            End If
 
         End If
     End Sub
@@ -411,6 +456,8 @@ Public Class RiffHeroGame
             'Console.WriteLine("forcves toggled")
         ElseIf (AscW(e.KeyChar) = 27) Then
             Me.Exit()
+        ElseIf (e.KeyChar = "b") Then 'bci override
+            If exhibitionComplete = True Then brainOverRide = True '(doesn't work during exhibition)    
         End If
     End Sub
 
@@ -463,10 +510,12 @@ Public Class RiffHeroGame
         cloudBox.drawVbo()
         GL.PopMatrix()
 
-        fretboard.draw(secondHand.targetTime)
+        fretboard.draw(secondHand.targetTime, brainState)
         drawModels()
 
         If Not zeroPosComplete Then zeroingInst.drawSign()
+        If zeroPosComplete And absoluteTimer.ElapsedMilliseconds < 8000 Then relaxText.drawSign()
+        If Not brainState And zeroPosComplete And exhibitionComplete Then brainPrompt.drawSign()
         If theEnd Then scoreText.drawSign()
 
         'now for the orthographic stuff
@@ -526,18 +575,20 @@ Public Class RiffHeroGame
     End Sub
 
     '----------------------------------------------------------------------------------'
-    '----------------------------- Here's my state machine ----------------------------'
+    '----------------------------- Here's my STATE MACHINE ----------------------------'
     '----------------------------------------------------------------------------------'
     Private Sub gameStates()
 
+        '-------------------- zeroing process -----------------------------------------'
         If Not zeroPosComplete Then ' check if we are currently zeroing the robot                                
             If startupTimer.ElapsedMilliseconds > 5000 Then
-                secondHand.toreGame()
-                startupTimer.Stop()
+                secondHand.toreGame()                
                 'mySong.player.Play()
+                startupTimer.Stop()
                 mySong.player.Paused = False
                 trueStartUpDelay = startupTimer.ElapsedMilliseconds
                 zeroPosComplete = True
+                exhibitStartTime = absoluteTimer.ElapsedMilliseconds
                 If useExplicitGains Then
                     secondHand.setGainsExplicitly(explicitGains)
                 End If
@@ -545,13 +596,40 @@ Public Class RiffHeroGame
             Return
         End If
 
+        '-------------------- exhibition mode -----------------------------------------'
+        'if the participant has taken too long, then we put them back in exhibition mode
+        If exhibitionComplete And absoluteTimer.ElapsedMilliseconds - lastRiffStartTime > riffHeroSets.get_maxMsecBetweenBursts Then
+            exhibitionComplete = False
+            exhibitStartTime = absoluteTimer.ElapsedMilliseconds
+            Console.WriteLine("exhibition mode re-entered")
+        End If
+
+
+        If Not exhibitionComplete And zeroPosComplete Then
+            'pause before riff
+            If absoluteTimer.ElapsedMilliseconds < exhibitStartTime + 5000 Then
+                checkHit() : updateCurrentNote() : brainOverRide = True : Return
+            End If
+
+            'pause to complete riff 
+            If absoluteTimer.ElapsedMilliseconds > exhibitStartTime + 10000 Then
+                checkHit() : checkBrain() : updateCurrentNote() : Return
+            End If
+
+            exhibitionComplete = True
+            lastRiffStartTime = absoluteTimer.ElapsedMilliseconds
+        End If
+
+        '-------------------------- song end ------------------------------------------'
         If (mySong.player.Finished) And Not theEnd Then
             theEnd = True
             scoreText = New TextSign("you scored " & CStr(score) & " out of " & CStr(possibleScore))
         End If
 
+        '-------------------------- normal operation ---------------------------------'
         checkHit()
-        updateCurrentNote()        
+        checkBrain()
+        updateCurrentNote()
 
     End Sub
 
