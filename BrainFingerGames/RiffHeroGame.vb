@@ -81,8 +81,6 @@ Public Class RiffHeroGame
     Private greatSuccess As Boolean = False
     Private possibleScore As Integer = 0
     Private score As Integer = 0
-    Private riffLength As Integer = riffHeroSets.get_maxNumberNotesPerBurst
-    Private riffLengthCounter As Integer = 1
 
     Private debugFile As New StreamWriter(GAMEPATH & "scoreFiles\" & "whatsgoingon.txt")
     Private currentNote As Integer = 0
@@ -398,8 +396,12 @@ Public Class RiffHeroGame
             End If
 
             newCount = fretboard.noteCount(0) + fretboard.noteCount(1) + fretboard.noteCount(2)
-            'if we reached the end of the riff, then reset the brain timer
-            If currentCount = 1 And newCount = 0 Then lastRiffEndTime = absoluteTimer.ElapsedMilliseconds
+            'if we reached the end of the riff, then reset the brain timer and state
+            If currentCount = 1 And newCount = 0 Then
+                brainState = False
+                lastRiffEndTime = absoluteTimer.ElapsedMilliseconds
+            End If
+
         Next
 
         'use game-level timers to check if a note was hit. If so, sets next note, etc.
@@ -409,7 +411,7 @@ Public Class RiffHeroGame
             previousNote = fretboard.nextNotePos
 
             ' check if they attempted the hit and increases the gain if they didn't 
-            If Not useExplicitGains Then
+            If brainState And Not useExplicitGains Then
                 Select Case previousNote
                     Case positions(0)
                         If Not hitAttempted Then secondHand.incrementGains(increaseStepKp, 0)
@@ -450,14 +452,6 @@ Public Class RiffHeroGame
                         secondHand.moveFinger2((fretboard.nextNoteTime + trueStartUpDelay) / 1000)
                         Exit Select
                 End Select
-            End If
-
-            ' resetting the brainState (notes shown in riff hero) 
-            If riffLengthCounter <= riffLength Then
-                riffLengthCounter += 1
-            ElseIf riffLengthCounter > riffLength Then
-                brainState = False
-                riffLengthCounter = 1
             End If
 
         End If
