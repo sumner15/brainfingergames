@@ -56,6 +56,10 @@
     <Reference Include="irrKlang.NET4">
       <HintPath>bin\Debug\irrKlang.NET4.dll</HintPath>
     </Reference>
+    <Reference Include="LJDotNet, Version=1.0.1858.28841, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\LJDotNet.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK">
       <HintPath>bin\Debug\OpenTK.dll</HintPath>
     </Reference>

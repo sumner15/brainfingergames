@@ -1,3 +1,5 @@
 default
 active_subject
 passive_subject
+pass_pass_AV
+act_act_A

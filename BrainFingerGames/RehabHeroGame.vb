@@ -529,7 +529,7 @@ Public Class RehabHeroGame
 
 
         If zeroPosComplete Then ' check if we are currently zeroing the robot
-            'gameClock.updateAll()
+            'gameClock.updateAll()            
             checkHit()
             updateCurrentNote()
             If (mySong.player.Finished) And Not theEnd Then
@@ -538,6 +538,13 @@ Public Class RehabHeroGame
             End If
         Else
             If startupTimer.ElapsedMilliseconds > 5000 Then
+                'write the lab jack square wave
+                lj.LabJack.EDigitalOut(-1, 0, 0, 0, 1)
+                Dim ljTimer As Long = startupTimer.ElapsedMilliseconds + 100
+                While startupTimer.ElapsedMilliseconds < ljTimer
+                End While
+                lj.LabJack.EDigitalOut(-1, 0, 0, 0, 0)
+
                 secondHand.toreGame()
                 startupTimer.Stop()
                 'mySong.player.Play()
