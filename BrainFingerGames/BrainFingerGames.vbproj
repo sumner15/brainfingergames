@@ -220,7 +220,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
     <COMReference Include="GUITAR2COMIFACELib">
-      <Guid>{D7C6310B-89A8-4FEB-BF72-F2734489AE41}</Guid>
+      <Guid>{B802089C-F36D-46DF-9EE9-54790CE7A840}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
