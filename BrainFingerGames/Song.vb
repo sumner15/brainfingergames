@@ -44,7 +44,7 @@ Public Class Song
         name = fileName
         'songPath = filePath
 
-        noteReader = New MidiReader(songPath & "notes.mid")
+        noteReader = New MidiReader(songPath, "notes.mid")
         loadNoteData()
         'songFile = New StreamWriter(songPath & "notes.txt")
         'writeSongFile()

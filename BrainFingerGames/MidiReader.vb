@@ -8,6 +8,7 @@ Imports System.Math
 Public Class MidiReader
 
     Private midiPath As String
+    Private songPath As String
     Private midiFile As FileStream
     Private fileFormat As Integer
     Private numTracks As Integer
@@ -21,13 +22,17 @@ Public Class MidiReader
     Private noteOnTrueTimes() As Double
     Private noteOffTrueTimes() As Double
 
+    Private startupDelay As Integer = 0
+
     Private nextTrackInd As Integer = 0 ' index dictating when the next track should start
 
     Public dataLoaded As Boolean = False
 
-    Public Sub New(ByVal path As String)
-        midiPath = path
+    Public Sub New(ByVal sPath As String, ByVal fName As String)
+        songPath = sPath
+        midiPath = songPath & fName
 
+        readStartupDelay()
         readHeader()
         Console.Write("number of tracks: " & numTracks & vbNewLine)
         If numTracks = 2 Then
@@ -590,6 +595,18 @@ Public Class MidiReader
             'Console.Write("note true time: " & noteOffTrueTimes(i) / 10 ^ 3 & vbNewLine)
         Next i
 
+        addOnStartupDelay()
+    End Sub
+
+    ''----------------------------- add on the delay --------------------------''
+    Private Sub addOnStartupDelay()
+        For i As Integer = 0 To (noteOnTrueTimes.GetLength(0) - 1)
+            noteOnTrueTimes(i) += startupDelay
+        Next
+
+        For i As Integer = 0 To (noteOffTrueTimes.GetLength(0) - 1)
+            noteOffTrueTimes(i) += startupDelay
+        Next
     End Sub
 
     '--------------------------------------------------------------------------------'
@@ -599,6 +616,25 @@ Public Class MidiReader
         Console.Write("death to MIDI! " & vbNewLine)
         midiFile.Dispose()
         MyBase.Finalize()
+    End Sub
+
+    ''----------------- read the startup delay from the ini file --------------''
+    Private Sub readStartupDelay()
+        Dim iniFile As String = songPath & "song.ini"
+        Try
+            Dim fileReader As New System.IO.StreamReader(iniFile)
+            Dim line As String = ""
+            While Not fileReader.EndOfStream
+                line = fileReader.ReadLine()
+                If line.IndexOf("delay") > -1 Then
+                    startupDelay = CInt(line.Split("=")(1))
+                End If
+            End While
+        Catch ex As Exception
+            MsgBox("could not find song.ini at:  " & songPath)
+        End Try
+
+
     End Sub
 
 
