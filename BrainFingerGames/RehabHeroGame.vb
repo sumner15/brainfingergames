@@ -87,6 +87,7 @@ Public Class RehabHeroGame
     Public gameClock2 As New Stopwatch()
     Public absoluteTimer As New Stopwatch()
     Private theEnd As Boolean = False
+    Public serialOne As New ArduinoSerialComs()
 
     Private legend As New Model("legend", "legendTile", {-Width / 50 + 5, 0.5 * (Height / 50), -6.0}, {90.0, 0.0, 0.0}, 1.5 * Width / Height)
     Private topPannel As New Model("topPannel", "topPannel", {0, Height / 50, -20.0}, {0.0, 180.0, 0.0}, Width / (50 * 10))
@@ -534,16 +535,18 @@ Public Class RehabHeroGame
             updateCurrentNote()
             If (mySong.player.Finished) And Not theEnd Then
                 theEnd = True
-                scoreText = New TextSign("you scored " & CStr(score) & " out of " & CStr(possibleScore))
+                scoreText = New TextSign("you scored " & CStr(score) & " out of " & CStr(possibleScore))                
             End If
         Else
             If startupTimer.ElapsedMilliseconds > 5000 Then
                 'write the lab jack square wave
+                serialOne.writeData() 'writes serial data to arduino'
                 lj.LabJack.EDigitalOut(-1, 0, 0, 0, 1)
                 Dim ljTimer As Long = startupTimer.ElapsedMilliseconds + 100
                 While startupTimer.ElapsedMilliseconds < ljTimer
                 End While
                 lj.LabJack.EDigitalOut(-1, 0, 0, 0, 0)
+                serialOne.closePort() 'closes serial coms for the arduino'
 
                 secondHand.toreGame()
                 startupTimer.Stop()

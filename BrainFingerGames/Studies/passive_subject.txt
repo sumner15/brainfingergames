@@ -5,6 +5,6 @@ allowedReactionTime: 2000
 hitWindowSize: 200
 sucRate: 50
 useExplicitGains: True
-gains: 31
+gains: 22
 useBCI: False
 takeEveryNNotes:1
