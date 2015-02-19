@@ -14,7 +14,7 @@ Public Class ArduinoSerialComs
     Public value As Single = 0
 
     ''------------------------------------------- constructor ------------------------------------''
-    Public Sub New()
+    Public Sub initialize()
         Try
             ser = New SerialPort(port, baudR)
             nChans = 1

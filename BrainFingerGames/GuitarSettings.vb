@@ -22,6 +22,7 @@ Public Class GuitarSettings
     Private sucRate As Single    
     Private gains As Single
     Private useBCI As Boolean
+    Private useEmotiv As Boolean
     Private takeEveryNNotes As Integer ' used to make the songs more sparse on the fly
 
     Public settingsFileName As String = "default"
@@ -57,6 +58,7 @@ Public Class GuitarSettings
         gameSetFile.WriteLine("useExplicitGains: " & useExplicitGains)
         gameSetFile.WriteLine("gains: " & gains)
         gameSetFile.WriteLine("useBCI: " & useBCI)
+        gameSetFile.WriteLine("useEmotiv: " & useEmotiv)
         gameSetFile.WriteLine("takeEveryNNotes:" & takeEveryNNotes)
         gameSetFile.Close()
     End Sub
@@ -75,6 +77,7 @@ Public Class GuitarSettings
         sucRate = gameSetDic.Lookup("sucRate", "0.5")
         gains = gameSetDic.Lookup("gains", "0")
         useBCI = gameSetDic.Lookup("useBCI", "False")
+        useEmotiv = gameSetDic.Lookup("useEmotiv", "False")
         takeEveryNNotes = gameSetDic.Lookup("takeEveryNNotes", "1")
     End Sub
 
@@ -82,6 +85,7 @@ Public Class GuitarSettings
         ' Caution: extremely nasty hack ahead
         Dim tempSettingsName As String = "_temp"
         Console.WriteLine(useBCI)
+        Console.WriteLine(useEmotiv)
         writeGameSetFile(tempSettingsName)
         Dim fd1 As FileDict = New FileDict(GAMEPATH & "Studies\" & tempSettingsName & ".txt")
         Dim fd2 As FileDict = New FileDict(GAMEPATH & "Studies\" & settingsFileName & ".txt")
@@ -131,6 +135,10 @@ Public Class GuitarSettings
         Return useBCI
     End Function
 
+    Public Function get_useEmotiv() As Boolean
+        Return useEmotiv        
+    End Function
+
     Public Function get_takeEveryNNotes() As Integer
         Return takeEveryNNotes
     End Function
@@ -174,6 +182,10 @@ Public Class GuitarSettings
 
     Public Sub set_useBCI(ByVal newVal As Boolean)
         useBCI = newVal
+    End Sub
+
+    Public Sub set_useEmotiv(ByVal newVal As Boolean)
+        useEmotiv = newVal
     End Sub
 
     Public Sub set_takeEveryNNotes(ByVal newVal As Integer)

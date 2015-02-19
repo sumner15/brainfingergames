@@ -142,7 +142,8 @@
         rehabHeroSets.set_useExplicitGains(CSng(useExplicitGainsBtn.Checked))
         rehabHeroSets.set_sucRate(CSng(SucRateHSB.Value))        
         rehabHeroSets.set_gains(CSng(GainsHSB.Value))
-        rehabHeroSets.set_useBCI(CSng(useBCICbox.Checked))        
+        rehabHeroSets.set_useBCI(CSng(useBCICbox.Checked))
+        rehabHeroSets.set_useEmotiv(CSng(useEmotivBox.Checked))
         rehabHeroSets.set_takeEveryNNotes(CSng(takeNthNoteHSB.Value))
     End Sub
 
@@ -155,6 +156,7 @@
         SucRateHSB.Value = rehabHeroSets.get_sucRate        
         GainsHSB.Value = rehabHeroSets.get_gains
         useBCICbox.Checked = rehabHeroSets.get_useBCI
+        useEmotivBox.Checked = rehabHeroSets.get_useEmotiv
         takeNthNoteHSB.Value = rehabHeroSets.get_takeEveryNNotes
     End Sub
 

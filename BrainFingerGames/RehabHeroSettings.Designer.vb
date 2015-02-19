@@ -47,12 +47,13 @@ Partial Class RehabHeroSettings
         Me.allowedReactionTimeLbl = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.Panel3 = New System.Windows.Forms.Panel()
-        Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.Panel5 = New System.Windows.Forms.Panel()
         Me.TakeNthNoteLbl = New System.Windows.Forms.Label()
         Me.takeNthNoteValLbl = New System.Windows.Forms.Label()
         Me.takeNthNoteHSB = New System.Windows.Forms.HScrollBar()
+        Me.Panel3 = New System.Windows.Forms.Panel()
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.useEmotivBox = New System.Windows.Forms.CheckBox()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         Me.Panel3.SuspendLayout()
@@ -102,11 +103,11 @@ Partial Class RehabHeroSettings
         '
         Me.useBCICbox.AutoSize = True
         Me.useBCICbox.BackColor = System.Drawing.Color.Transparent
-        Me.useBCICbox.Location = New System.Drawing.Point(81, 6)
+        Me.useBCICbox.Location = New System.Drawing.Point(27, 6)
         Me.useBCICbox.Name = "useBCICbox"
-        Me.useBCICbox.Size = New System.Drawing.Size(63, 17)
+        Me.useBCICbox.Size = New System.Drawing.Size(87, 17)
         Me.useBCICbox.TabIndex = 81
-        Me.useBCICbox.Text = "use BCI"
+        Me.useBCICbox.Text = "use BCI2000"
         Me.useBCICbox.UseVisualStyleBackColor = False
         '
         'Label3
@@ -298,37 +299,6 @@ Partial Class RehabHeroSettings
         Me.Panel2.Size = New System.Drawing.Size(237, 159)
         Me.Panel2.TabIndex = 70
         '
-        'Panel3
-        '
-        Me.Panel3.Controls.Add(Me.successRateLbl)
-        Me.Panel3.Controls.Add(Me.explicitGainsLbl)
-        Me.Panel3.Controls.Add(Me.SucRateHSB)
-        Me.Panel3.Controls.Add(Me.Label3)
-        Me.Panel3.Controls.Add(Me.Label1)
-        Me.Panel3.Controls.Add(Me.useExplicitGainsBtn)
-        Me.Panel3.Controls.Add(Me.GainsHSB)
-        Me.Panel3.Location = New System.Drawing.Point(12, 177)
-        Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(237, 131)
-        Me.Panel3.TabIndex = 70
-        '
-        'Panel4
-        '
-        Me.Panel4.Controls.Add(Me.useBCICbox)
-        Me.Panel4.Location = New System.Drawing.Point(12, 312)
-        Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(237, 28)
-        Me.Panel4.TabIndex = 70
-        '
-        'Panel5
-        '
-        Me.Panel5.Controls.Add(Me.saveSettingsBtn)
-        Me.Panel5.Controls.Add(Me.updateLstBtn)
-        Me.Panel5.Location = New System.Drawing.Point(12, 346)
-        Me.Panel5.Name = "Panel5"
-        Me.Panel5.Size = New System.Drawing.Size(443, 88)
-        Me.Panel5.TabIndex = 87
-        '
         'TakeNthNoteLbl
         '
         Me.TakeNthNoteLbl.AutoSize = True
@@ -357,6 +327,49 @@ Partial Class RehabHeroSettings
         Me.takeNthNoteHSB.Size = New System.Drawing.Size(161, 13)
         Me.takeNthNoteHSB.TabIndex = 98
         Me.takeNthNoteHSB.Value = 5
+        '
+        'Panel3
+        '
+        Me.Panel3.Controls.Add(Me.successRateLbl)
+        Me.Panel3.Controls.Add(Me.explicitGainsLbl)
+        Me.Panel3.Controls.Add(Me.SucRateHSB)
+        Me.Panel3.Controls.Add(Me.Label3)
+        Me.Panel3.Controls.Add(Me.Label1)
+        Me.Panel3.Controls.Add(Me.useExplicitGainsBtn)
+        Me.Panel3.Controls.Add(Me.GainsHSB)
+        Me.Panel3.Location = New System.Drawing.Point(12, 177)
+        Me.Panel3.Name = "Panel3"
+        Me.Panel3.Size = New System.Drawing.Size(237, 131)
+        Me.Panel3.TabIndex = 70
+        '
+        'Panel4
+        '
+        Me.Panel4.Controls.Add(Me.useEmotivBox)
+        Me.Panel4.Controls.Add(Me.useBCICbox)
+        Me.Panel4.Location = New System.Drawing.Point(12, 312)
+        Me.Panel4.Name = "Panel4"
+        Me.Panel4.Size = New System.Drawing.Size(237, 28)
+        Me.Panel4.TabIndex = 70
+        '
+        'Panel5
+        '
+        Me.Panel5.Controls.Add(Me.saveSettingsBtn)
+        Me.Panel5.Controls.Add(Me.updateLstBtn)
+        Me.Panel5.Location = New System.Drawing.Point(12, 346)
+        Me.Panel5.Name = "Panel5"
+        Me.Panel5.Size = New System.Drawing.Size(443, 88)
+        Me.Panel5.TabIndex = 87
+        '
+        'useEmotivBox
+        '
+        Me.useEmotivBox.AutoSize = True
+        Me.useEmotivBox.BackColor = System.Drawing.Color.Transparent
+        Me.useEmotivBox.Location = New System.Drawing.Point(119, 6)
+        Me.useEmotivBox.Name = "useEmotivBox"
+        Me.useEmotivBox.Size = New System.Drawing.Size(97, 17)
+        Me.useEmotivBox.TabIndex = 82
+        Me.useEmotivBox.Text = "Emotiv-Arduino"
+        Me.useEmotivBox.UseVisualStyleBackColor = False
         '
         'RehabHeroSettings
         '
@@ -417,4 +430,5 @@ Partial Class RehabHeroSettings
     Friend WithEvents TakeNthNoteLbl As System.Windows.Forms.Label
     Friend WithEvents takeNthNoteValLbl As System.Windows.Forms.Label
     Friend WithEvents takeNthNoteHSB As System.Windows.Forms.HScrollBar
+    Friend WithEvents useEmotivBox As System.Windows.Forms.CheckBox
 End Class

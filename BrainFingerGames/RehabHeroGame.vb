@@ -451,6 +451,9 @@ Public Class RehabHeroGame
         If rehabHeroSets.get_useBCI Then
             bci2000 = New BCI2000Exchange(Me)
         End If
+        If rehabHeroSets.get_useEmotiv Then
+            serialOne.initialize() 'initializes Arduino comms 
+        End If
     End Sub
     '----------------------------------------------------------------------------------'
     '----------------------- drawing commands - render event --------------------------'
@@ -540,13 +543,17 @@ Public Class RehabHeroGame
         Else
             If startupTimer.ElapsedMilliseconds > 5000 Then
                 'write the lab jack square wave
-                serialOne.writeData() 'writes serial data to arduino'
+                If rehabHeroSets.get_useEmotiv Then
+                    serialOne.writeData() 'writes serial data to arduino'
+                End If                
                 lj.LabJack.EDigitalOut(-1, 0, 0, 0, 1)
                 Dim ljTimer As Long = startupTimer.ElapsedMilliseconds + 100
                 While startupTimer.ElapsedMilliseconds < ljTimer
                 End While
                 lj.LabJack.EDigitalOut(-1, 0, 0, 0, 0)
-                serialOne.closePort() 'closes serial coms for the arduino'
+                If rehabHeroSets.get_useEmotiv Then
+                    serialOne.closePort() 'closes serial coms for the arduino'
+                End If                
 
                 secondHand.toreGame()
                 startupTimer.Stop()
