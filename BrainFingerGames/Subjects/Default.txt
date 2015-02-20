@@ -1,6 +1,8 @@
-num: 2
+num: 1
 ID: default
-LoginDate: 2013-01-01 00:00:00
-trial: 1
-lastSessionDate: 2013-01-01 00:00:00
-lastSessionNumber: 0
+LoginDate: 2015-02-19 10:37:32
+trial: 7
+lastSessionDate: 2015-02-19 11:41:54
+lastSessionNumber: 1
+lastGame: Rehab_Hero
+hand: L

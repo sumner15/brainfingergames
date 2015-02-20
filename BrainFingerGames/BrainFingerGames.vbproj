@@ -87,7 +87,9 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArduinoSerialComs.vb" />
     <Compile Include="BCI2000Exchange.vb" />
+    <Compile Include="Camera.vb" />
     <Compile Include="DeleteSubjectForm.Designer.vb">
       <DependentUpon>DeleteSubjectForm.vb</DependentUpon>
     </Compile>
@@ -101,6 +103,7 @@
     <Compile Include="GamePop.vb" />
     <Compile Include="GuitarString.vb" />
     <Compile Include="Library.vb" />
+    <Compile Include="Lights.vb" />
     <Compile Include="manualIPForm.Designer.vb">
       <DependentUpon>manualIPForm.vb</DependentUpon>
     </Compile>
@@ -133,12 +136,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="MyLight.vb" />
     <Compile Include="NewSubjectForm.Designer.vb">
       <DependentUpon>NewSubjectForm.vb</DependentUpon>
     </Compile>
     <Compile Include="NewSubjectForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Oscillate.vb" />
     <Compile Include="RehabHeroGame.vb" />
     <Compile Include="RiffHeroGame.vb" />
     <Compile Include="Song.vb" />
@@ -193,9 +198,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RehabHeroSettings.resx">
       <DependentUpon>RehabHeroSettings.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="RiffHeroSettings.resx">
       <DependentUpon>RiffHeroSettings.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -220,7 +227,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
     <COMReference Include="GUITAR2COMIFACELib">
-      <Guid>{B802089C-F36D-46DF-9EE9-54790CE7A840}</Guid>
+      <Guid>{636CACC7-AA0F-4945-9717-B408C0B7E515}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>

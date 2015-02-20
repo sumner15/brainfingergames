@@ -102,8 +102,16 @@
             Case "Riff_Hero"
                 riffHeroPrep = New SongPrep
                 riffHeroPrep.Show()
+            Case "Oscillate"
+                If Not gameRunning Then
+                    gameRunning = True
+                    Dim oscillateGame As New Oscillate()
+                    oscillateGame.Run(FPS)
+                    oscillateGame.Dispose()
+                    gameRunning = False
+                End If
             Case Else
-                Return
+                MsgBox("please select a game")
         End Select
 
         currentSub.trial += 1

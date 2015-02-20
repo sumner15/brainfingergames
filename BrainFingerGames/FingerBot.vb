@@ -460,6 +460,27 @@ Public Class FingerBot
     End Sub
 
     '--------------------------------------------------------------------------------'
+    '--------------------------- set oscillation frequency --------------------------'
+    '--------------------------------------------------------------------------------'
+    Public Sub setFreq(f As Double)
+        Dim setVal(0) As Double
+        setVal(0) = f
+        Console.WriteLine("setting f to " + f.ToString())
+        target_obj.SetParam(parameters_obj.f, setVal)
+    End Sub
+
+    '--------------------------------------------------------------------------------'
+    '---------------------------- set oscillation boolean ---------------------------'
+    '--------------------------------------------------------------------------------'
+    Public Sub setOscBool(oscBool As Double)
+        Dim setVal(0) As Double
+        setVal(0) = oscBool
+        target_obj.SetParam(parameters_obj.oscBool, setVal)
+        Dim oscBoolSig As Single = target_obj.GetSignal(signals_obj.oscBoolSig)
+        Console.WriteLine("setting oscBool to " + oscBoolSig.ToString())
+    End Sub
+
+    '--------------------------------------------------------------------------------'
     '------------------------------ turn on noteblock signal ------------------------'
     '--------------------------------------------------------------------------------'
     ' turn on the note blocker (put blocked region inside of a trajectory)

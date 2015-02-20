@@ -112,8 +112,8 @@ Public Class BCI2000Exchange
         ExecuteScript("SET PARAMETER VisualizeTiming  0")
 
         ' Parameter handling 2: Load parameter files
-        'ExecuteScript("LOAD PARAMETERFILE ../parms/gUSBamp-Cap16.prm") 'TODO: remove this
-        ExecuteScript("LOAD PARAMETERFILE ../parms/gUSBampsAAAA-Cap64.prm")
+        ExecuteScript("LOAD PARAMETERFILE ../parms/gUSBamp-Cap16.prm") ' never remove this
+        'ExecuteScript("LOAD PARAMETERFILE ../parms/gUSBampsAAAA-Cap64.prm")
         'TODO: load any additional BCI2000 parameters (signal-processing?) Flag the parameter-set by encoding in session number? or subject name?
 
         ' Parameter handling 3: set any "read-only" parameters that we don't want overwritten by carelessly saved overcomplete parameter files
@@ -266,6 +266,118 @@ Public Class BCI2000Exchange
         'TODO: ship out as parameter values any further useful bits of session info from RiffHeroGame/FretBoard/FingerBot instances - e.g. GameType, GameMode, Gains, GameCodeVersion
 
         SetParameter("HgIdRiffHeroGame", "TODO") ' use Shell command - but how to get the text output?
+        ExecuteScript("SET PARAMETER HgIdTheBrainPart ""${system C:\Program Files\TortoiseHG\hg id}""") ' TODO: spaces in absolute path lead to escaping hell; without absolute path, does not find hg;
+        ' TODO: in any case it would be better to do the hg id at compile time rather than run time - but that's complicated and dependency-ridden
+
+
+        If visualize Then
+            Dim expr As String
+            expr = "SET PARAMETER Filtering matrix Expressions= { PosF1 VelF1 Kp1 PosF2 VelF2 Kp2 } 1 "  ' TODO: how to change the channel labels output by the ExpressionFilter? these matrix row labels don't work
+            expr = expr & " 100*(FingerBotPosF1-" & stateOffset & ")/" & stateScaling
+            expr = expr & " 100*(FingerBotVelF1-" & stateOffset & ")/" & stateScaling
+            expr = expr & " 100*(FingerBotKp1-" & stateOffset & ")/" & stateScaling
+            expr = expr & " 100*(FingerBotPosF2-" & stateOffset & ")/" & stateScaling
+            expr = expr & " 100*(FingerBotVelF2-" & stateOffset & ")/" & stateScaling
+            expr = expr & " 100*(FingerBotKp2-" & stateOffset & ")/" & stateScaling
+            ExecuteScript(expr)
+            'ExecuteScript("SET PARAMETER Filtering matrix Expressions= 5 1 GuitarString1TimeToNote GuitarString2TimeToNote GuitarString3TimeToNote GuitarString4TimeToNote GuitarString5TimeToNote")
+            'ExecuteScript("SET PARAMETER Filtering matrix Expressions= 2 1 NextString HitFeedback")
+            ExecuteScript("SET PARAMETER VisualizeExpressionFilter 1")
+            ExecuteScript("SET PARAMETER VisualizeSource 1")
+            ExecuteScript("SET PARAMETER VisualizeTiming 1")
+        End If
+
+        If Not remote.SetConfig() Then Die()
+
+        Dim tempStr As String = ""
+        If Not remote.GetParameter("SamplingRate", tempStr) Then Die()
+        samplesPerSecond = CDbl(tempStr)
+        If Not remote.GetParameter("SampleBlockSize", tempStr) Then Die()
+        samplesPerBlock = CDbl(tempStr)
+        blockDurationMsec = 1000.0 * samplesPerBlock / samplesPerSecond
+
+        If Not remote.Start() Then Die()
+
+        If udpIncomingPort Then
+            remote.Execute("WATCH Running SourceTime Signal(1,1) AT localhost:" & udpIncomingPort) ' NB: cannot do this in ExecuteScript(), because remote.Execute() returns non-zero from the WATCH command even when it succeeds (usually indicates failure, and so triggers an exception in ExecuteScript)
+            udpReceiver = New System.Net.Sockets.UdpClient(udpIncomingPort)
+            remoteIPEndPoint = New System.Net.IPEndPoint(System.Net.IPAddress.Any, udpIncomingPort)
+            listenerThread = New System.Threading.Thread(AddressOf ReceiveMessages)
+            listenerLock = New System.Threading.Mutex()
+            keepListening = True
+            listenerThread.Start()
+        End If
+        If udpOutgoingPort Then
+            udpSender = New System.Net.Sockets.UdpClient()
+            udpSender.Connect("localhost", udpOutgoingPort)
+        End If
+
+        lastSourceTime = -1.23 ' a value that would never be returned by an actual call to remote.GetStateVariable("SourceTime")
+        lastCall = Now()
+    End Sub
+
+    Public Sub New(ByRef game As Oscillate)
+        'timeBeginPeriod(timeRes)
+        remote = New BCI2000Remote()
+        remote.WindowVisible = operatorWindow
+        If Not remote.Connect() Then Die()
+
+        ' Parameter handling 0: Define any BCI2000 parameters that this experiment will use
+        ExecuteScript("ADD PARAMETER Application:Versioning  string   HgIdTheBrainPart=         %     % % %")
+        ExecuteScript("ADD PARAMETER Application:Versioning string    HgIdOscillate=        %     % % %")
+        ExecuteScript("ADD PARAMETER Application:FingerBot  string    FingerBotHandedness=      %     % % %")
+        ExecuteScript("ADD PARAMETER Application:FingerBot  floatlist AssistiveGains=       2   0 0   % 0 %")
+
+        ExecuteScript("ADD STATE FingerBotPosF1      32 0")
+        ExecuteScript("ADD STATE FingerBotVelF1      32 0")
+        ExecuteScript("ADD STATE FingerBotKp1        32 0")
+        ExecuteScript("ADD STATE FingerBotPosF2      32 0")
+        ExecuteScript("ADD STATE FingerBotVelF2      32 0")
+        ExecuteScript("ADD STATE FingerBotKp2        32 0")
+
+
+        modules(0) = "gUSBampSource32Release --local"  'TODO: get the 32-bit 3.12.00 DLL and replace the one that's currently in prog
+        'modules(0) = "SignalGenerator --local" 'TODO: this line is for testing with a fake signal in the absence of actual EEG hardware - remove it!
+        'modules(0) = modules(0) & " --FileFormat=Null"  'TODO: this line prevents EEG data from being saved to disk - remove it!
+
+        modules(1) = "DummySignalProcessing --local" 'TODO: eventually, replace this with some real BCI signal processing (such as SpectralSignalProcessing) to do real BCI interaction
+        modules(2) = "DummyApplication --local" ' this one can probably be left as is: the song game takes on the role of the application module
+        If Not remote.StartupModules(modules) Then Die()
+
+
+        ' Parameter handling 1: Set some initial defaults:  (note that .prm files will probably overrides these settings)
+        ExecuteScript("SET PARAMETER SamplingRate   600")
+        ExecuteScript("SET PARAMETER SampleBlockSize 30") ' defaults: 600Hz sample rate, 20Hz block rate (50ms blocks)
+        ExecuteScript("SET PARAMETER VisualizeSource  1")
+        ExecuteScript("SET PARAMETER VisualizeTiming  0")
+
+        ' Parameter handling 2: Load parameter files
+        ExecuteScript("LOAD PARAMETERFILE ../parms/gUSBamp-Cap16.prm") ' never remove this
+        'ExecuteScript("LOAD PARAMETERFILE ../parms/gUSBampsAAAA-Cap64.prm")
+        'TODO: load any additional BCI2000 parameters (signal-processing?) Flag the parameter-set by encoding in session number? or subject name?
+
+        ' Parameter handling 3: set any "read-only" parameters that we don't want overwritten by carelessly saved overcomplete parameter files
+        If udpOutgoingPort Then
+            ExecuteScript("SET PARAMETER Connector:Connector%20Input list   ConnectorInputFilter=  1 *")
+            ExecuteScript("SET PARAMETER Connector:Connector%20Input string ConnectorInputAddress=   localhost:" & udpOutgoingPort)
+        Else
+            ExecuteScript("SET PARAMETER Connector:Connector%20Input string ConnectorInputAddress=   %")
+        End If
+
+        'Console.WriteLine("Current subject: " & currentSub.ID)
+        remote.SubjectID = currentSub.ID.Replace(" ", "")
+        remote.SessionID = currentSub.lastSessionNumber.ToString("000.###")
+        SetParameter("FingerBotHandedness", If(game.secondHand.rightHandMode, "right", "left"))
+        Dim propGains As Single() = game.secondHand.getPropGains()
+        SetParameter("Application:FingerBot floatlist AssistiveGains= 2 " & propGains(0) & " " & propGains(1)) ' TODO: do these values make sense?
+        ' TODO: gains are internally called Kp1 and Kp2, BUT it seems like this might be a different "1"/"2" convention from F1/F2 because
+        ' right-/left-handedness seems to be handled differently. Therefore, check that BCI2000's Kp1 always goes with finger 1 and Kp2
+        ' with finger 2, regardless of gravity.  If the convention really is different, name the BCI2000 states Kp1 and Kp2 differently.
+        ' There are two places where this is important, both marked @@@
+        ' Finally, note that since UCI's recent changes, the gains don't seem to adapt any more...
+        'TODO: ship out as parameter values any further useful bits of session info from RiffHeroGame/FretBoard/FingerBot instances - e.g. GameType, GameMode, Gains, GameCodeVersion
+
+        SetParameter("HgIdOscillate", "TODO") ' use Shell command - but how to get the text output?
         ExecuteScript("SET PARAMETER HgIdTheBrainPart ""${system C:\Program Files\TortoiseHG\hg id}""") ' TODO: spaces in absolute path lead to escaping hell; without absolute path, does not find hg;
         ' TODO: in any case it would be better to do the hg id at compile time rather than run time - but that's complicated and dependency-ridden
 

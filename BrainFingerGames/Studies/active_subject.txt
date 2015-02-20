@@ -7,4 +7,5 @@ sucRate: 50
 useExplicitGains: True
 gains: 0
 useBCI: False
+useEmotiv: False
 takeEveryNNotes:1

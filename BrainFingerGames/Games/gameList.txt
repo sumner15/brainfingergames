@@ -1,3 +1,4 @@
 default
 Rehab_Hero
 Riff_Hero
+Oscillate
