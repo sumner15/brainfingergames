@@ -477,7 +477,7 @@ Public Class FingerBot
         setVal(0) = oscBool
         target_obj.SetParam(parameters_obj.oscBool, setVal)
         Dim oscBoolSig As Single = target_obj.GetSignal(signals_obj.oscBoolSig)
-        Console.WriteLine("setting oscBool to " + oscBoolSig.ToString())
+        'Console.WriteLine("setting oscBool to " + oscBoolSig.ToString())
     End Sub
 
     '--------------------------------------------------------------------------------'

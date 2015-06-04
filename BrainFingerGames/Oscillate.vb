@@ -14,16 +14,20 @@ Public Class Oscillate
 
     Private myLights As Lights
     Private myCamera As Camera
-    Private instructions As New TextSign("Relax your fingers")
+    Private instructions As New TextSign("""S"" to start.")
 
     Public bci2000 As BCI2000Exchange = Nothing
     Public secondHand As FingerBot
 
-    Private freqs As Single() = {4 6 8 10 12 14}  'frequencies to oscillate at
-    Private freqDur As Single = 20000           'oscillation duration (msec)
-    Private breakDur As Single = 8000           'break duration (msec)
+    Private freqs As Single() = {2, 4, 8, 16}   'frequencies to oscillate at
+    Private amps As Single() = {0.6, 0.8, 1.0, 1.2} 'amplitude of oscillation
+    Private nReps As Integer = 2                'number of repetitions for each frequency
+    Private freqDur As Single = 5000            'oscillation duration (msec)
+    Private breakDur As Single = 2500           'break duration (msec)
     Private trialInd As Integer = 0             'trial index
+    Private repCounter As Integer = 0           'repetition counter
     Private isActiveTrial As Boolean = False    'determine whether a block of data defines a break or an actual trial
+    Private gameRunning As Boolean = False      'game start/stop bool
     Private myAction As Stopwatch
 
     ''------------------------------ constructor ------------------------------''
@@ -103,11 +107,11 @@ Public Class Oscillate
 
 #End Region
 
-#Region "state machine"
+#Region "state machine (game logic)"
     '---------------------------------------------------------------------------'
     '--------------------------- update frame event ----------------------------'
     '---------------------------------------------------------------------------'
-    Private Sub purdyWindow_UpdateFrame(ByVal sender As Object, ByVal e As OpenTK.FrameEventArgs) Handles Me.UpdateFrame        
+    Private Sub purdyWindow_UpdateFrame(ByVal sender As Object, ByVal e As OpenTK.FrameEventArgs) Handles Me.UpdateFrame
 
         If Mouse.Item(0) = True Then
             myCamera.pitch = Mouse.X / 1.25
@@ -121,23 +125,37 @@ Public Class Oscillate
         secondHand.getTargetTime()      'update state
 
         '--------------------------- GAME LOGIC ------------------------------'
-        If myAction.ElapsedMilliseconds >= breakDur And Not isActiveTrial Then
-            isActiveTrial = True
-            Console.WriteLine("wiggle mode... ENABLE")
-            myAction.Restart()
-            If trialInd < freqs.Length Then
-                secondHand.setFreq(freqs(trialInd))
-                secondHand.setOscBool(1.0)
-            Else
-                'the program is over. You're done. Finito. Fin. End.
-            End If
-            trialInd += 1
+        If gameRunning Then
 
-        ElseIf myAction.ElapsedMilliseconds >= freqDur And isActiveTrial Then
-            isActiveTrial = False
-            Console.WriteLine("break mode... get a coffee")
-            myAction.Restart()
-            secondHand.setOscBool(0)
+            If myAction.ElapsedMilliseconds >= breakDur And Not isActiveTrial Then
+
+                If repCounter >= nReps Then
+                    repCounter = 0
+                    trialInd += 1
+                End If
+
+                If trialInd < freqs.Length Then
+                    isActiveTrial = True
+                    Console.WriteLine("Oscillating!")
+                    myAction.Restart()
+
+                    secondHand.setFreq(freqs(trialInd))
+                    secondHand.setOscBool(amps(trialInd))
+                    repCounter += 1
+                Else
+                    Console.WriteLine("PROGRAM FINISHED")
+                    myAction.Stop()
+                End If
+
+
+
+            ElseIf myAction.ElapsedMilliseconds >= freqDur And isActiveTrial Then
+                isActiveTrial = False
+                Console.WriteLine("...break mode...")
+                myAction.Restart()
+                secondHand.setOscBool(0)
+            End If
+
         End If
         '-------------------------------------------------------------------'
 
@@ -179,8 +197,18 @@ Public Class Oscillate
         'Dim hit As Boolean
         '
         Console.WriteLine(e.KeyChar)
-        If (e.KeyChar = "i") Then
-            MsgBox("Warning! Do not press i again. I'm serious!")        
+        If (e.KeyChar = "s") Then
+            'MsgBox("Warning! Do not press it again. I'm serious!")     
+            If gameRunning = False Then
+                gameRunning = True
+                Console.WriteLine("Game now running.")
+                instructions = New TextSign("Relax")
+            ElseIf gameRunning = True Then
+                secondHand.setOscBool(0)
+                gameRunning = False
+                Console.WriteLine("Game stopped.")
+                instructions = New TextSign("Game Stopped.")
+            End If
         End If
     End Sub
 

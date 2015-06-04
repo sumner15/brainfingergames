@@ -1,6 +1,6 @@
 ﻿' tag: wadsworth -
 'In the BCI2000Exchange.vb class, I made a few additions (see Revision 23). I essentially copied the constructor and Update functions
-'in order to handle each of the current two games we are working with (rehabHero and riffHero). Of course, this isn't the cleanest 
+'in order to handle each of the current two games we are working with (rehabHero,riffHero, Oscillate). Of course, this isn't the cleanest 
 'way to do it. I have a suspicion that with the new way we are doing things, we should be able to pass in the fingerBot class only to 
 'the BCI2000Exchange constructor and its Update function. I don't want to go making that kind of high level reconstruction of the 
 'BCI2000 class, though. I just added the new constructor and Update function for the time being, but these should be deleted in the 
@@ -327,6 +327,8 @@ Public Class BCI2000Exchange
         ExecuteScript("ADD PARAMETER Application:Versioning string    HgIdOscillate=        %     % % %")
         ExecuteScript("ADD PARAMETER Application:FingerBot  string    FingerBotHandedness=      %     % % %")
         ExecuteScript("ADD PARAMETER Application:FingerBot  floatlist AssistiveGains=       2   0 0   % 0 %")
+        ExecuteScript("ADD PARAMETER Application:RehabHeroGame   string    SongPath=                 %     % % %")
+        ExecuteScript("ADD PARAMETER Application:RehabHeroGame   int       NumberOfNotes=            0     0 0 %")
 
         ExecuteScript("ADD STATE FingerBotPosF1      32 0")
         ExecuteScript("ADD STATE FingerBotVelF1      32 0")
@@ -386,11 +388,10 @@ Public Class BCI2000Exchange
             Dim expr As String
             expr = "SET PARAMETER Filtering matrix Expressions= { PosF1 VelF1 Kp1 PosF2 VelF2 Kp2 } 1 "  ' TODO: how to change the channel labels output by the ExpressionFilter? these matrix row labels don't work
             expr = expr & " 100*(FingerBotPosF1-" & stateOffset & ")/" & stateScaling
-            expr = expr & " 100*(FingerBotVelF1-" & stateOffset & ")/" & stateScaling
-            expr = expr & " 100*(FingerBotKp1-" & stateOffset & ")/" & stateScaling
+            expr = expr & " 100*(FingerBotVelF1-" & stateOffset & ")/" & stateScaling            
             expr = expr & " 100*(FingerBotPosF2-" & stateOffset & ")/" & stateScaling
             expr = expr & " 100*(FingerBotVelF2-" & stateOffset & ")/" & stateScaling
-            expr = expr & " 100*(FingerBotKp2-" & stateOffset & ")/" & stateScaling
+
             ExecuteScript(expr)
             'ExecuteScript("SET PARAMETER Filtering matrix Expressions= 5 1 GuitarString1TimeToNote GuitarString2TimeToNote GuitarString3TimeToNote GuitarString4TimeToNote GuitarString5TimeToNote")
             'ExecuteScript("SET PARAMETER Filtering matrix Expressions= 2 1 NextString HitFeedback")
@@ -625,6 +626,47 @@ Public Class BCI2000Exchange
             SetState("GuitarString" & (i + 1) & "TimeToNote", noteTime)
         Next
         SetState("NextString", nextString)
+
+
+        tEnd = Now() : outgoingDuration = tEnd - tStart : tStart = tEnd
+
+        If verbose Then
+            Console.WriteLine("Source module is " & modules(0))
+            Console.WriteLine("SamplingRate = " & samplesPerSecond & ";  SampleBlockSize = " & samplesPerBlock & ";   Block duration = " & blockDurationMsec & "msec")
+            Console.Write("Previous event loop period was      ") : Console.WriteLine(updatePeriod)
+            Console.Write("Performed incoming operations in    ") : Console.WriteLine(incomingDuration)
+            Console.Write("Performed outgoing operations in    ") : Console.WriteLine(outgoingDuration)
+            Console.Write("Console writes except for this one: ") : Console.WriteLine(Now() - tStart)
+        End If
+
+    End Sub
+
+    Public Sub Update(ByRef game As Oscillate)
+
+        CheckInit()
+
+        Dim tStart, tEnd As Date
+        Dim updatePeriod, incomingDuration, outgoingDuration As TimeSpan
+
+        tStart = Now() : updatePeriod = tStart - lastCall : lastCall = tStart
+
+        Incoming()
+
+        tEnd = Now() : incomingDuration = tEnd - tStart : tStart = tEnd
+
+        If sourceTime = lastSourceTime Then Return
+        lastSourceTime = sourceTime
+        ' TODO: Ideally BCI2000's interpreter needs to be altered to have the capability to set multiple states while ensuring that all the changes happen in the same SampleBlock.
+        '       As it is, the sourceTime logic above should approximate this, but only if BCI2000's SampleBlock duration is at least twice the period with which this Sub gets called in the game update loop
+
+        ' TODO: gains are internally called Kp1 and Kp2, BUT it seems like this might be a different "1"/"2" convention from F1/F2 because
+        ' right-/left-handedness seems to be handled differently. Therefore, check that BCI2000's Kp1 always goes with finger 1 and Kp2
+        ' with finger 2, regardless of gravity.  If the convention really is different, name the BCI2000 states Kp1 and Kp2 differently.
+        ' There are two places where this is important, both marked @@@
+        SetState("FingerBotPosF1", game.secondHand.posF1 * stateScaling + stateOffset)
+        SetState("FingerBotVelF1", game.secondHand.velF1 * stateScaling + stateOffset)
+        SetState("FingerBotPosF2", game.secondHand.posF2 * stateScaling + stateOffset)
+        SetState("FingerBotVelF2", game.secondHand.velF2 * stateScaling + stateOffset)
 
 
         tEnd = Now() : outgoingDuration = tEnd - tStart : tStart = tEnd
