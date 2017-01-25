@@ -58,3 +58,23 @@ C:\Users\Admin\Desktop\BrainFingerGames\BrainFingerGames\obj\x86\Debug\BrainFing
 C:\Users\Admin\Desktop\BrainFingerGames\BrainFingerGames\obj\x86\Debug\BrainFingerGames.RehabHeroSettings.resources
 C:\Users\Admin\Desktop\BrainFingerGames\BrainFingerGames\obj\x86\Debug\BrainFingerGames.RiffHeroSettings.resources
 C:\Users\Admin\Desktop\BrainFingerGames\BrainFingerGames\obj\x86\Debug\BrainFingerGames.vbproj.GenerateResource.Cache
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\Interop.BCI2000AutomationLib.dll
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\Interop.XPCAPICOMLib.dll
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\BrainFingerGames.vbproj.ResolveComReference.cache
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\BrainFingerGames.exe
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\BrainFingerGames.xml
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\BrainFingerGames.pdb
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\bin\Debug\BrainFingerGames.exe
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\bin\Debug\BrainFingerGames.pdb
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\bin\Debug\BrainFingerGames.xml
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\BrainFingerGames.vbprojResolveAssemblyReference.cache
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\Interop.GUITAR2COMIFACELib.dll
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\BrainFingerGames.DeleteSubjectForm.resources
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\BrainFingerGames.manualIPForm.resources
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\BrainFingerGames.Menu.resources
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\BrainFingerGames.Resources.resources
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\BrainFingerGames.NewSubjectForm.resources
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\BrainFingerGames.SongPrep.resources
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\BrainFingerGames.RehabHeroSettings.resources
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\BrainFingerGames.RiffHeroSettings.resources
+C:\Users\iMove\Desktop\FINGER GAMES\BrainFingerGames\obj\x86\Debug\BrainFingerGames.vbproj.GenerateResource.Cache

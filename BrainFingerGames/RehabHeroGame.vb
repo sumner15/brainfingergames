@@ -544,14 +544,12 @@ Public Class RehabHeroGame
             If startupTimer.ElapsedMilliseconds > 5000 Then
                 'write the lab jack square wave
                 If rehabHeroSets.get_useEmotiv Then
-                    serialOne.writeData() 'writes serial data to arduino'
-                End If                
-                lj.LabJack.EDigitalOut(-1, 0, 0, 0, 1)
-                Dim ljTimer As Long = startupTimer.ElapsedMilliseconds + 100
-                While startupTimer.ElapsedMilliseconds < ljTimer
-                End While
-                lj.LabJack.EDigitalOut(-1, 0, 0, 0, 0)
-                If rehabHeroSets.get_useEmotiv Then
+                    serialOne.writeData() 'writes serial data to arduino'                
+                    lj.LabJack.EDigitalOut(-1, 0, 0, 0, 1)
+                    Dim ljTimer As Long = startupTimer.ElapsedMilliseconds + 100
+                    While startupTimer.ElapsedMilliseconds < ljTimer
+                    End While
+                    lj.LabJack.EDigitalOut(-1, 0, 0, 0, 0)
                     serialOne.closePort() 'closes serial coms for the arduino'
                 End If                
 
