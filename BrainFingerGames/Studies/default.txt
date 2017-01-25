@@ -6,6 +6,6 @@ hitWindowSize: 150
 sucRate: 76
 useExplicitGains: False
 gains: 10
-useBCI: True
+useBCI: False
 useEmotiv: False
 takeEveryNNotes:1

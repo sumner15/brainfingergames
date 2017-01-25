@@ -26,12 +26,7 @@ syntax: glob
 *.vbproj
 
 # ignore folders created by visual studio
-#[Bb]in
-#[Dd]ebug*/**
-[Dd]ebug*/*.exe
-[Dd]ebug*/*.pdb
-[Dd]ebug*/*.xml
-[Dd]ebug*/*.vshost*
+BrainFingerGames/bin/**
 obj/
 [Rr]elease*/**
 _ReSharper*/**
@@ -44,6 +39,7 @@ packages/**
 *.resharper
 *.ncrunch*
 *.ndproj
+*.cache
 
 # ignore folders that contain datafiles
 dataFiles/
